@@ -1,0 +1,6 @@
+{
+  "name": "QLUVX",
+  "description": "Live voice rooms and social audio party app powered by Agora RTC",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

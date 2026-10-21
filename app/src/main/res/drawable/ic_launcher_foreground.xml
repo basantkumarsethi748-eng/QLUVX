@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Outer glow ring -->
+    <path
+        android:fillColor="#33FF37B4"
+        android:pathData="M54,22A32,32 0 1,1 22,54A32,32 0 0,1 54,22Z" />
+    <!-- Microphone capsule -->
+    <path
+        android:fillColor="#FF37B4"
+        android:pathData="M54,30C49.58,30 46,33.58 46,38V52C46,56.42 49.58,60 54,60C58.42,60 62,56.42 62,52V38C62,33.58 58.42,30 54,30Z" />
+    <!-- Microphone cradle & stand -->
+    <path
+        android:fillColor="#00E5FF"
+        android:pathData="M68,50H64C64,55.52 59.52,60 54,60C48.48,60 44,55.52 44,50H40C40,57.07 45.24,62.92 52,63.86V72H46V76H62V72H56V63.86C62.76,62.92 68,57.07 68,50Z" />
+</vector>

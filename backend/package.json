@@ -1,0 +1,15 @@
+{
+  "name": "qluvx-agora-token-backend",
+  "version": "1.0.0",
+  "description": "Trusted backend token generator and role/economy validator for QLUVX Agora Voice Rooms",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "agora-token": "^2.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

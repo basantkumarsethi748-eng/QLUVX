@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">QLUVX</string>
-    <string name="app_tagline">CONNECT • CHAT • LIVE VOICE</string>
-    <string name="create_room_button">Create Voice Room</string>
-    <string name="join_channel_button">Join by Channel ID</string>
-    <string name="agora_configured_status">Agora RTC Engine Ready</string>
-    <string name="agora_missing_key_status">Add AGORA_APP_ID in AI Studio Secrets Panel for cloud RTC sync</string>
+    <string name="app_tagline">Agora Real-Time Voice, Live Video &amp; Social Platform</string>
+    <string name="app_tagline_hi">अगोरा रियल-टाइम वॉइस, लाइव वीडियो और सोशल प्लेटफॉर्म</string>
+    <string name="agora_configured_status">Agora RTC SDK Ready</string>
+    <string name="agora_missing_key_status">Agora App ID Required</string>
+    <string name="create_room_button">+ Create Room</string>
+    <string name="join_channel_button">Join Channel</string>
     <string name="mic_mute">Mute Mic</string>
     <string name="mic_unmute">Unmute Mic</string>
     <string name="speaker_on">Speaker</string>
     <string name="earpiece_on">Earpiece</string>
-    <string name="leave_room">Leave</string>
-    <string name="take_seat">Take Mic</string>
-    <string name="leave_seat">Step Down</string>
-    <string name="send_message_hint">Say something in the voice room…</string>
+    <string name="take_seat">Take Seat</string>
+    <string name="leave_seat">Leave Seat</string>
+    <string name="leave_room">Leave Room</string>
+    <string name="send_message_hint">Say something in the room…</string>
     <string name="send_button">Send</string>
+
+    <!-- Agora Chatroom Official Strings -->
+    <string name="title_activity_chat_room">ChatRoom</string>
+    <string name="title_activity_channel_list">ChannelList</string>
+    <string name="to_broadcast">toBroadcast</string>
+    <string name="to_audience">toAudience</string>
+    <string name="audio_mixing">Mixing</string>
+    <string name="member_num">0</string>
+    <string name="channel_member_list">Channel member list (%1$d people)</string>
+    <string name="turn_off_mic">Turn off mic</string>
+    <string name="turn_on_mic">Turn on mic</string>
+    <string name="open_seat">Open</string>
+    <string name="giving_gift">Give gift to anchor</string>
+    <string name="placeholder">Say something…</string>
+    <string name="voice_effect">Voice Effect</string>
+    <string name="anchor"> (Anchor)</string>
+    <string name="audio_accents">Changer</string>
+    <string name="beautify_voice">Voice Beautify</string>
+    <string name="close_seat">Close</string>
+
+    <!-- Settings Screen Strings -->
+    <string name="settings_title">Settings &amp; Preferences</string>
+    <string name="settings_subtitle">Manage privacy, notifications, language, permissions, support &amp; account security</string>
+    <string name="settings_section_privacy">1. Privacy &amp; Safety</string>
+    <string name="settings_section_notifications">2. Notifications &amp; Alerts</string>
+    <string name="settings_section_language">3. App Language / भाषा</string>
+    <string name="settings_section_permissions">4. Device Permissions (Mic, Camera, Alerts)</string>
+    <string name="settings_section_support">5. Help Center &amp; Support</string>
+    <string name="settings_section_account">6. Account Management &amp; Deletion</string>
 </resources>

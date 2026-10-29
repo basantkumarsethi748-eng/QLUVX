@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="channel_list_title">
+        <item>001</item>
+        <item>002</item>
+        <item>003</item>
+        <item>004</item>
+        <item>005</item>
+    </string-array>
+
+    <array name="channel_list_drawable">
+        <item>@drawable/img_channel_0</item>
+        <item>@drawable/img_channel_1</item>
+        <item>@drawable/img_channel_2</item>
+        <item>@drawable/img_channel_3</item>
+        <item>@drawable/img_channel_4</item>
+    </array>
+
+    <array name="channel_list_background">
+        <item>@drawable/bg_channel_0</item>
+        <item>@drawable/bg_channel_1</item>
+        <item>@drawable/bg_channel_2</item>
+        <item>@drawable/bg_channel_3</item>
+        <item>@drawable/bg_channel_4</item>
+    </array>
+
+    <array name="random_avatar_images">
+        <item>@drawable/img_avatar_0</item>
+        <item>@drawable/img_avatar_1</item>
+        <item>@drawable/img_avatar_2</item>
+        <item>@drawable/img_avatar_3</item>
+        <item>@drawable/img_avatar_4</item>
+        <item>@drawable/img_avatar_5</item>
+        <item>@drawable/img_avatar_6</item>
+        <item>@drawable/img_avatar_7</item>
+        <item>@drawable/img_avatar_8</item>
+        <item>@drawable/img_avatar_9</item>
+        <item>@drawable/img_avatar_10</item>
+        <item>@drawable/img_avatar_11</item>
+    </array>
+
+    <string-array name="random_surnames">
+        <item>Zhao</item>
+        <item>Qian</item>
+        <item>Sun</item>
+        <item>Li</item>
+        <item>Zhou</item>
+        <item>Wu</item>
+        <item>Zheng</item>
+        <item>Wang</item>
+        <item>Feng</item>
+        <item>Chen</item>
+        <item>Chu</item>
+        <item>Wei</item>
+    </string-array>
+
+    <string-array name="random_names">
+        <item>Fuqiang</item>
+        <item>Minzhu</item>
+        <item>Wenming</item>
+        <item>Hexie</item>
+        <item>Ziyou</item>
+        <item>Pingdeng</item>
+        <item>Gongzheng</item>
+        <item>Fazhi</item>
+        <item>Aiguo</item>
+        <item>Jingye</item>
+        <item>Chengxin</item>
+        <item>Youshan</item>
+    </string-array>
+
+    <string-array name="voice_effect_keys">
+        <item>Default</item>
+        <item>KTV</item>
+        <item>Live</item>
+        <item>Uncle</item>
+        <item>Girl</item>
+        <item>Studio</item>
+        <item>Pop</item>
+        <item>R&amp;B</item>
+        <item>Phonograph</item>
+    </string-array>
+
+    <integer-array name="voice_effect_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </integer-array>
+
+    <string-array name="voice_beautify_keys">
+        <item>Default</item>
+        <item>Thick</item>
+        <item>Low</item>
+        <item>Round</item>
+        <item>Falsetto</item>
+        <item>Full</item>
+        <item>Clear</item>
+        <item>Resounding</item>
+        <item>Loud</item>
+        <item>OpenAir</item>
+    </string-array>
+
+    <integer-array name="voice_beautify_values">
+        <item>0</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+    </integer-array>
+</resources>

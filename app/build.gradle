@@ -3,20 +3,61 @@ plugins {
     id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
+// Safely load .env.example and .env so BuildConfig fields always have valid quoted Java strings
+def envProps = new Properties()
+def envExampleFile = rootProject.file(".env.example")
+if (envExampleFile.exists()) {
+    envExampleFile.withInputStream { envProps.load(it) }
+}
+def envFile = rootProject.file(".env")
+if (envFile.exists()) {
+    def rawProps = new Properties()
+    envFile.withInputStream { rawProps.load(it) }
+    rawProps.each { k, v ->
+        if (v != null && !v.toString().trim().isEmpty()) {
+            envProps.setProperty(k.toString(), v.toString().trim())
+        }
+    }
+}
+
+def safeBuildConfigString = { String key, String fallback ->
+    def raw = envProps.getProperty(key, fallback)
+    if (raw == null || raw.trim().isEmpty()) {
+        raw = fallback
+    }
+    def cleaned = raw.trim()
+    if (cleaned.startsWith('"') && cleaned.endsWith('"') && cleaned.length() >= 2) {
+        cleaned = cleaned.substring(1, cleaned.length() - 1)
+    }
+    cleaned = cleaned.replace("\\", "\\\\").replace("\"", "\\\"")
+    return "\"${cleaned}\""
+}
+
 android {
     namespace 'com.example.qluvx'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'com.example.qluvx'
+        applicationId "com.example.qluvx"
         minSdk 26
         targetSdk 35
         versionCode 1
-        versionName '1.0'
+        versionName "1.0"
+
+        buildConfigField "String", "AGORA_APP_ID", safeBuildConfigString("AGORA_APP_ID", "YOUR_AGORA_APP_ID")
+        buildConfigField "String", "AGORA_TEMP_TOKEN", safeBuildConfigString("AGORA_TEMP_TOKEN", "YOUR_AGORA_TEMP_TOKEN")
+        buildConfigField "String", "AGORA_DEFAULT_CHANNEL", safeBuildConfigString("AGORA_DEFAULT_CHANNEL", "qluvx_live_1")
+        buildConfigField "String", "AGORA_TOKEN_SERVER_URL", safeBuildConfigString("AGORA_TOKEN_SERVER_URL", "YOUR_AGORA_TOKEN_SERVER_URL")
     }
 
     signingConfigs {
         debugConfig {
+            storeFile file("${rootDir}/debug.keystore")
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
+        release {
             storeFile file("${rootDir}/debug.keystore")
             storePassword "android"
             keyAlias "androiddebugkey"
@@ -27,6 +68,11 @@ android {
     buildTypes {
         debug {
             signingConfig signingConfigs.debugConfig
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -41,10 +87,10 @@ android {
 }
 
 secrets {
-    propertiesFileName = ".env"
     defaultPropertiesFileName = ".env.example"
+    ignoreList.add(".*")
 }
 
 dependencies {
-    implementation 'io.agora.rtc:full-sdk:4.5.0'
+    implementation 'io.agora.rtc:voice-sdk:4.5.0'
 }

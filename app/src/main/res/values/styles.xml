@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base Application Theme (Clean Android Dark Slate, No Action Bar) -->
+    <style name="Theme.QLUVX" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/qluvx_bg_primary</item>
+        <item name="android:statusBarColor">@color/qluvx_bg_primary</item>
+        <item name="android:navigationBarColor">@color/qluvx_bg_secondary</item>
+        <item name="android:colorPrimary">@color/qluvx_primary</item>
+        <item name="android:colorAccent">@color/qluvx_accent_sky</item>
+        <item name="android:textColorPrimary">@color/qluvx_text_primary</item>
+        <item name="android:textColorSecondary">@color/qluvx_text_secondary</item>
+    </style>
+
+    <style name="QluvxSectionTitle">
+        <item name="android:textSize">@dimen/text_title</item>
+        <item name="android:textColor">@color/qluvx_text_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="QluvxBodyText">
+        <item name="android:textSize">@dimen/text_body</item>
+        <item name="android:textColor">@color/qluvx_text_secondary</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+    </style>
+</resources>

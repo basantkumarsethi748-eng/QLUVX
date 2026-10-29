@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/adminRoles/$(request.auth.uid));
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create, update: if isOwner(userId);
+      allow delete: if isAdmin();
+    }
+
+    match /rooms/{roomId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && request.resource.data.hostUid == request.auth.uid;
+      allow update: if isSignedIn() && (resource.data.hostUid == request.auth.uid || isAdmin());
+      allow delete: if isSignedIn() && (resource.data.hostUid == request.auth.uid || isAdmin());
+
+      match /roomParticipants/{participantId} {
+        allow read: if isSignedIn();
+        allow write: if isOwner(participantId) || isAdmin();
+      }
+
+      match /roomSeats/{seatIndex} {
+        allow read: if isSignedIn();
+        allow write: if isSignedIn();
+      }
+
+      match /roomMessages/{messageId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn()
+          && request.resource.data.senderUid == request.auth.uid
+          && request.resource.data.text is string
+          && request.resource.data.text.size() <= 500;
+        allow delete: if isAdmin();
+      }
+    }
+
+    match /gifts/{giftId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /wallets/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+      allow write: if false; // Server-authoritative only via Admin SDK / Cloud Functions
+    }
+
+    match /transactions/{txId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow write: if false; // Server-authoritative only
+    }
+
+    match /battles/{battleId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    match /reports/{reportId} {
+      allow create: if isSignedIn() && request.resource.data.reporterUid == request.auth.uid;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /moderationActions/{actionId} {
+      allow read, write: if isAdmin();
+    }
+
+    match /adminRoles/{userId} {
+      allow read: if isSignedIn();
+      allow write: if false;
+    }
+
+    match /auditLogs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+  }
+}

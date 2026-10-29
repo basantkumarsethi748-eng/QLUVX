@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Standard 8dp Grid Spacing & Radii -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">20dp</dimen>
+    <dimen name="space_xxl">24dp</dimen>
+
+    <dimen name="card_corner_radius">16dp</dimen>
+    <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="chip_corner_radius">10dp</dimen>
+
+    <!-- Interactive Touch Targets -->
+    <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="setting_row_min_height">60dp</dimen>
+    <dimen name="bottom_nav_height">64dp</dimen>
+
+    <!-- Readable Typography Scale -->
+    <dimen name="text_caption">12sp</dimen>
+    <dimen name="text_body_sm">13sp</dimen>
+    <dimen name="text_body">14sp</dimen>
+    <dimen name="text_subtitle">15sp</dimen>
+    <dimen name="text_title">17sp</dimen>
+    <dimen name="text_headline">20sp</dimen>
+    <dimen name="text_brand">22sp</dimen>
+</resources>

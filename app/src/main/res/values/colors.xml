@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- QLUVX Global Design System Palette (Clean Slate & Royal Blue — No QLED/OLED neon) -->
+    <color name="qluvx_bg_primary">#0F172A</color>
+    <color name="qluvx_bg_secondary">#1E293B</color>
+    <color name="qluvx_surface_card">#1E293B</color>
+    <color name="qluvx_surface_elevated">#334155</color>
+    <color name="qluvx_border_subtle">#475569</color>
+
+    <color name="qluvx_primary">#2563EB</color>
+    <color name="qluvx_primary_dark">#1D4ED8</color>
+    <color name="qluvx_accent_sky">#38BDF8</color>
+    <color name="qluvx_success">#10B981</color>
+    <color name="qluvx_warning">#F59E0B</color>
+    <color name="qluvx_danger">#EF4444</color>
+    <color name="qluvx_danger_surface">#3B1822</color>
+
+    <color name="qluvx_text_primary">#F8FAFC</color>
+    <color name="qluvx_text_secondary">#CBD5E1</color>
+    <color name="qluvx_text_muted">#94A3B8</color>
+    <color name="qluvx_white">#FFFFFF</color>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Subtle circular background ring track -->
+    <item android:id="@android:id/background">
+        <shape
+            android:innerRadiusRatio="2.45"
+            android:shape="ring"
+            android:thickness="3dp"
+            android:useLevel="false">
+            <solid android:color="#2694A3B8" />
+        </shape>
+    </item>
+
+    <!-- Active speaker volume indicator circular progress ring (0..255 mapped to level 0..10000) -->
+    <item android:id="@android:id/progress">
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270">
+            <shape
+                android:innerRadiusRatio="2.45"
+                android:shape="ring"
+                android:thickness="3.5dp"
+                android:useLevel="true">
+                <gradient
+                    android:centerColor="#FF00D2FF"
+                    android:endColor="#FF00D68F"
+                    android:startColor="#FF00A2FF"
+                    android:type="sweep" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

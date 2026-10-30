@@ -3,11 +3,14 @@ package com.example.qluvx;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class SessionManager {
 
     private static final String PREF_NAME = "QLUVX_USER_SESSION";
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String KEY_EXPLICIT_LOGOUT = "explicitLogout";
     private static final String KEY_USER_ID = "userId";
     private static final String KEY_USER_NAME = "userName";
     private static final String KEY_USER_ROLE = "userRole"; // Top, Bottom, Versatile
@@ -22,6 +25,7 @@ public class SessionManager {
     private static final String KEY_HIDE_DISTANCE = "hideDistance";
     private static final String KEY_GHOST_MODE = "incognitoGhostMode";
     private static final String KEY_SERVER_URL = "customServerUrl";
+    private static final String KEY_EQUIPPED_RIDE = "equippedRide";
 
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
@@ -31,27 +35,24 @@ public class SessionManager {
         this.context = context;
         prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = prefs.edit();
-        String savedUrl = prefs.getString(KEY_SERVER_URL, "");
-        if (savedUrl != null && !savedUrl.isEmpty()) {
-            ApiClient.setCustomBaseUrl(savedUrl);
-        }
     }
 
     public void createLoginSession(String userId, String userName, String role) {
-        createLoginSession(userId, userName, role, "qluvx_jwt_" + System.currentTimeMillis());
+        createLoginSession(userId, userName, role, "walla_jwt_" + System.currentTimeMillis());
     }
 
     public void createLoginSession(String userId, String userName, String role, String token) {
         editor.putBoolean(KEY_IS_LOGGED_IN, true);
-        editor.putString(KEY_USER_ID, userId);
-        editor.putString(KEY_USER_NAME, userName);
-        editor.putString(KEY_USER_ROLE, role);
+        editor.putBoolean(KEY_EXPLICIT_LOGOUT, false);
+        editor.putString(KEY_USER_ID, userId != null && !userId.isEmpty() ? userId : "1002938");
+        editor.putString(KEY_USER_NAME, userName != null && !userName.isEmpty() ? userName : "Julian Vance");
+        editor.putString(KEY_USER_ROLE, role != null && !role.isEmpty() ? role : "Versatile");
         editor.putString(KEY_AUTH_TOKEN, token != null ? token : "");
         if (!prefs.contains(KEY_USER_COINS)) {
-            editor.putInt(KEY_USER_COINS, 25000);
+            editor.putInt(KEY_USER_COINS, 1250);
         }
         if (!prefs.contains(KEY_USER_DIAMONDS)) {
-            editor.putInt(KEY_USER_DIAMONDS, 8500);
+            editor.putInt(KEY_USER_DIAMONDS, 4800);
         }
         editor.putBoolean(KEY_IS_VIP, true);
         editor.apply();
@@ -77,7 +78,10 @@ public class SessionManager {
     }
 
     public boolean isLoggedIn() {
-        return prefs.getBoolean(KEY_IS_LOGGED_IN, false);
+        if (prefs.getBoolean(KEY_EXPLICIT_LOGOUT, false)) {
+            return prefs.getBoolean(KEY_IS_LOGGED_IN, false);
+        }
+        return prefs.getBoolean(KEY_IS_LOGGED_IN, true);
     }
 
     public String getUserName() {
@@ -85,7 +89,11 @@ public class SessionManager {
     }
 
     public String getUserId() {
-        return prefs.getString(KEY_USER_ID, "QL-884920");
+        String id = prefs.getString(KEY_USER_ID, "1002938");
+        if ("QL-884920".equals(id)) {
+            return "1002938";
+        }
+        return id;
     }
 
     public String getUserRole() {
@@ -93,15 +101,15 @@ public class SessionManager {
     }
 
     public String getUserBio() {
-        return prefs.getString(KEY_USER_BIO, "Gym lover, music & late night voice party host 👑");
+        return prefs.getString(KEY_USER_BIO, "Fitness, rooftop lounges & late night voice party host 👑✨");
     }
 
     public int getUserHeightCm() {
-        return prefs.getInt(KEY_HEIGHT_CM, 178);
+        return prefs.getInt(KEY_HEIGHT_CM, 180);
     }
 
     public int getUserWeightKg() {
-        return prefs.getInt(KEY_WEIGHT_KG, 74);
+        return prefs.getInt(KEY_WEIGHT_KG, 75);
     }
 
     public boolean isHideDistance() {
@@ -113,24 +121,44 @@ public class SessionManager {
     }
 
     public String getAuthToken() {
-        return prefs.getString(KEY_AUTH_TOKEN, "qluvx_jwt_royal_token");
+        return prefs.getString(KEY_AUTH_TOKEN, "walla_jwt_royal_token");
     }
 
     public int getUserCoins() {
-        return prefs.getInt(KEY_USER_COINS, 25000);
+        int val = prefs.getInt(KEY_USER_COINS, 1250);
+        if (val == 25000 && !prefs.contains("walla_coins_migrated")) {
+            editor.putInt(KEY_USER_COINS, 1250).putBoolean("walla_coins_migrated", true).apply();
+            return 1250;
+        }
+        return val;
+    }
+
+    public String getFormattedCoins() {
+        return NumberFormat.getNumberInstance(Locale.US).format(getUserCoins());
     }
 
     public void setUserCoins(int coins) {
         editor.putInt(KEY_USER_COINS, Math.max(0, coins));
+        editor.putBoolean("walla_coins_migrated", true);
         editor.apply();
     }
 
     public int getUserDiamonds() {
-        return prefs.getInt(KEY_USER_DIAMONDS, 8500);
+        int val = prefs.getInt(KEY_USER_DIAMONDS, 4800);
+        if (val == 8500 && !prefs.contains("walla_diamonds_migrated")) {
+            editor.putInt(KEY_USER_DIAMONDS, 4800).putBoolean("walla_diamonds_migrated", true).apply();
+            return 4800;
+        }
+        return val;
+    }
+
+    public String getFormattedDiamonds() {
+        return NumberFormat.getNumberInstance(Locale.US).format(getUserDiamonds());
     }
 
     public void setUserDiamonds(int diamonds) {
         editor.putInt(KEY_USER_DIAMONDS, Math.max(0, diamonds));
+        editor.putBoolean("walla_diamonds_migrated", true);
         editor.apply();
     }
 
@@ -140,6 +168,15 @@ public class SessionManager {
 
     public void setVipMember(boolean isVip) {
         editor.putBoolean(KEY_IS_VIP, isVip);
+        editor.apply();
+    }
+
+    public String getEquippedRide() {
+        return prefs.getString(KEY_EQUIPPED_RIDE, "Interstellar Starship X 🚀");
+    }
+
+    public void setEquippedRide(String ride) {
+        editor.putString(KEY_EQUIPPED_RIDE, ride);
         editor.apply();
     }
 
@@ -153,20 +190,19 @@ public class SessionManager {
     }
 
     public String getServerUrl() {
-        return prefs.getString(KEY_SERVER_URL, "http://10.0.2.2:5000");
+        return prefs.getString(KEY_SERVER_URL, "");
     }
 
     public void setServerUrl(String serverUrl) {
         String cleanUrl = serverUrl != null ? serverUrl.trim() : "";
         editor.putString(KEY_SERVER_URL, cleanUrl);
         editor.apply();
-        ApiClient.setCustomBaseUrl(cleanUrl);
     }
 
     public void logoutUser() {
-        SocketManager.getInstance().disconnect();
-        ApiClient.setAuthToken("");
         editor.clear();
+        editor.putBoolean(KEY_IS_LOGGED_IN, false);
+        editor.putBoolean(KEY_EXPLICIT_LOGOUT, true);
         editor.apply();
 
         Intent intent = new Intent(context, LoginActivity.class);

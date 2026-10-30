@@ -2,60 +2,252 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A18"
+    android:background="#0A0A14"
     android:orientation="vertical">
 
-    <!-- Top Header Bar -->
+    <!-- 1. WALLA / BLUED TOP BAR: "Nearby" Title, "Bangalore ▾" Location Selector, Filter & Search Icons -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#121228"
-        android:paddingHorizontal="16dp">
+        android:background="#0A0A14"
+        android:paddingHorizontal="14dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="🔥 Nearby Guys"
-            android:textColor="#FFD700"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/btnFilter"
+            <!-- "Nearby" Title with Neon Pink Accent Underline Feel -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvNearbyTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Nearby"
+                    android:textColor="#FFFFFF"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="28dp"
+                    android:layout_height="3dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/bg_walla_pink_pill" />
+            </LinearLayout>
+
+            <!-- Location Selector Pill ("Bangalore ▾") -->
+            <TextView
+                android:id="@+id/tvLocationSelector"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="📍 Bangalore ▾"
+                android:textColor="#00E5FF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Right Action Icons: Search Icon & Filter Icon -->
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="34dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="#252545"
-            android:gravity="center"
-            android:paddingHorizontal="14dp"
-            android:text="⚡ Online • Role ▾"
-            android:textColor="#00E676"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/btnSearchToggle"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:text="🔍"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/btnFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="⚡ Filter"
+                android:textColor="#FF2A7A"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
     </RelativeLayout>
 
-    <!-- Search Bar -->
+    <!-- Collapsible / Active Search Bar -->
     <EditText
         android:id="@+id/etSearchNearby"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_margin="10dp"
-        android:background="#181832"
-        android:hint="🔍 Search by nickname, role (Top/Bottom), or city..."
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="12dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/bg_walla_glass_card"
+        android:hint="🔍 Search guys (Alex, Ryan, Top, Versatile, Bottom)..."
         android:paddingHorizontal="14dp"
         android:singleLine="true"
         android:textColor="#FFFFFF"
-        android:textColorHint="#777799"
-        android:textSize="13sp" />
+        android:textColorHint="#7A7A9A"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-    <!-- 3-Column Nearby Users Grid -->
+    <!-- Role Quick Filter Chips Row -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/chipAll"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_walla_pink_pill"
+                android:gravity="center"
+                android:paddingHorizontal="14dp"
+                android:text="🔥 All Guys"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chipOnline"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="🟢 Online Now"
+                android:textColor="#00E676"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chipTop"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="Top"
+                android:textColor="#FF2A7A"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chipVersatile"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="Versatile"
+                android:textColor="#00E5FF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/chipBottom"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="Bottom"
+                android:textColor="#CE93D8"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 2. LIVE HOSTS BANNER: Horizontal Scroll of Active Live Broadcasters with Pulsing Gradient Rings -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_walla_glass_card"
+        android:orientation="vertical"
+        android:paddingVertical="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔴 LIVE BROADCASTERS &amp; PK"
+                android:textColor="#F1C40F"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvWatchAllLive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="Watch Live ▸"
+                android:textColor="#FF2A7A"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="10dp"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/llLiveHostsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- 3. 3-COLUMN PHOTO GRID (Exact Walla / Blued Portrait Discovery Grid) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNearbyGrid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:clipToPadding="false"
-        android:padding="4dp" />
+        android:paddingHorizontal="6dp"
+        android:paddingBottom="12dp" />
 
 </LinearLayout>

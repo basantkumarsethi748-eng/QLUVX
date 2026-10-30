@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         sessionManager = new SessionManager(this);
 
-        // 1. Session Gatekeeper: If user is not logged in, redirect to LoginActivity
+        // Session Gatekeeper: Redirect to LoginActivity if user explicitly logged out
         if (!sessionManager.isLoggedIn()) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -27,18 +27,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return;
         }
 
-        // Initialize Production Retrofit Auth Header & Persistent Socket.io Connection
-        ApiClient.setAuthToken(sessionManager.getAuthToken());
-        SocketManager.getInstance().connect(sessionManager.getUserId(), sessionManager.getAuthToken());
-
         setContentView(R.layout.activity_main);
 
         bottomNav = findViewById(R.id.bottomNavigationView);
         bottomNav.setOnNavigationItemSelectedListener(this);
 
-        // Load Default Tab (Nearby Home Fragment)
+        // Load Default Tab (Tab 1: Walla Nearby Grid)
         if (savedInstanceState == null) {
             loadFragment(new HomeFragment());
+        }
+    }
+
+    public void switchToTab(int menuItemId) {
+        if (bottomNav != null) {
+            bottomNav.setSelectedItemId(menuItemId);
         }
     }
 
@@ -49,10 +51,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         if (itemId == R.id.nav_nearby) {
             fragment = new HomeFragment();
-        } else if (itemId == R.id.nav_voice) {
-            fragment = new VoicePartyFragment();
         } else if (itemId == R.id.nav_live_pk) {
             fragment = new LivePkFragment();
+        } else if (itemId == R.id.nav_voice) {
+            fragment = new VoicePartyFragment();
         } else if (itemId == R.id.nav_messages) {
             fragment = new MessagesFragment();
         } else if (itemId == R.id.nav_profile) {
@@ -63,11 +65,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private boolean loadFragment(Fragment fragment) {
-        if (fragment != null) {
+        if (fragment != null && !isFinishing()) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainer, fragment)
-                    .commit();
+                    .commitAllowingStateLoss();
             return true;
         }
         return false;

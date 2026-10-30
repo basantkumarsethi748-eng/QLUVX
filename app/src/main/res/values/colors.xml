@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- QLUVX Global Design System Palette (Clean Slate & Royal Blue — No QLED/OLED neon) -->
-    <color name="qluvx_bg_primary">#0F172A</color>
-    <color name="qluvx_bg_secondary">#1E293B</color>
-    <color name="qluvx_surface_card">#1E293B</color>
-    <color name="qluvx_surface_elevated">#334155</color>
-    <color name="qluvx_border_subtle">#475569</color>
+    <!-- True Walla / Blued Luxury Palette -->
+    <color name="walla_bg_velvet">#0A0A14</color>
+    <color name="walla_surface_obsidian">#141424</color>
+    <color name="walla_surface_glass">#1E1E34</color>
+    <color name="walla_pink_neon">#FF2A7A</color>
+    <color name="walla_cyan_neon">#00E5FF</color>
+    <color name="walla_gold_royal">#F1C40F</color>
+    <color name="walla_online_green">#00E676</color>
+    <color name="walla_glass_border">#2EFFFFFF</color>
 
-    <color name="qluvx_primary">#2563EB</color>
-    <color name="qluvx_primary_dark">#1D4ED8</color>
-    <color name="qluvx_accent_sky">#38BDF8</color>
-    <color name="qluvx_success">#10B981</color>
-    <color name="qluvx_warning">#F59E0B</color>
-    <color name="qluvx_danger">#EF4444</color>
-    <color name="qluvx_danger_surface">#3B1822</color>
+    <!-- Legacy compatibility aliases mapped to Walla theme -->
+    <color name="qluvx_bg_primary">#0A0A14</color>
+    <color name="qluvx_bg_secondary">#141424</color>
+    <color name="qluvx_surface_card">#141424</color>
+    <color name="qluvx_surface_elevated">#1E1E36</color>
+    <color name="qluvx_border_subtle">#2EFFFFFF</color>
 
-    <color name="qluvx_text_primary">#F8FAFC</color>
-    <color name="qluvx_text_secondary">#CBD5E1</color>
-    <color name="qluvx_text_muted">#94A3B8</color>
+    <color name="qluvx_primary">#FF2A7A</color>
+    <color name="qluvx_primary_dark">#D81B60</color>
+    <color name="qluvx_accent_sky">#00E5FF</color>
+    <color name="qluvx_success">#00E676</color>
+    <color name="qluvx_warning">#F1C40F</color>
+    <color name="qluvx_danger">#FF1744</color>
+    <color name="qluvx_danger_surface">#3B1422</color>
+
+    <color name="qluvx_text_primary">#FFFFFF</color>
+    <color name="qluvx_text_secondary">#C7C7E2</color>
+    <color name="qluvx_text_muted">#8A8AA8</color>
     <color name="qluvx_white">#FFFFFF</color>
 </resources>

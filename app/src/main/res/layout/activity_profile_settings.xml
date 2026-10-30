@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A18"
-    android:padding="16dp">
+    android:background="#0A0A14"
+    android:padding="16dp"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,11 +22,13 @@
             <TextView
                 android:id="@+id/btnBack"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
                 android:text="⬅ Back"
-                android:textColor="#FFD700"
-                android:textSize="15sp"
+                android:textColor="#00E5FF"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -34,16 +37,16 @@
                 android:layout_marginStart="12dp"
                 android:text="Profile &amp; Privacy Settings"
                 android:textColor="#FFFFFF"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Edit Profile Section -->
+        <!-- 1. Edit Profile Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="#16162E"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_walla_glass_card"
             android:orientation="vertical"
             android:padding="16dp">
 
@@ -51,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DISPLAY NICKNAME"
-                android:textColor="#FFD700"
+                android:textColor="#F1C40F"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -60,8 +63,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginTop="6dp"
-                android:background="#0D0D1F"
-                android:paddingHorizontal="12dp"
+                android:background="@drawable/bg_walla_pill_dark"
+                android:paddingHorizontal="14dp"
+                android:singleLine="true"
                 android:text="Julian Vance"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -71,19 +75,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="ABOUT ME / BIO"
-                android:textColor="#FFD700"
+                android:textColor="#F1C40F"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/etBio"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
+                android:layout_height="68dp"
                 android:layout_marginTop="6dp"
-                android:background="#0D0D1F"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:gravity="top"
                 android:padding="12dp"
-                android:text=" Gym lover, music &amp; late night voice party host 👑"
+                android:text="Fitness, rooftop lounges &amp; late night voice party host 👑✨"
                 android:textColor="#FFFFFF"
                 android:textSize="13sp" />
 
@@ -92,8 +96,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="MY ROLE PREFERENCE (BLUED / WALLA TAG)"
-                android:textColor="#FFD700"
+                android:text="WALLA DATING ROLE TAG"
+                android:textColor="#FF2A7A"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -109,7 +113,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Top (1)"
+                    android:text="Top"
                     android:textColor="#FFFFFF" />
 
                 <RadioButton
@@ -118,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:checked="true"
-                    android:text="Vers (0.5)"
+                    android:text="Versatile"
                     android:textColor="#FFFFFF" />
 
                 <RadioButton
@@ -126,7 +130,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Bottom (0)"
+                    android:text="Bottom"
                     android:textColor="#FFFFFF" />
             </RadioGroup>
 
@@ -136,143 +140,102 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
-                android:text="Height: 178 cm"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp" />
+                android:text="Height: 180 cm"
+                android:textColor="#00E5FF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <SeekBar
                 android:id="@+id/seekHeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:max="60"
-                android:progress="28" />
+                android:progress="30" />
 
             <TextView
                 android:id="@+id/tvWeightVal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Weight: 74 kg"
-                android:textColor="#FFFFFF"
-                android:textSize="13sp" />
+                android:layout_marginTop="12dp"
+                android:text="Weight: 75 kg"
+                android:textColor="#00E5FF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
 
             <SeekBar
                 android:id="@+id/seekWeight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:max="75"
-                android:progress="29" />
+                android:progress="30" />
         </LinearLayout>
 
-        <!-- Privacy Switches -->
+        <!-- 2. Stealth Mode & Privacy Switches -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="#16162E"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_walla_glass_card"
             android:orientation="vertical"
             android:padding="16dp">
 
-            <Switch
-                android:id="@+id/swHideDistance"
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="📍 Hide My Exact Distance (VIP)"
-                android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+                android:layout_marginBottom="10dp"
+                android:text="🕵️ VIP STEALTH &amp; PRIVACY CONTROLS"
+                android:textColor="#F1C40F"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
             <Switch
                 android:id="@+id/swGhostMode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="🕵️ Stealth Mode (Invisible Browsing &amp; Status)"
+                android:textColor="#FFFFFF"
+                android:textSize="13.5sp" />
+
+            <Switch
+                android:id="@+id/swHideDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="👻 Incognito Profile Browsing"
+                android:text="📍 Hide My Exact Distance on Nearby Grid"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <!-- Ngrok / Backend Server URL (Port 5000) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="#16162E"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="🌐 NGROK / BACKEND TUNNEL URL (PORT 5000)"
-                android:textColor="#00E5FF"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Run `node backend/server.js` &amp; `ngrok http 5000`, then paste your https://xxxx.ngrok-free.app URL below:"
-                android:textColor="#9E9EBA"
-                android:textSize="11sp" />
-
-            <EditText
-                android:id="@+id/etServerUrl"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="8dp"
-                android:background="#0D0D1F"
-                android:hint="https://xxxx-xx-xx.ngrok-free.app"
-                android:inputType="textUri"
-                android:paddingHorizontal="12dp"
-                android:singleLine="true"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#5C5C7B"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/btnTestNgrok"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:layout_marginTop="10dp"
-                android:backgroundTint="#102536"
-                android:text="⚡ Test Ngrok / Port 5000 Connection"
-                android:textAllCaps="false"
-                android:textColor="#00E5FF"
-                android:textSize="13sp"
-                android:textStyle="bold"
-                app:strokeColor="#00E5FF" />
+                android:textSize="13.5sp" />
         </LinearLayout>
 
         <!-- Save Profile Button -->
         <Button
             android:id="@+id/btnSaveProfile"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="20dp"
-            android:backgroundTint="#00E676"
-            android:text="💾  Save Profile Changes"
+            android:layout_height="50dp"
+            android:layout_marginTop="18dp"
+            android:backgroundTint="#00E5FF"
+            android:text="💾  Save Profile &amp; Privacy Settings"
             android:textAllCaps="false"
-            android:textColor="#000000"
-            android:textSize="16sp"
+            android:textColor="#0A0A14"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
-        <!-- LOGOUT BUTTON -->
+        <!-- LOGOUT BUTTON WITH CONFIRMATION DIALOG -->
         <Button
             android:id="@+id/btnLogout"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="#2A1215"
-            android:text="🚪  Log Out of QLUVX"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="28dp"
+            android:backgroundTint="#28101C"
+            android:text="🚪  Log Out"
             android:textAllCaps="false"
-            android:textColor="#FF4444"
+            android:textColor="#FF2A7A"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:strokeColor="#FF4444" />
+            app:strokeColor="#FF2A7A" />
 
     </LinearLayout>
 </ScrollView>

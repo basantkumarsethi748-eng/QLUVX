@@ -1,130 +1,590 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/pkRootContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A18"
-    android:orientation="vertical"
-    android:padding="14dp">
+    android:background="#0A0A14">
 
-    <!-- PK Header -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="⚔️ LIVE PK BATTLE • 04:19"
-        android:textColor="#FFD700"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <!-- Tug of War Score Bar -->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="34dp"
-        android:layout_marginTop="12dp"
-        android:background="#1E88E5"
-        android:paddingHorizontal="12dp">
-
-        <TextView
-            android:id="@+id/tvScoreRed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="🔥 RED: 14500"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tvScoreBlue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="11200 :BLUE ❄️"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
-    <!-- Dual Split Screen Host Videos -->
-    <LinearLayout
-        android:id="@+id/llVideos"
-        android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <!-- Left Host (Red) -->
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="4dp"
-            android:layout_weight="1"
-            android:background="#28121E"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="🕺\nHost Kabir"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <!-- Right Host (Blue) -->
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="4dp"
-            android:layout_weight="1"
-            android:background="#121E36"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="🎸\nHost Zayn"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-        </RelativeLayout>
-    </LinearLayout>
-
-    <!-- PK Vote / Gift Buttons -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnGiftRed"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginEnd="6dp"
-            android:layout_weight="1"
-            android:backgroundTint="#E53935"
-            android:text="🌹 +500 Gift Red"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+        <!-- 1. TOP BROADCAST BAR: Broadcaster Pill (Top-Left) + Top 3 Gold/Silver Gifters & Close Button (Top-Right) -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingHorizontal="10dp"
+            android:paddingTop="6dp">
 
-        <Button
-            android:id="@+id/btnGiftBlue"
-            android:layout_width="0dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="6dp"
-            android:layout_weight="1"
-            android:backgroundTint="#1E88E5"
-            android:text="🏎️ +500 Gift Blue"
-            android:textAllCaps="false"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold" />
+            <!-- Top-Left: Broadcaster Pill with HD Avatar, Name, Viewer Count ("1.4k"), and Pink "+ Follow" Button -->
+            <LinearLayout
+                android:id="@+id/pillBroadcaster"
+                android:layout_width="wrap_content"
+                android:layout_height="44dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_walla_pill_dark"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingStart="4dp"
+                android:paddingEnd="6dp">
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    app:cardBackgroundColor="#141424"
+                    app:cardCornerRadius="18dp"
+                    app:cardElevation="0dp">
+
+                    <ImageView
+                        android:id="@+id/ivBroadcasterAvatar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop" />
+                </androidx.cardview.widget.CardView>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="8dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvBroadcasterName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Alex Royal ✓"
+                        android:textColor="#FFFFFF"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvViewerCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="🔥 1.4k watching"
+                        android:textColor="#F1C40F"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btnFollowHost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:background="@drawable/bg_walla_pink_pill"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:text="+ Follow"
+                    android:textColor="#FFFFFF"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Top-Right: Top 3 Gold/Silver Gifters Avatars + Close Button -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Gifter #1 (Gold Crown) -->
+                <FrameLayout
+                    android:id="@+id/gifter1Box"
+                    android:layout_width="34dp"
+                    android:layout_height="34dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_seat_neon_gold"
+                    android:padding="2dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="15dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/ivGifter1"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:background="#F1C40F"
+                        android:paddingHorizontal="3dp"
+                        android:text="👑1"
+                        android:textColor="#0A0A14"
+                        android:textSize="7sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <!-- Gifter #2 (Silver Cyan) -->
+                <FrameLayout
+                    android:id="@+id/gifter2Box"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="4dp"
+                    android:background="@drawable/bg_seat_neon_cyan"
+                    android:padding="2dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/ivGifter2"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:background="#00E5FF"
+                        android:paddingHorizontal="3dp"
+                        android:text="🥈2"
+                        android:textColor="#0A0A14"
+                        android:textSize="7sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <!-- Gifter #3 (Pink) -->
+                <FrameLayout
+                    android:id="@+id/gifter3Box"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_live_ring_pulse"
+                    android:padding="2dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardCornerRadius="13dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/ivGifter3"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:background="#FF2A7A"
+                        android:paddingHorizontal="3dp"
+                        android:text="🥉3"
+                        android:textColor="#FFFFFF"
+                        android:textSize="7sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <!-- Close Broadcast Button -->
+                <TextView
+                    android:id="@+id/btnCloseBroadcast"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/bg_walla_pill_dark"
+                    android:gravity="center"
+                    android:text="✕"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- 2. REAL-TIME SLIDING RED VS BLUE TUG-OF-WAR SCORE BAR -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="28dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <!-- Red PK Score Bar Segment -->
+                <RelativeLayout
+                    android:id="@+id/barRedSegment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="55"
+                    android:background="#FF2A7A"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/tvScoreRed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:text="🔥 RED 18,450"
+                        android:textColor="#FFFFFF"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- Glowing Center Spark Divider -->
+                <View
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#F1C40F" />
+
+                <!-- Blue PK Score Bar Segment -->
+                <RelativeLayout
+                    android:id="@+id/barBlueSegment"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="45"
+                    android:background="#00B0FF"
+                    android:paddingStart="6dp"
+                    android:paddingEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/tvScoreBlue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:text="14,900 BLUE ❄️"
+                        android:textColor="#0A0A14"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <!-- Center VS Emblem Pill -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_walla_gold_pill"
+                android:gravity="center"
+                android:paddingHorizontal="8dp"
+                android:text="⚔️ PK"
+                android:textColor="#0A0A14"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- 3. SPLIT-SCREEN DUAL HD LIVE FEEDS WITH LIVE COUNTDOWN TIMER -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1.15">
+
+            <LinearLayout
+                android:id="@+id/llVideos"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <!-- Left Host HD Stream Feed (Alex • Red Side) -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="3dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#141424"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/ivHostRedStream"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="68dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_nearby_bottom_scrim" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/bg_walla_pink_pill"
+                            android:paddingHorizontal="7dp"
+                            android:paddingVertical="2dp"
+                            android:text="🔴 LIVE • WINNING"
+                            android:textColor="#FFFFFF"
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🎙️ Alex Royal"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/btnGiftRed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:backgroundTint="#FF2A7A"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingHorizontal="8dp"
+                                android:text="🌹 +500"
+                                android:textAllCaps="false"
+                                android:textColor="#FFFFFF"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Right Host HD Stream Feed (Ryan • Blue Side) -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="3dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="#141424"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/ivHostBlueStream"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="68dp"
+                            android:layout_alignParentBottom="true"
+                            android:background="@drawable/bg_nearby_bottom_scrim" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_margin="8dp"
+                            android:background="@drawable/bg_walla_cyan_pill"
+                            android:paddingHorizontal="7dp"
+                            android:paddingVertical="2dp"
+                            android:text="⚡ CHALLENGER"
+                            android:textColor="#0A0A14"
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="8dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="🎧 Ryan Beats"
+                                android:textColor="#FFFFFF"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+
+                            <Button
+                                android:id="@+id/btnGiftBlue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:backgroundTint="#00E5FF"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:minWidth="0dp"
+                                android:minHeight="0dp"
+                                android:paddingHorizontal="8dp"
+                                android:text="🏎️ +500"
+                                android:textAllCaps="false"
+                                android:textColor="#0A0A14"
+                                android:textSize="10sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+
+            <!-- Center Top Floating Live PK Countdown Timer Pill -->
+            <TextView
+                android:id="@+id/tvPkTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_walla_pill_dark"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="⏱️ PK 04:42"
+                android:textColor="#F1C40F"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- 4. BOTTOM OVERLAY: Semi-Transparent Floating Live Chat Stream (Bottom-Left) + Gift & Heart Particle Tap (Bottom-Right) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.85"
+            android:orientation="vertical">
+
+            <!-- VIP Entrance Banner Pill -->
+            <TextView
+                android:id="@+id/tvVipEntranceBanner"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/bg_walla_gold_pill"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="10dp"
+                android:text="🚀 Julian Vance entered on Interstellar Starship X!"
+                android:textColor="#0A0A14"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <!-- Bottom-Left: Semi-Transparent Floating Live Chat Stream -->
+                <ScrollView
+                    android:id="@+id/svLiveChat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="70dp"
+                    android:background="@drawable/bg_walla_glass_card"
+                    android:padding="8dp"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/llLiveChatMessages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </ScrollView>
+
+                <!-- Bottom-Right: Floating Animated Gift Button & Heart Particle Tap -->
+                <LinearLayout
+                    android:layout_width="62dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="bottom|center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/btnTapHeart"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/bg_walla_pink_pill"
+                        android:gravity="center"
+                        android:text="❤️"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/btnOpenGiftTray"
+                        android:layout_width="52dp"
+                        android:layout_height="52dp"
+                        android:background="@drawable/bg_walla_gold_pill"
+                        android:gravity="center"
+                        android:text="🎁"
+                        android:textSize="22sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!-- Live Chat Input Row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etLiveChatInput"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_walla_pill_dark"
+                    android:hint="💬 Say something to Alex &amp; Ryan..."
+                    android:paddingHorizontal="14dp"
+                    android:singleLine="true"
+                    android:textColor="#FFFFFF"
+                    android:textColorHint="#8A8AA8"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnSendLiveChat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="38dp"
+                    android:layout_marginStart="8dp"
+                    android:backgroundTint="#FF2A7A"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Send"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <!-- Floating Heart Particle Layer -->
+    <FrameLayout
+        android:id="@+id/heartParticleContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="false"
+        android:focusable="false" />
+
+</FrameLayout>

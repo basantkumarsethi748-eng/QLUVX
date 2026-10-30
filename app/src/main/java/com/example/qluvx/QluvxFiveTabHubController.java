@@ -441,47 +441,19 @@ public class QluvxFiveTabHubController {
 
         container.addView(topBar);
 
-        // 2. 3-Column Grid ("3 line par near by I'd show location name sath")
-        List<NearbyUserCardItem> list = new ArrayList<>();
-        for (NearbyUserCardItem item : getNearbyUsers()) {
-            if ("Online".equalsIgnoreCase(homeTopMode) && !item.isOnline) continue;
-            list.add(item);
-        }
-
-        for (int i = 0; i < list.size(); i += 3) {
-            LinearLayout row3 = new LinearLayout(activity);
-            row3.setOrientation(LinearLayout.HORIZONTAL);
-            row3.setWeightSum(3f);
-            if (i > 0) {
-                row3.setPadding(0, UiStyleHelper.dp(activity, 8), 0, 0);
-            }
-
-            for (int col = 0; col < 3; col++) {
-                int idx = i + col;
-                if (idx < list.size()) {
-                    final NearbyUserCardItem user = list.get(idx);
-                    View card = buildThreeColumnNearbyIdCard(activity, user, social, callbacks);
-                    LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-                    lp.setMargins(
-                            col == 0 ? 0 : UiStyleHelper.dp(activity, 4),
-                            0,
-                            col == 2 ? 0 : UiStyleHelper.dp(activity, 4),
-                            0
-                    );
-                    row3.addView(card, lp);
-                } else {
-                    View empty = new View(activity);
-                    row3.addView(empty, new LinearLayout.LayoutParams(0, 1, 1f));
-                }
-            }
-            container.addView(row3);
-        }
+        // 1B. Luxury VIP Entrance Marquee Banner (HomeFragment 3-column RecyclerView is rendered in R.id.fragment_container)
+        container.addView(
+                QluvxLuxuryGamificationController.buildLuxuryEntranceBanner(activity, callbacks),
+                UiStyleHelper.params(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 0, UiStyleHelper.dp(activity, 8))
+        );
     }
 
     private static View buildThreeColumnNearbyIdCard(
             final Activity activity,
             final NearbyUserCardItem user,
+            final int roleIndex,
             final QluvxSocialManager social,
+            final GiftEconomyManager economy,
             final QluvxMasterScreensController.HostNavigationCallbacks callbacks
     ) {
         LinearLayout card = new LinearLayout(activity);
@@ -543,16 +515,32 @@ public class QluvxFiveTabHubController {
         });
         imgWrap.addView(followDot, fLp);
 
+        // Bottom-left Age + Top/Bottom/Versatile Role Tag overlay on portrait
+        final String ageRoleText = QluvxLuxuryGamificationController.getAgeRoleForIndex(roleIndex);
+        final int roleColor = ageRoleText.contains("Top")
+                ? Color.rgb(37, 99, 235)
+                : (ageRoleText.contains("Bottom") ? Color.rgb(219, 39, 119) : Color.rgb(124, 58, 237));
+        TextView roleBadge = new TextView(activity);
+        roleBadge.setText(ageRoleText);
+        roleBadge.setTextColor(Color.WHITE);
+        roleBadge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8.5f);
+        roleBadge.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
+        roleBadge.setPadding(UiStyleHelper.dp(activity, 6), UiStyleHelper.dp(activity, 2), UiStyleHelper.dp(activity, 6), UiStyleHelper.dp(activity, 2));
+        roleBadge.setBackground(UiStyleHelper.roundedBox(activity, roleColor, 8f, Color.WHITE, 0.7f));
+        FrameLayout.LayoutParams rbLp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.START);
+        rbLp.setMargins(m4, m4, m4, m4);
+        imgWrap.addView(roleBadge, rbLp);
+
         card.addView(imgWrap);
 
-        // Bottom Info Box: Name + Golden ID Badge + Location + 1-Tap Action Pill
+        // Bottom Info Box: Name + Golden ID Badge + Age/Role + Location + 1-Tap Action Pill
         LinearLayout infoBox = new LinearLayout(activity);
         infoBox.setOrientation(LinearLayout.VERTICAL);
         int p7 = UiStyleHelper.dp(activity, 7);
         infoBox.setPadding(p7, p7, p7, p7);
 
         TextView tvName = new TextView(activity);
-        tvName.setText(user.name);
+        tvName.setText((user.isOnline ? "🟢 " : "⚪ ") + user.name);
         tvName.setSingleLine(true);
         tvName.setTextColor(Color.WHITE);
         tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
@@ -560,10 +548,10 @@ public class QluvxFiveTabHubController {
         infoBox.addView(tvName);
 
         TextView tvId = new TextView(activity);
-        tvId.setText("ID: " + user.userId);
+        tvId.setText("ID: " + user.userId + " • " + ageRoleText);
         tvId.setSingleLine(true);
         tvId.setTextColor(Color.rgb(253, 224, 71));
-        tvId.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9.5f);
+        tvId.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9f);
         tvId.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         tvId.setPadding(0, UiStyleHelper.dp(activity, 1), 0, UiStyleHelper.dp(activity, 1));
         infoBox.addView(tvId);
@@ -576,11 +564,11 @@ public class QluvxFiveTabHubController {
         infoBox.addView(tvLoc);
 
         TextView btnOpen = new TextView(activity);
-        btnOpen.setText("📹 Live • 💬 Chat");
+        btnOpen.setText("👑 Profile • 📹 Live • 💬");
         btnOpen.setGravity(Gravity.CENTER);
         btnOpen.setSingleLine(true);
         btnOpen.setTextColor(Color.WHITE);
-        btnOpen.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9f);
+        btnOpen.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8.5f);
         btnOpen.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
         btnOpen.setPadding(UiStyleHelper.dp(activity, 4), UiStyleHelper.dp(activity, 4), UiStyleHelper.dp(activity, 4), UiStyleHelper.dp(activity, 4));
         btnOpen.setBackground(UiStyleHelper.gradientBox(activity, getLuxuryButtonStart(), getLuxuryButtonEnd(), 8f, 0, 0));
@@ -592,16 +580,36 @@ public class QluvxFiveTabHubController {
 
         card.setOnClickListener(v -> {
             String[] actions = new String[]{
+                    "👑 Open VIP Mini Profile Modal (" + ageRoleText + ")",
                     "📹 Watch " + user.name + " Live Stream",
                     "💬 Open Message Box with " + user.name + " (ID: " + user.userId + ")",
-                    "🎙️ Join " + user.name + "'s Voice Room"
+                    "🎙️ Join " + user.name + "'s 8-Seat Voice Party"
             };
             new AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-                    .setTitle(user.name + " • ID: " + user.userId + "\n📍 " + user.location)
+                    .setTitle(user.name + " • ID: " + user.userId + "\n📍 " + user.location + " • " + ageRoleText)
                     .setItems(actions, (d, which) -> {
                         if (which == 0) {
-                            callbacks.onOpenLiveVideoRoom(user.name + " Live", user.channelName, user.name, user.userId, user.avatarResId);
+                            QluvxLuxuryGamificationController.VoiceSeatState seatUser =
+                                    new QluvxLuxuryGamificationController.VoiceSeatState(
+                                            (roleIndex % 8) + 1,
+                                            user.name,
+                                            user.userId,
+                                            user.avatarResId,
+                                            "Lv.50 • " + user.levelLabel,
+                                            "🐉 Imperial Gold Dragon",
+                                            "🚀 Interstellar Starship X",
+                                            ageRoleText,
+                                            user.isOnline
+                                    );
+                            QluvxLuxuryGamificationController.showMiniProfileModal(
+                                    activity,
+                                    seatUser,
+                                    economy,
+                                    callbacks
+                            );
                         } else if (which == 1) {
+                            callbacks.onOpenLiveVideoRoom(user.name + " Live", user.channelName, user.name, user.userId, user.avatarResId);
+                        } else if (which == 2) {
                             List<QluvxSocialManager.UserProfile> all = social.getAllCommunityUsers();
                             if (!all.isEmpty()) {
                                 callbacks.onOpenDirectChatWithPeer(all.get(0));
@@ -634,6 +642,14 @@ public class QluvxFiveTabHubController {
     ) {
         renderLuxuryDesignHeaderBar(activity, container, economy, callbacks);
         getDiscoverPosts();
+
+        // 0. 8-Seat Circular Voice Party Room (with animated pulsing mic soundwave rings, live soundboard, Lucky Wheel & Owner Panel)
+        QluvxLuxuryGamificationController.renderEightSeatCircularVoicePartySection(
+                activity,
+                container,
+                economy,
+                callbacks
+        );
 
         // 1. Top 3 Primary Cards: [ 🏰 Family ]  [ 👥 Group ]  [ ⚡ Quick Chat ]
         LinearLayout topThreeRow = new LinearLayout(activity);
@@ -1330,6 +1346,114 @@ public class QluvxFiveTabHubController {
 
             container.addView(rowCard, UiStyleHelper.params(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 0, UiStyleHelper.dp(activity, 8)));
         }
+
+        // 3. COMMUNITY MOMENTS PHOTO FEED WITH LIKES (Part of Tab 4: Messages & Moments)
+        LinearLayout momentsHeader = new LinearLayout(activity);
+        momentsHeader.setOrientation(LinearLayout.HORIZONTAL);
+        momentsHeader.setGravity(Gravity.CENTER_VERTICAL);
+        momentsHeader.setPadding(0, UiStyleHelper.dp(activity, 8), 0, UiStyleHelper.dp(activity, 8));
+
+        TextView tvMomentsTitle = new TextView(activity);
+        tvMomentsTitle.setText("📸 Community Moments Feed (Tap ❤️ to Like)");
+        tvMomentsTitle.setTextColor(Color.WHITE);
+        tvMomentsTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
+        tvMomentsTitle.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
+        tvMomentsTitle.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+        momentsHeader.addView(tvMomentsTitle);
+
+        TextView btnNewMoment = UiStyleHelper.createStatusChip(activity, "✍️ Post Moment", UiStyleHelper.COLOR_NEON_PINK, Color.WHITE, 0);
+        btnNewMoment.setOnClickListener(v -> showCreateDiscoverPostDialog(activity, social, callbacks));
+        momentsHeader.addView(btnNewMoment);
+        container.addView(momentsHeader);
+
+        for (final DiscoverPostItem post : getDiscoverPosts()) {
+            LinearLayout mCard = new LinearLayout(activity);
+            mCard.setOrientation(LinearLayout.VERTICAL);
+            int pad = UiStyleHelper.dp(activity, 12);
+            mCard.setPadding(pad, pad, pad, pad);
+            mCard.setBackground(UiStyleHelper.roundedBox(activity, Color.rgb(22, 24, 34), 14f, getLuxuryBorderAccent(), 1f));
+
+            LinearLayout authorRow = new LinearLayout(activity);
+            authorRow.setOrientation(LinearLayout.HORIZONTAL);
+            authorRow.setGravity(Gravity.CENTER_VERTICAL);
+            authorRow.addView(UiStyleHelper.createCircularAvatar(activity, post.photoResId, 40, UiStyleHelper.COLOR_NEON_PINK, false));
+
+            LinearLayout meta = new LinearLayout(activity);
+            meta.setOrientation(LinearLayout.VERTICAL);
+            meta.setPadding(UiStyleHelper.dp(activity, 10), 0, 0, 0);
+            meta.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+
+            TextView nm = new TextView(activity);
+            nm.setText(post.authorName + "  •  " + post.authorId);
+            nm.setTextColor(Color.WHITE);
+            nm.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13f);
+            nm.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
+
+            TextView loc = new TextView(activity);
+            loc.setText(post.location + "  •  " + post.timeAgo);
+            loc.setTextColor(Color.rgb(56, 189, 248));
+            loc.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10.5f);
+
+            meta.addView(nm);
+            meta.addView(loc);
+            authorRow.addView(meta);
+            mCard.addView(authorRow);
+
+            TextView body = new TextView(activity);
+            body.setText(post.text);
+            body.setTextColor(Color.rgb(226, 232, 240));
+            body.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12.5f);
+            body.setPadding(0, UiStyleHelper.dp(activity, 6), 0, UiStyleHelper.dp(activity, 6));
+            mCard.addView(body);
+
+            ImageView ivPost = new ImageView(activity);
+            ivPost.setImageResource(post.photoResId);
+            ivPost.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            ivPost.setOutlineProvider(new ViewOutlineProvider() {
+                @Override
+                public void getOutline(View view, Outline outline) {
+                    outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), UiStyleHelper.dp(activity, 12));
+                }
+            });
+            ivPost.setClipToOutline(true);
+            mCard.addView(ivPost, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UiStyleHelper.dp(activity, 150)));
+
+            LinearLayout reactRow = new LinearLayout(activity);
+            reactRow.setOrientation(LinearLayout.HORIZONTAL);
+            reactRow.setPadding(0, UiStyleHelper.dp(activity, 8), 0, 0);
+
+            TextView btnLike = UiStyleHelper.createStatusChip(
+                    activity,
+                    (post.isLiked ? "❤️ " : "🤍 ") + post.likesCount + " Likes",
+                    post.isLiked ? Color.argb(90, 236, 72, 153) : Color.rgb(30, 34, 48),
+                    Color.WHITE,
+                    0
+            );
+            btnLike.setOnClickListener(v -> {
+                post.isLiked = !post.isLiked;
+                post.likesCount += post.isLiked ? 1 : -1;
+                callbacks.onRefreshScreen();
+            });
+
+            TextView btnComment = UiStyleHelper.createStatusChip(
+                    activity,
+                    "💬 " + post.commentsCount + " Comments",
+                    Color.rgb(30, 34, 48),
+                    Color.rgb(203, 213, 225),
+                    0
+            );
+            btnComment.setOnClickListener(v -> {
+                post.commentsCount++;
+                Toast.makeText(activity, "💬 Comment added to " + post.authorName + "'s Moment!", Toast.LENGTH_SHORT).show();
+                callbacks.onRefreshScreen();
+            });
+
+            reactRow.addView(btnLike);
+            reactRow.addView(btnComment, UiStyleHelper.params(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, UiStyleHelper.dp(activity, 8), 0, 0, 0));
+            mCard.addView(reactRow);
+
+            container.addView(mCard, UiStyleHelper.params(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 0, UiStyleHelper.dp(activity, 10)));
+        }
     }
 
     /**
@@ -1441,8 +1565,8 @@ public class QluvxFiveTabHubController {
                 if ("ONETIME".equals(msg.messageType)) {
                     boolean opened = openedOneTimeMessages.contains(msgKey);
                     contentTv.setText(opened
-                            ? "💨 One-Time Photo Expired (Viewed Once)"
-                            : "🔥 One-Time Photo • Tap to View Once 🔒");
+                            ? "💨 5s Disappearing Photo Expired (Viewed Once)"
+                            : "🔥 5-Second Disappearing Photo • Tap to View Once 🔒");
                     contentTv.setTextColor(opened ? Color.rgb(148, 163, 184) : Color.rgb(253, 224, 71));
                     contentTv.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
                     bubble.setOnClickListener(v -> {
@@ -1450,9 +1574,16 @@ public class QluvxFiveTabHubController {
                             openedOneTimeMessages.add(msgKey);
                             showOneTimePhotoViewerDialog(activity, peerAvatarRes, refreshMessages[0]);
                         } else {
-                            Toast.makeText(activity, "💨 This one-time photo has already been viewed and expired!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(activity, "💨 This 5-second disappearing photo has already expired!", Toast.LENGTH_SHORT).show();
                         }
                     });
+                } else if ("VOICE".equals(msg.messageType)) {
+                    contentTv.setText("🔊 " + msg.content + "  ılı.lıllılı (Tap to Play)");
+                    contentTv.setTextColor(Color.rgb(52, 211, 153));
+                    contentTv.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
+                    bubble.setOnClickListener(v ->
+                            Toast.makeText(activity, "🔊 Playing HD Voice Note from " + (msg.fromMe ? "You" : msg.senderName) + "...", Toast.LENGTH_SHORT).show()
+                    );
                 } else {
                     contentTv.setText(msg.content);
                     contentTv.setTextColor(Color.WHITE);
@@ -1590,32 +1721,11 @@ public class QluvxFiveTabHubController {
     }
 
     private static void showOneTimePhotoViewerDialog(Activity activity, int photoRes, final Runnable onDismissCallback) {
-        LinearLayout box = new LinearLayout(activity);
-        box.setOrientation(LinearLayout.VERTICAL);
-        box.setGravity(Gravity.CENTER);
-        int pad = UiStyleHelper.dp(activity, 16);
-        box.setPadding(pad, pad, pad, pad);
-
-        ImageView iv = new ImageView(activity);
-        iv.setImageResource(photoRes);
-        iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        box.addView(iv, new LinearLayout.LayoutParams(UiStyleHelper.dp(activity, 240), UiStyleHelper.dp(activity, 280)));
-
-        TextView notice = new TextView(activity);
-        notice.setText("🔥 Viewing One-Time Photo — Will self-destruct on close!");
-        notice.setTextColor(Color.rgb(253, 224, 71));
-        notice.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f);
-        notice.setPadding(0, UiStyleHelper.dp(activity, 10), 0, 0);
-        box.addView(notice);
-
-        new AlertDialog.Builder(activity, android.R.style.Theme_DeviceDefault_Dialog_Alert)
-                .setTitle("🔥 One-Time Photo")
-                .setView(box)
-                .setOnDismissListener(d -> {
-                    if (onDismissCallback != null) onDismissCallback.run();
-                })
-                .setPositiveButton("Close & Destroy", null)
-                .show();
+        QluvxLuxuryGamificationController.showFiveSecondDisappearingPhotoDialog(
+                activity,
+                photoRes,
+                onDismissCallback
+        );
     }
 
     // =========================================================================
@@ -1686,6 +1796,14 @@ public class QluvxFiveTabHubController {
         });
         topModeRow.addView(btnGoLiveOrVoice);
         container.addView(topModeRow);
+
+        // 1B. SPLIT-SCREEN DUAL-HOST LIVE PK BATTLE (Red vs Blue Tug-of-War Bar + 5:00 Countdown Clock + Floating Gift Animations)
+        QluvxLuxuryGamificationController.renderSplitScreenLivePkBattleSection(
+                activity,
+                container,
+                economy,
+                callbacks
+        );
 
         // 2. TOP SINGLE LINE ID SHOW ALL ("Upar ek line id show all")
         HorizontalScrollView topIdsScroll = new HorizontalScrollView(activity);
@@ -2029,242 +2147,45 @@ public class QluvxFiveTabHubController {
     ) {
         renderLuxuryDesignHeaderBar(activity, container, economy, callbacks);
         final QluvxSocialManager.UserProfile me = social.getCurrentUser();
+        // ProfileFragment (fragment_profile.xml) is rendered directly inside R.id.fragment_container above!
 
-        // 1. TOP PROFILE DP CHANGE & IDENTITY HERO CARD ("All prfile details dp chenge")
-        LinearLayout dpHeroCard = new LinearLayout(activity);
-        dpHeroCard.setOrientation(LinearLayout.VERTICAL);
-        int pad = UiStyleHelper.dp(activity, 14);
-        dpHeroCard.setPadding(pad, pad, pad, pad);
-        dpHeroCard.setBackground(UiStyleHelper.gradientBox(
-                activity,
-                getLuxuryGradStart(),
-                getLuxuryGradEnd(),
-                18f,
-                getLuxuryBorderAccent(),
-                1.4f
-        ));
-
-        LinearLayout topIdentityRow = new LinearLayout(activity);
-        topIdentityRow.setOrientation(LinearLayout.HORIZONTAL);
-        topIdentityRow.setGravity(Gravity.CENTER_VERTICAL);
-
-        // Circular DP with Camera Change Overlay
-        FrameLayout dpWrap = new FrameLayout(activity);
-        int dpSz = UiStyleHelper.dp(activity, 84);
-        dpWrap.setLayoutParams(new LinearLayout.LayoutParams(dpSz, dpSz));
-
-        ImageView ivDp = new ImageView(activity);
-        if (customProfileDpUri != null) {
-            ivDp.setImageURI(customProfileDpUri);
-        } else {
-            ivDp.setImageResource(me.avatarResId != 0 ? me.avatarResId : R.drawable.img_avatar_0);
-        }
-        ivDp.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        ivDp.setOutlineProvider(new ViewOutlineProvider() {
-            @Override
-            public void getOutline(View view, Outline outline) {
-                outline.setOval(0, 0, view.getWidth(), view.getHeight());
-            }
-        });
-        ivDp.setClipToOutline(true);
-        ivDp.setBackground(UiStyleHelper.circle(activity, Color.rgb(30, 41, 59), UiStyleHelper.COLOR_NEON_PINK, 2.5f));
-        dpWrap.addView(ivDp, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
-        TextView camBadge = new TextView(activity);
-        camBadge.setText("📷 DP");
-        camBadge.setTextColor(Color.WHITE);
-        camBadge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9f);
-        camBadge.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-        camBadge.setPadding(UiStyleHelper.dp(activity, 6), UiStyleHelper.dp(activity, 2), UiStyleHelper.dp(activity, 6), UiStyleHelper.dp(activity, 2));
-        camBadge.setBackground(UiStyleHelper.roundedBox(activity, UiStyleHelper.COLOR_NEON_PINK, 8f, Color.WHITE, 1f));
-        dpWrap.addView(camBadge, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
-
-        dpWrap.setOnClickListener(v -> showChangeDpStudioDialog(activity, me, callbacks));
-        topIdentityRow.addView(dpWrap);
-
-        // Right Identity Column: Name, ID + Copy, Location, VIP Frame, Edit Profile
-        LinearLayout idCol = new LinearLayout(activity);
-        idCol.setOrientation(LinearLayout.VERTICAL);
-        idCol.setPadding(UiStyleHelper.dp(activity, 14), 0, 0, 0);
-        idCol.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-
-        TextView tvName = new TextView(activity);
-        tvName.setText(me.displayName + " ☑️  💎 Lv.32");
-        tvName.setTextColor(Color.WHITE);
-        tvName.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17.5f);
-        tvName.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-        idCol.addView(tvName);
-
-        LinearLayout idCopyRow = new LinearLayout(activity);
-        idCopyRow.setOrientation(LinearLayout.HORIZONTAL);
-        idCopyRow.setGravity(Gravity.CENTER_VERTICAL);
-        idCopyRow.setPadding(0, UiStyleHelper.dp(activity, 3), 0, UiStyleHelper.dp(activity, 3));
-
-        TextView tvUserId = new TextView(activity);
-        tvUserId.setText("ID: " + me.userId + "  ");
-        tvUserId.setTextColor(Color.rgb(56, 189, 248));
-        tvUserId.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12.5f);
-        tvUserId.setTypeface(Typeface.create("sans-serif-medium", Typeface.BOLD));
-
-        TextView btnCopyId = new TextView(activity);
-        btnCopyId.setText("📋 Copy");
-        btnCopyId.setTextColor(Color.WHITE);
-        btnCopyId.setTextSize(TypedValue.COMPLEX_UNIT_SP, 9.5f);
-        btnCopyId.setPadding(UiStyleHelper.dp(activity, 6), UiStyleHelper.dp(activity, 2), UiStyleHelper.dp(activity, 6), UiStyleHelper.dp(activity, 2));
-        btnCopyId.setBackground(UiStyleHelper.roundedBox(activity, Color.rgb(51, 65, 85), 6f, 0, 0));
-        btnCopyId.setOnClickListener(v -> {
-            ClipboardManager cm = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-            if (cm != null) {
-                cm.setPrimaryClip(ClipData.newPlainText("QLUVX ID", me.userId));
-            }
-            Toast.makeText(activity, "📋 Copied QLUVX ID: " + me.userId, Toast.LENGTH_SHORT).show();
-        });
-
-        idCopyRow.addView(tvUserId);
-        idCopyRow.addView(btnCopyId);
-        idCol.addView(idCopyRow);
-
-        TextView tvLocation = new TextView(activity);
-        tvLocation.setText("📍 " + me.country + "  •  " + equippedFamilyName);
-        tvLocation.setTextColor(Color.rgb(203, 213, 225));
-        tvLocation.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11.5f);
-        idCol.addView(tvLocation);
-
-        LinearLayout dpBtnsRow = new LinearLayout(activity);
-        dpBtnsRow.setOrientation(LinearLayout.HORIZONTAL);
-        dpBtnsRow.setPadding(0, UiStyleHelper.dp(activity, 6), 0, 0);
-
-        TextView btnChangeDp = UiStyleHelper.createStatusChip(activity, "📷 Change DP", UiStyleHelper.COLOR_NEON_PINK, Color.WHITE, 0);
-        btnChangeDp.setOnClickListener(v -> showChangeDpStudioDialog(activity, me, callbacks));
-
-        TextView btnEditInfo = UiStyleHelper.createStatusChip(activity, "✏️ Edit Profile", Color.rgb(37, 99, 235), Color.WHITE, 0);
-        btnEditInfo.setOnClickListener(v -> callbacks.onShowEditProfileDialog());
-
-        dpBtnsRow.addView(btnChangeDp);
-        dpBtnsRow.addView(btnEditInfo, UiStyleHelper.params(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, UiStyleHelper.dp(activity, 6), 0, 0, 0));
-        idCol.addView(dpBtnsRow);
-
-        topIdentityRow.addView(idCol);
-        dpHeroCard.addView(topIdentityRow);
-
-        // Quick 6-Avatar Instant DP Selector Strip
+        // 1. Quick 6-Avatar Instant DP Selector Strip + Gallery DP Picker
+        final SessionManager session = new SessionManager(activity);
+        LinearLayout quickDpCard = UiStyleHelper.createCardContainer(activity, getLuxuryBorderAccent());
         HorizontalScrollView quickDpScroll = new HorizontalScrollView(activity);
         quickDpScroll.setHorizontalScrollBarEnabled(false);
         LinearLayout quickDpRow = new LinearLayout(activity);
         quickDpRow.setOrientation(LinearLayout.HORIZONTAL);
         quickDpRow.setGravity(Gravity.CENTER_VERTICAL);
-        quickDpRow.setPadding(0, UiStyleHelper.dp(activity, 10), 0, UiStyleHelper.dp(activity, 6));
 
-        TextView quickDpLabel = new TextView(activity);
-        quickDpLabel.setText("Instant DP: ");
-        quickDpLabel.setTextColor(Color.rgb(203, 213, 225));
-        quickDpLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 11f);
-        quickDpRow.addView(quickDpLabel);
+        TextView btnChangeDp = UiStyleHelper.createStatusChip(activity, "📷 Change DP", UiStyleHelper.COLOR_NEON_PINK, Color.WHITE, 0);
+        btnChangeDp.setOnClickListener(v -> showChangeDpStudioDialog(activity, me, callbacks));
+        quickDpRow.addView(btnChangeDp, UiStyleHelper.params(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, UiStyleHelper.dp(activity, 8), 0));
 
         for (int a = 0; a < 6; a++) {
             final int avRes = VoiceRoomModels.getAvatarResId(a);
-            boolean activeDp = (customProfileDpUri == null && me.avatarResId == avRes);
-            View av = UiStyleHelper.createCircularAvatar(activity, avRes, 36, activeDp ? Color.rgb(253, 224, 71) : Color.rgb(100, 116, 139), false);
+            boolean activeDp = (customProfileDpUri == null && session.getAvatarResId() == avRes);
+            View av = UiStyleHelper.createCircularAvatar(activity, avRes, 38, activeDp ? Color.rgb(253, 224, 71) : Color.rgb(100, 116, 139), false);
             av.setOnClickListener(v -> {
                 customProfileDpUri = null;
                 me.avatarResId = avRes;
+                session.setAvatarResId(avRes);
                 Toast.makeText(activity, "✅ Profile DP Changed!", Toast.LENGTH_SHORT).show();
                 callbacks.onRefreshScreen();
             });
-            quickDpRow.addView(av, UiStyleHelper.params(UiStyleHelper.dp(activity, 36), UiStyleHelper.dp(activity, 36), UiStyleHelper.dp(activity, 6), 0, 0, 0));
+            quickDpRow.addView(av, UiStyleHelper.params(UiStyleHelper.dp(activity, 38), UiStyleHelper.dp(activity, 38), UiStyleHelper.dp(activity, 6), 0, 0, 0));
         }
         quickDpScroll.addView(quickDpRow);
-        dpHeroCard.addView(quickDpScroll);
+        quickDpCard.addView(quickDpScroll);
+        container.addView(quickDpCard, UiStyleHelper.params(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 0, UiStyleHelper.dp(activity, 10)));
 
-        // 4-Column Social Stats Bar: Following | Followers | Friends | Visitors
-        LinearLayout statsRow = new LinearLayout(activity);
-        statsRow.setOrientation(LinearLayout.HORIZONTAL);
-        statsRow.setWeightSum(4f);
-        statsRow.setPadding(0, UiStyleHelper.dp(activity, 8), 0, 0);
-
-        String[][] stats = new String[][]{
-                {String.valueOf(me.followingCount + 142), "Following"},
-                {String.valueOf(me.followersCount + 1280), "Followers"},
-                {"86", "Friends"},
-                {"342", "Visitors"}
-        };
-        for (final String[] st : stats) {
-            LinearLayout sCol = new LinearLayout(activity);
-            sCol.setOrientation(LinearLayout.VERTICAL);
-            sCol.setGravity(Gravity.CENTER);
-            TextView vTv = new TextView(activity);
-            vTv.setText(st[0]);
-            vTv.setTextColor(Color.WHITE);
-            vTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
-            vTv.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-            TextView lTv = new TextView(activity);
-            lTv.setText(st[1]);
-            lTv.setTextColor(Color.rgb(148, 163, 184));
-            lTv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10.5f);
-            sCol.addView(vTv);
-            sCol.addView(lTv);
-            sCol.setOnClickListener(v -> Toast.makeText(activity, st[1] + ": " + st[0], Toast.LENGTH_SHORT).show());
-            statsRow.addView(sCol, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-        }
-        dpHeroCard.addView(statsRow);
-
-        container.addView(dpHeroCard, UiStyleHelper.params(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0, 0, 0, UiStyleHelper.dp(activity, 10)));
-
-        // 2. DUAL WALLET BAR: [ 🪙 Coins Balance + Recharge ]  [ 💎 Diamonds + Exchange ]
-        LinearLayout walletRow = new LinearLayout(activity);
-        walletRow.setOrientation(LinearLayout.HORIZONTAL);
-        walletRow.setWeightSum(2f);
-        walletRow.setPadding(0, 0, 0, UiStyleHelper.dp(activity, 10));
-
-        LinearLayout coinsCard = new LinearLayout(activity);
-        coinsCard.setOrientation(LinearLayout.VERTICAL);
-        int wPad = UiStyleHelper.dp(activity, 12);
-        coinsCard.setPadding(wPad, wPad, wPad, wPad);
-        coinsCard.setBackground(UiStyleHelper.gradientBox(activity, Color.rgb(66, 38, 12), Color.rgb(120, 68, 14), 14f, Color.rgb(251, 191, 36), 1f));
-        TextView tvCoins = new TextView(activity);
-        tvCoins.setText("🪙 " + economy.getCoinBalance() + " Coins");
-        tvCoins.setTextColor(Color.rgb(253, 224, 71));
-        tvCoins.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14.5f);
-        tvCoins.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-        TextView tvCoinsSub = new TextView(activity);
-        tvCoinsSub.setText("⚡ Tap to Recharge Coins ›");
-        tvCoinsSub.setTextColor(Color.WHITE);
-        tvCoinsSub.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10.5f);
-        coinsCard.addView(tvCoins);
-        coinsCard.addView(tvCoinsSub);
-        coinsCard.setOnClickListener(v -> callbacks.onSelectMenu(6));
-
-        LinearLayout diamondsCard = new LinearLayout(activity);
-        diamondsCard.setOrientation(LinearLayout.VERTICAL);
-        diamondsCard.setPadding(wPad, wPad, wPad, wPad);
-        diamondsCard.setBackground(UiStyleHelper.gradientBox(activity, Color.rgb(56, 20, 72), Color.rgb(108, 28, 118), 14f, Color.rgb(244, 114, 182), 1f));
-        TextView tvDiamonds = new TextView(activity);
-        tvDiamonds.setText("💎 " + diamondBalance + " Diamonds");
-        tvDiamonds.setTextColor(Color.rgb(244, 114, 182));
-        tvDiamonds.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14.5f);
-        tvDiamonds.setTypeface(Typeface.create("sans-serif-black", Typeface.BOLD));
-        TextView tvDiamondsSub = new TextView(activity);
-        tvDiamondsSub.setText("💸 Exchange to Coins ›");
-        tvDiamondsSub.setTextColor(Color.WHITE);
-        tvDiamondsSub.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10.5f);
-        diamondsCard.addView(tvDiamonds);
-        diamondsCard.addView(tvDiamondsSub);
-        diamondsCard.setOnClickListener(v -> {
-            if (diamondBalance >= 1000) {
-                diamondBalance -= 1000;
-                economy.rechargeVerifiedPack(500, "Diamond Exchange (+500 Coins)", "ex_" + System.currentTimeMillis());
-                Toast.makeText(activity, "💎 Exchanged 1,000 Diamonds for +500 Coins!", Toast.LENGTH_SHORT).show();
-                callbacks.onRefreshScreen();
-            }
-        });
-
-        LinearLayout.LayoutParams cLp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        cLp.setMargins(0, 0, UiStyleHelper.dp(activity, 5), 0);
-        LinearLayout.LayoutParams dLp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        dLp.setMargins(UiStyleHelper.dp(activity, 5), 0, 0, 0);
-        walletRow.addView(coinsCard, cLp);
-        walletRow.addView(diamondsCard, dLp);
-        container.addView(walletRow);
+        // 2. VIP BADGES (Imperial Gold Dragon Frame, Lv.50 Wealth Badge, Starship Vehicle) + Vanity Mall, Agency Guild & Owner Control Panel
+        QluvxLuxuryGamificationController.renderVipProfileBadgesAndSuites(
+                activity,
+                container,
+                economy,
+                callbacks
+        );
 
         // 3. 8-ICON PROFILE SERVICES GRID ("Sab prfile jo hota hai sab haona chahya")
         LinearLayout servicesCard = UiStyleHelper.createCardContainer(activity, UiStyleHelper.COLOR_BORDER_SUBTLE);

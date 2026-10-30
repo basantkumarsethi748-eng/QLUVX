@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_nearby"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="Nearby" />
+
+    <item
+        android:id="@+id/nav_voice"
+        android:icon="@android:drawable/ic_btn_speak_now"
+        android:title="Voice Party" />
+
+    <item
+        android:id="@+id/nav_live_pk"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Live PK" />
+
+    <item
+        android:id="@+id/nav_messages"
+        android:icon="@android:drawable/ic_dialog_email"
+        android:title="Messages" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Me" />
+
+</menu>

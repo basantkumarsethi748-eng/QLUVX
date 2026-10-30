@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QLUVX • Web Admin &amp; Moderation Console</title>
+  <style>
+    :root {
+      --bg-primary: #070712;
+      --bg-card: #121228;
+      --border-neon: #2a2a5a;
+      --gold: #ffd700;
+      --green: #00e676;
+      --pink: #ff4081;
+      --red: #ff1744;
+      --cyan: #00e5ff;
+      --text-main: #ffffff;
+      --text-muted: #9a9ac0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background: var(--bg-primary);
+      color: var(--text-main);
+      padding: 18px;
+      line-height: 1.45;
+    }
+
+    .header-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: linear-gradient(90deg, #151534 0%, #241236 100%);
+      border: 1px solid var(--border-neon);
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    .header-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .header-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    .status-pill {
+      background: rgba(0, 230, 118, 0.15);
+      border: 1px solid var(--green);
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .metric-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-neon);
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .metric-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .metric-value {
+      font-size: 26px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+
+    .metric-trend {
+      font-size: 11px;
+      margin-top: 6px;
+      color: var(--green);
+    }
+
+    .section-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-neon);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 580px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid #222246;
+      font-size: 13px;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .badge-live {
+      background: rgba(255, 23, 68, 0.2);
+      color: #ff5252;
+      border: 1px solid #ff5252;
+    }
+
+    .badge-pk {
+      background: rgba(0, 229, 255, 0.16);
+      color: var(--cyan);
+      border: 1px solid var(--cyan);
+    }
+
+    .badge-upi {
+      background: rgba(0, 230, 118, 0.16);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    .btn {
+      border: none;
+      border-radius: 8px;
+      padding: 7px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-right: 6px;
+    }
+
+    .btn-terminate, .btn-ban {
+      background: var(--red);
+      color: #ffffff;
+    }
+
+    .btn-approve {
+      background: var(--green);
+      color: #000000;
+    }
+
+    .btn-dismiss {
+      background: #2b2b54;
+      color: #ffffff;
+    }
+
+    .toast-banner {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      background: #1a1a3a;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      display: none;
+      z-index: 9999;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div>
+      <div class="header-title">👑 QLUVX • Web Admin &amp; Moderation Console</div>
+      <div class="header-sub">Package: com.aistudio.qluvx.wallaclone • Real-Time Agora Streams, Google Play IAP &amp; Diamond Cashout Engine</div>
+    </div>
+    <div class="status-pill">● SYSTEM ONLINE • PostGIS + Redis 7 + Agora RTC</div>
+  </div>
+
+  <!-- 1. LIVE METRICS -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Daily Active Users (DAU)</div>
+      <div class="metric-value" id="metricDau" style="color: var(--cyan);">48,920</div>
+      <div class="metric-trend">▲ +14.2% vs yesterday (3,410 online now)</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Live Running Streams</div>
+      <div class="metric-value" id="metricStreams" style="color: var(--pink);">142</div>
+      <div class="metric-trend">86 Solo Streams • 34 PK Battles • 22 Voice Rooms</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Daily Coin Sales Revenue (₹)</div>
+      <div class="metric-value" id="metricRevenue" style="color: var(--green);">₹4,82,650</div>
+      <div class="metric-trend">▲ Google Play Verified IAP + VIP Subscriptions</div>
+    </div>
+
+    <div class="metric-card">
+      <div class="metric-label">Pending Diamond Payouts</div>
+      <div class="metric-value" id="metricPayouts" style="color: var(--gold);">₹68,500</div>
+      <div class="metric-trend" id="metricPayoutCount">3 Streamer Requests (1 💎 = ₹0.50 INR)</div>
+    </div>
+  </div>
+
+  <!-- 2. LIVE STREAM MODERATION -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title">🎥 Live Stream &amp; PK Battle Moderation (1-Click Kill Switch)</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Room ID</th>
+            <th>Host Streamer</th>
+            <th>Mode</th>
+            <th>Viewers</th>
+            <th>Diamonds Earned</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="streamTableBody">
+          <tr id="stream-row-1">
+            <td>#PK-99201</td>
+            <td>Julian Vance (QL-884920) vs Leo King</td>
+            <td><span class="badge badge-pk">5-MIN PK BATTLE</span></td>
+            <td>1,840</td>
+            <td>14,200 💎</td>
+            <td>
+              <button class="btn btn-terminate" onclick="terminateStream('stream-row-1', '#PK-99201')">Terminate Stream</button>
+            </td>
+          </tr>
+          <tr id="stream-row-2">
+            <td>#LIVE-44812</td>
+            <td>Aarav Sharma (QL-331094)</td>
+            <td><span class="badge badge-live">SOLO VIDEO LIVE</span></td>
+            <td>620</td>
+            <td>5,400 💎</td>
+            <td>
+              <button class="btn btn-terminate" onclick="terminateStream('stream-row-2', '#LIVE-44812')">Terminate Stream</button>
+            </td>
+          </tr>
+          <tr id="stream-row-3">
+            <td>#VOICE-77310</td>
+            <td>Royal Midnight Lounge (8-Seat Mic)</td>
+            <td><span class="badge badge-pk">VOICE PARTY</span></td>
+            <td>950</td>
+            <td>9,850 💎</td>
+            <td>
+              <button class="btn btn-terminate" onclick="terminateStream('stream-row-3', '#VOICE-77310')">Terminate Stream</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 3. USER REPORTS QUEUE (UGC POLICY) -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title">🚨 Google Play UGC User Reports Queue</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Report ID</th>
+            <th>Reported User</th>
+            <th>Reason</th>
+            <th>Reporter</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="report-row-1">
+            <td>#REP-801</td>
+            <td>VikramX_99 (QL-774120)</td>
+            <td>Objectionable broadcast behavior in Live Room</td>
+            <td>QL-109432</td>
+            <td>
+              <button class="btn btn-ban" onclick="resolveReport('report-row-1', 'Banned Account QL-774120')">Ban Account</button>
+              <button class="btn btn-dismiss" onclick="resolveReport('report-row-1', 'Dismissed Report #REP-801')">Dismiss</button>
+            </td>
+          </tr>
+          <tr id="report-row-2">
+            <td>#REP-802</td>
+            <td>SpamBot_24 (QL-663918)</td>
+            <td>Spam external links in Nearby Chat</td>
+            <td>QL-552019</td>
+            <td>
+              <button class="btn btn-ban" onclick="resolveReport('report-row-2', 'Banned Account QL-663918')">Ban Account</button>
+              <button class="btn btn-dismiss" onclick="resolveReport('report-row-2', 'Dismissed Report #REP-802')">Dismiss</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 4. STREAMER DIAMOND PAYOUT APPROVALS -->
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-title">💎 Streamer Diamond Payout Approvals (1 Diamond = ₹0.50 INR • Min 5,000 💎)</div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Payout ID</th>
+            <th>Streamer</th>
+            <th>Diamonds</th>
+            <th>Cashout Amount (INR)</th>
+            <th>Method &amp; Account</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="payout-row-1">
+            <td>#PAY-5501</td>
+            <td>Julian Vance (QL-884920)</td>
+            <td>50,000 💎</td>
+            <td style="color: var(--green); font-weight: 800;">₹25,000.00</td>
+            <td><span class="badge badge-upi">UPI</span> julianvance@upi</td>
+            <td>
+              <button class="btn btn-approve" onclick="approvePayout('payout-row-1', 25000, 'julianvance@upi')">Approve &amp; Pay</button>
+              <button class="btn btn-dismiss" onclick="rejectPayout('payout-row-1')">Reject</button>
+            </td>
+          </tr>
+          <tr id="payout-row-2">
+            <td>#PAY-5502</td>
+            <td>Rohan Kapoor (QL-449102)</td>
+            <td>35,000 💎</td>
+            <td style="color: var(--green); font-weight: 800;">₹17,500.00</td>
+            <td><span class="badge badge-pk">IMPS</span> A/C 50100482910 • HDFC0001234</td>
+            <td>
+              <button class="btn btn-approve" onclick="approvePayout('payout-row-2', 17500, 'IMPS HDFC0001234')">Approve &amp; Pay</button>
+              <button class="btn btn-dismiss" onclick="rejectPayout('payout-row-2')">Reject</button>
+            </td>
+          </tr>
+          <tr id="payout-row-3">
+            <td>#PAY-5503</td>
+            <td>Alex Rivera (QL-918273)</td>
+            <td>52,000 💎</td>
+            <td style="color: var(--green); font-weight: 800;">₹26,000.00</td>
+            <td><span class="badge badge-live">PAYPAL</span> alex.rivera@paypal.com</td>
+            <td>
+              <button class="btn btn-approve" onclick="approvePayout('payout-row-3', 26000, 'alex.rivera@paypal.com')">Approve &amp; Pay</button>
+              <button class="btn btn-dismiss" onclick="rejectPayout('payout-row-3')">Reject</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="toastBanner" class="toast-banner"></div>
+
+  <script>
+    let activeStreams = 142;
+    let pendingPayoutInr = 68500;
+    let pendingPayoutCount = 3;
+
+    function showToast(msg) {
+      const el = document.getElementById("toastBanner");
+      el.textContent = msg;
+      el.style.display = "block";
+      setTimeout(() => {
+        el.style.display = "none";
+      }, 3000);
+    }
+
+    function terminateStream(rowId, roomCode) {
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.remove();
+        activeStreams = Math.max(0, activeStreams - 1);
+        document.getElementById("metricStreams").textContent = String(activeStreams);
+        showToast("🛑 Agora Channel " + roomCode + " terminated immediately.");
+      }
+    }
+
+    function resolveReport(rowId, actionText) {
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.remove();
+        showToast("✅ UGC Moderation Action: " + actionText);
+      }
+    }
+
+    function approvePayout(rowId, amountInr, destination) {
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.remove();
+        pendingPayoutInr = Math.max(0, pendingPayoutInr - amountInr);
+        pendingPayoutCount = Math.max(0, pendingPayoutCount - 1);
+        document.getElementById("metricPayouts").textContent = "₹" + pendingPayoutInr.toLocaleString("en-IN");
+        document.getElementById("metricPayoutCount").textContent = pendingPayoutCount + " Streamer Requests (1 💎 = ₹0.50 INR)";
+        showToast("💸 Disbursed ₹" + amountInr.toLocaleString("en-IN") + " to " + destination);
+      }
+    }
+
+    function rejectPayout(rowId) {
+      const row = document.getElementById(rowId);
+      if (row) {
+        row.remove();
+        pendingPayoutCount = Math.max(0, pendingPayoutCount - 1);
+        document.getElementById("metricPayoutCount").textContent = pendingPayoutCount + " Streamer Requests (1 💎 = ₹0.50 INR)";
+        showToast("⚠️ Payout request rejected and diamonds refunded to streamer wallet.");
+      }
+    }
+  </script>
+</body>
+</html>

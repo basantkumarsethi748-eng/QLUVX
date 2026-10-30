@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base Application Theme (Clean Android Dark Slate, No Action Bar) -->
-    <style name="Theme.QLUVX" parent="@android:style/Theme.Material.NoActionBar">
+    <!-- Base Application Theme (MaterialComponents Dark Luxury, No Action Bar) -->
+    <style name="Theme.QLUVX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/qluvx_primary</item>
+        <item name="colorPrimaryVariant">@color/qluvx_bg_secondary</item>
+        <item name="colorSecondary">@color/qluvx_accent_sky</item>
         <item name="android:windowBackground">@color/qluvx_bg_primary</item>
-        <item name="android:statusBarColor">@color/qluvx_bg_primary</item>
-        <item name="android:navigationBarColor">@color/qluvx_bg_secondary</item>
-        <item name="android:colorPrimary">@color/qluvx_primary</item>
-        <item name="android:colorAccent">@color/qluvx_accent_sky</item>
+        <item name="android:statusBarColor">#0A0A18</item>
+        <item name="android:navigationBarColor">#121226</item>
         <item name="android:textColorPrimary">@color/qluvx_text_primary</item>
         <item name="android:textColorSecondary">@color/qluvx_text_secondary</item>
     </style>

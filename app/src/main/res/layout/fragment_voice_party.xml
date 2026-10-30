@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D081D"
+    android:padding="16dp">
+
+    <!-- Top Room Header -->
+    <LinearLayout
+        android:id="@+id/topHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="👑 Midnight Velvet Lounge"
+                android:textColor="#FFD700"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Room ID: 99012 • 148 Online"
+                android:textColor="#00E676"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnLuckySpin"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:backgroundTint="#E91E63"
+            android:text="🎡 Lucky Spin"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <!-- 8-Seat Grid Layout -->
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/topHeader"
+        android:layout_marginTop="24dp"
+        android:columnCount="4"
+        android:rowCount="2">
+
+        <!-- Seat 1 (Host) -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#281E46"
+                android:gravity="center"
+                android:text="👑"
+                android:textSize="28sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Host • Julian"
+                android:textColor="#FFD700"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 2 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#1E1E38"
+                android:gravity="center"
+                android:text="🎙️"
+                android:textSize="24sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Aarav"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 3 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#1E1E38"
+                android:gravity="center"
+                android:text="🎙️"
+                android:textSize="24sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Rohan"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 4 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#16162A"
+                android:gravity="center"
+                android:text="➕"
+                android:textSize="22sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Seat 4"
+                android:textColor="#777799"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 5 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#16162A"
+                android:gravity="center"
+                android:text="➕"
+                android:textSize="22sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Seat 5"
+                android:textColor="#777799"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 6 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#16162A"
+                android:gravity="center"
+                android:text="➕"
+                android:textSize="22sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Seat 6"
+                android:textColor="#777799"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 7 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#16162A"
+                android:gravity="center"
+                android:text="➕"
+                android:textSize="22sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Seat 7"
+                android:textColor="#777799"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- Seat 8 -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="8dp"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:background="#16162A"
+                android:gravity="center"
+                android:text="🔒"
+                android:textSize="20sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="VIP Seat"
+                android:textColor="#FFD700"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </GridLayout>
+
+    <!-- Bottom Controls -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:background="#181834"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp">
+
+        <Button
+            android:id="@+id/ivMicToggle"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="#00E676"
+            android:text="🎙️ Mic ON"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/ivSoundboard"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:backgroundTint="#252548"
+            android:text="🔊 SFX"
+            android:textAllCaps="false"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/ivGift"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:backgroundTint="#FFD700"
+            android:text="🎁 Send Gift"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

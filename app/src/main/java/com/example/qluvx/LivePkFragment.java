@@ -339,10 +339,10 @@ public class LivePkFragment extends Fragment {
     private void animatePkTugOfWarBar(boolean animateSlide) {
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
         if (tvScoreRed != null) {
-            tvScoreRed.setText("🔥 RED " + nf.format(redScore));
+            tvScoreRed.setText(nf.format(redScore));
         }
         if (tvScoreBlue != null) {
-            tvScoreBlue.setText(nf.format(blueScore) + " BLUE ❄️");
+            tvScoreBlue.setText(nf.format(blueScore));
         }
 
         if (barRedSegment == null || barBlueSegment == null) return;
@@ -386,10 +386,10 @@ public class LivePkFragment extends Fragment {
         if (ctx == null) return;
 
         String[] gifts = new String[]{
-                "🌹 Neon Rose to RED (10 🪙)  •  +500 PK Score",
-                "🏎️ Cyber Sports Car to BLUE (100 🪙)  •  +1,000 PK Score",
-                "🚀 Interstellar Rocket to RED (500 🪙)  •  +2,500 PK Score",
-                "👑 Imperial Dragon Crown to BLUE (1,000 🪙)  •  +5,000 PK Score"
+                "🌹 Electric Rose to Alex (10 🪙)  •  +500 PK",
+                "🏎️ Luxury Sports Car to Ryan (100 🪙)  •  +1,000 PK",
+                "🚀 Interstellar Rocket to Alex (500 🪙)  •  +2,500 PK",
+                "👑 Imperial Dragon Crown to Ryan (1,000 🪙)  •  +5,000 PK"
         };
 
         new AlertDialog.Builder(ctx)
@@ -398,7 +398,7 @@ public class LivePkFragment extends Fragment {
                     int[] costs = {10, 100, 500, 1000};
                     int[] points = {500, 1000, 2500, 5000};
                     boolean[] toRed = {true, false, true, false};
-                    String[] names = {"🌹 NEON ROSE", "🏎️ CYBER SPORTS CAR", "🚀 INTERSTELLAR ROCKET", "👑 IMPERIAL DRAGON CROWN"};
+                    String[] names = {"🌹 ELECTRIC ROSE", "🏎️ LUXURY SPORTS CAR", "🚀 INTERSTELLAR ROCKET", "👑 IMPERIAL DRAGON CROWN"};
                     sendPkGift(toRed[which], names[which], points[which], costs[which]);
                 })
                 .show();
@@ -407,10 +407,10 @@ public class LivePkFragment extends Fragment {
     private void seedInitialChatMessages() {
         if (llLiveChatMessages == null) return;
         llLiveChatMessages.removeAllViews();
-        appendLiveChatMessage("🛡️ System", "Real CameraX Live PK & Looping HD Challenger Stream Active! Tap '+500 Gift Red' or '+500 Gift Blue' for a Gift Blast!", "#00E5FF");
-        appendLiveChatMessage("👑 Kabir (Lv.42)", "Live camera feed & beauty glow look fire tonight 🔥🔥", "#F1C40F");
-        appendLiveChatMessage("💎 Zayn_BLR", "Sent 🏎️ Luxury Sports Car to Alex Royal!", "#FF2A7A");
-        appendLiveChatMessage("⚡ Liam_23", "Team Blue let's catch up! Ryan drop the beat 🎧", "#00E5FF");
+        appendLiveChatMessage("System", "Live Camera & HD PK Battle Active", "#8E8E93");
+        appendLiveChatMessage("👑 Kabir", "Lighting and camera look super clean tonight", "#E6B800");
+        appendLiveChatMessage("Zayn", "Sent 🏎️ Luxury Sports Car to Alex Royal", "#FF4585");
+        appendLiveChatMessage("Liam", "Ryan drop the progressive house mix", "#8E8E93");
     }
 
     private void appendLiveChatMessage(String sender, String message, String senderHexColor) {
@@ -418,17 +418,30 @@ public class LivePkFragment extends Fragment {
         if (ctx == null || llLiveChatMessages == null) return;
 
         TextView tvMsg = new TextView(ctx);
-        String full = sender + ": " + message;
+        String full = sender + "  " + message;
         SpannableString span = new SpannableString(full);
         span.setSpan(new ForegroundColorSpan(Color.parseColor(senderHexColor)),
-                0, sender.length() + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                0, sender.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         span.setSpan(new ForegroundColorSpan(Color.WHITE),
-                sender.length() + 1, full.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                sender.length(), full.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         tvMsg.setText(span);
-        tvMsg.setTextSize(11.5f);
+        tvMsg.setTextSize(11f);
         tvMsg.setTypeface(Typeface.DEFAULT_BOLD);
-        tvMsg.setPadding(0, dp(2), 0, dp(3));
+        tvMsg.setBackgroundResource(R.drawable.bg_live_comment_pill);
+        tvMsg.setPadding(dp(11), dp(5), dp(11), dp(5));
+
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        lp.bottomMargin = dp(5);
+        tvMsg.setLayoutParams(lp);
+
+        // Smooth fade-in for translucent floating comment pill
+        tvMsg.setAlpha(0f);
+        tvMsg.animate().alpha(0.92f).setDuration(260L).start();
+
         llLiveChatMessages.addView(tvMsg);
 
         if (svLiveChat != null) {

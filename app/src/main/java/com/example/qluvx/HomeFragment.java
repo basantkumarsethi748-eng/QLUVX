@@ -214,25 +214,25 @@ public class HomeFragment extends Fragment {
             FrameLayout ringFrame = new FrameLayout(ctx);
             ringFrame.setLayoutParams(new LinearLayout.LayoutParams(dp(64), dp(64)));
 
-            // Pulsing Neon Gradient Ring
+            // Pulsing Signature Electric Rose or Champagne Gold Ring
             View pulseRing = new View(ctx);
-            FrameLayout.LayoutParams ringLp = new FrameLayout.LayoutParams(dp(62), dp(62), Gravity.CENTER);
+            FrameLayout.LayoutParams ringLp = new FrameLayout.LayoutParams(dp(60), dp(60), Gravity.CENTER);
             pulseRing.setLayoutParams(ringLp);
             GradientDrawable ringDrawable = new GradientDrawable();
             ringDrawable.setShape(GradientDrawable.OVAL);
             ringDrawable.setColor(Color.TRANSPARENT);
-            ringDrawable.setStroke(dp(2), isVoiceRoom ? Color.parseColor("#00E5FF") : Color.parseColor("#FF2A7A"));
+            ringDrawable.setStroke(dp(2), isVoiceRoom ? Color.parseColor("#E6B800") : Color.parseColor("#FF1B6B"));
             pulseRing.setBackground(ringDrawable);
             ringFrame.addView(pulseRing);
 
             // Animate Pulse
             ObjectAnimator pulse = ObjectAnimator.ofPropertyValuesHolder(
                     pulseRing,
-                    PropertyValuesHolder.ofFloat(View.SCALE_X, 0.94f, 1.07f),
-                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.94f, 1.07f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_X, 0.96f, 1.05f),
+                    PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.96f, 1.05f),
                     PropertyValuesHolder.ofFloat(View.ALPHA, 1.0f, 0.45f)
             );
-            pulse.setDuration(950 + (portraitIdx * 90L));
+            pulse.setDuration(1050 + (portraitIdx * 90L));
             pulse.setRepeatCount(ValueAnimator.INFINITE);
             pulse.setRepeatMode(ValueAnimator.REVERSE);
             pulse.start();
@@ -240,11 +240,11 @@ public class HomeFragment extends Fragment {
 
             // Circular Portrait Card inside Ring
             CardView avatarCard = new CardView(ctx);
-            FrameLayout.LayoutParams cardLp = new FrameLayout.LayoutParams(dp(52), dp(52), Gravity.CENTER);
+            FrameLayout.LayoutParams cardLp = new FrameLayout.LayoutParams(dp(50), dp(50), Gravity.CENTER);
             avatarCard.setLayoutParams(cardLp);
-            avatarCard.setRadius(dp(26));
+            avatarCard.setRadius(dp(25));
             avatarCard.setCardElevation(0f);
-            avatarCard.setCardBackgroundColor(Color.parseColor("#141424"));
+            avatarCard.setCardBackgroundColor(Color.parseColor("#13131D"));
 
             ImageView ivHost = new ImageView(ctx);
             ivHost.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -261,15 +261,12 @@ public class HomeFragment extends Fragment {
                     Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL
             );
             tvBadge.setLayoutParams(badgeLp);
-            tvBadge.setText(badgeText);
-            tvBadge.setTextColor(Color.WHITE);
-            tvBadge.setTextSize(8.5f);
+            tvBadge.setText(isVoiceRoom ? "VOICE" : "LIVE");
+            tvBadge.setTextColor(isVoiceRoom ? Color.parseColor("#E6B800") : Color.WHITE);
+            tvBadge.setTextSize(8f);
             tvBadge.setTypeface(Typeface.DEFAULT_BOLD);
             tvBadge.setPadding(dp(6), dp(1), dp(6), dp(1));
-            tvBadge.setBackgroundResource(isVoiceRoom ? R.drawable.bg_walla_cyan_pill : R.drawable.bg_walla_pink_pill);
-            if (isVoiceRoom) {
-                tvBadge.setTextColor(Color.parseColor("#0A0A14"));
-            }
+            tvBadge.setBackgroundResource(isVoiceRoom ? R.drawable.bg_walla_pill_dark : R.drawable.bg_walla_pink_pill);
             ringFrame.addView(tvBadge);
 
             item.addView(ringFrame);
@@ -284,8 +281,8 @@ public class HomeFragment extends Fragment {
             item.addView(tvName);
 
             TextView tvViewers = new TextView(ctx);
-            tvViewers.setText("👁 " + viewers);
-            tvViewers.setTextColor(Color.parseColor("#9E9EBC"));
+            tvViewers.setText(viewers);
+            tvViewers.setTextColor(Color.parseColor("#8E8E93"));
             tvViewers.setTextSize(9.5f);
             item.addView(tvViewers);
 
@@ -337,31 +334,31 @@ public class HomeFragment extends Fragment {
 
     private void showFilterDialog(TextView btnFilter) {
         String[] options = new String[]{
-                "🔥 All Guys Nearby",
-                "💖 Role: Top Only",
-                "💎 Role: Versatile Only",
-                "💜 Role: Bottom Only",
-                "🟢 Online Right Now Only"
+                "All Guys Nearby",
+                "Role: Top Only",
+                "Role: Versatile Only",
+                "Role: Bottom Only",
+                "Online Right Now Only"
         };
         new AlertDialog.Builder(requireContext())
-                .setTitle("⚡ Walla Discovery Filter")
+                .setTitle("Discovery Filter")
                 .setItems(options, (dialog, which) -> {
                     if (which == 0) {
                         activeRoleFilter = "All";
                         onlineOnlyFilter = false;
-                        btnFilter.setText("⚡ Filter");
+                        btnFilter.setText("Filter");
                     } else if (which == 1) {
                         activeRoleFilter = "Top";
-                        btnFilter.setText("⚡ Top");
+                        btnFilter.setText("Top");
                     } else if (which == 2) {
                         activeRoleFilter = "Versatile";
-                        btnFilter.setText("⚡ Vers");
+                        btnFilter.setText("Vers");
                     } else if (which == 3) {
                         activeRoleFilter = "Bottom";
-                        btnFilter.setText("⚡ Bottom");
+                        btnFilter.setText("Bottom");
                     } else if (which == 4) {
                         onlineOnlyFilter = true;
-                        btnFilter.setText("🟢 Online");
+                        btnFilter.setText("Online");
                     }
                     updateChipStyles();
                     applyFilters();
@@ -373,21 +370,22 @@ public class HomeFragment extends Fragment {
         if (chipAll == null) return;
         boolean isAll = "All".equalsIgnoreCase(activeRoleFilter) && !onlineOnlyFilter;
         chipAll.setBackgroundResource(isAll ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_glass_card);
+        chipAll.setTextColor(isAll ? Color.WHITE : Color.parseColor("#8E8E93"));
 
-        chipOnline.setBackgroundResource(onlineOnlyFilter ? R.drawable.bg_walla_cyan_pill : R.drawable.bg_walla_glass_card);
-        chipOnline.setTextColor(onlineOnlyFilter ? Color.parseColor("#0A0A14") : Color.parseColor("#00E676"));
+        chipOnline.setBackgroundResource(onlineOnlyFilter ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_glass_card);
+        chipOnline.setTextColor(onlineOnlyFilter ? Color.WHITE : Color.parseColor("#8E8E93"));
 
         boolean isTop = "Top".equalsIgnoreCase(activeRoleFilter);
         chipTop.setBackgroundResource(isTop ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_glass_card);
-        chipTop.setTextColor(isTop ? Color.WHITE : Color.parseColor("#FF2A7A"));
+        chipTop.setTextColor(isTop ? Color.WHITE : Color.parseColor("#8E8E93"));
 
         boolean isVers = "Versatile".equalsIgnoreCase(activeRoleFilter);
-        chipVersatile.setBackgroundResource(isVers ? R.drawable.bg_walla_cyan_pill : R.drawable.bg_walla_glass_card);
-        chipVersatile.setTextColor(isVers ? Color.parseColor("#0A0A14") : Color.parseColor("#00E5FF"));
+        chipVersatile.setBackgroundResource(isVers ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_glass_card);
+        chipVersatile.setTextColor(isVers ? Color.WHITE : Color.parseColor("#8E8E93"));
 
         boolean isBottom = "Bottom".equalsIgnoreCase(activeRoleFilter);
         chipBottom.setBackgroundResource(isBottom ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_glass_card);
-        chipBottom.setTextColor(isBottom ? Color.WHITE : Color.parseColor("#CE93D8"));
+        chipBottom.setTextColor(isBottom ? Color.WHITE : Color.parseColor("#8E8E93"));
     }
 
     private void applyFilters() {

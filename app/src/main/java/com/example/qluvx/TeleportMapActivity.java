@@ -172,7 +172,7 @@ public class TeleportMapActivity extends AppCompatActivity {
 
         TextView tvOnlinePill = new TextView(this);
         tvOnlinePill.setText("🟢 " + spec.onlineCount);
-        tvOnlinePill.setTextColor(Color.parseColor("#00E676"));
+        tvOnlinePill.setTextColor(Color.parseColor("#30D158"));
         tvOnlinePill.setTextSize(10f);
         tvOnlinePill.setTypeface(Typeface.DEFAULT_BOLD);
         headerRow.addView(tvOnlinePill);
@@ -182,7 +182,7 @@ public class TeleportMapActivity extends AppCompatActivity {
         // District Vibe & GPS Coords
         TextView tvDistrict = new TextView(this);
         tvDistrict.setText(spec.districtVibe);
-        tvDistrict.setTextColor(Color.parseColor("#00E5FF"));
+        tvDistrict.setTextColor(Color.WHITE);
         tvDistrict.setTextSize(10.5f);
         tvDistrict.setTypeface(Typeface.DEFAULT_BOLD);
         tvDistrict.setPadding(0, dp(3), 0, dp(2));
@@ -190,7 +190,7 @@ public class TeleportMapActivity extends AppCompatActivity {
 
         TextView tvCoords = new TextView(this);
         tvCoords.setText("🛰️ " + spec.gpsCoords);
-        tvCoords.setTextColor(Color.parseColor("#9E9EBC"));
+        tvCoords.setTextColor(Color.parseColor("#8E8E93"));
         tvCoords.setTextSize(9.5f);
         card.addView(tvCoords);
 
@@ -207,7 +207,7 @@ public class TeleportMapActivity extends AppCompatActivity {
             cv.setLayoutParams(cvLp);
             cv.setRadius(dp(17));
             cv.setCardElevation(0f);
-            cv.setCardBackgroundColor(Color.parseColor("#1E1E36"));
+            cv.setCardBackgroundColor(Color.parseColor("#13131D"));
 
             ImageView iv = new ImageView(this);
             iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -217,8 +217,8 @@ public class TeleportMapActivity extends AppCompatActivity {
         }
 
         TextView tvMoreGuys = new TextView(this);
-        tvMoreGuys.setText("  + Hot Guys");
-        tvMoreGuys.setTextColor(Color.parseColor("#F1C40F"));
+        tvMoreGuys.setText("  + Nearby");
+        tvMoreGuys.setTextColor(Color.parseColor("#E6B800"));
         tvMoreGuys.setTextSize(10f);
         tvMoreGuys.setTypeface(Typeface.DEFAULT_BOLD);
         avatarsRow.addView(tvMoreGuys);
@@ -231,8 +231,8 @@ public class TeleportMapActivity extends AppCompatActivity {
         btnTeleportHere.setAllCaps(false);
         btnTeleportHere.setTextSize(11.5f);
         btnTeleportHere.setTypeface(Typeface.DEFAULT_BOLD);
-        btnTeleportHere.setTextColor(isCurrentlyTeleported ? Color.parseColor("#0A0A14") : Color.WHITE);
-        btnTeleportHere.setBackgroundResource(isCurrentlyTeleported ? R.drawable.bg_walla_cyan_pill : R.drawable.bg_walla_pink_pill);
+        btnTeleportHere.setTextColor(Color.WHITE);
+        btnTeleportHere.setBackgroundResource(isCurrentlyTeleported ? R.drawable.bg_walla_pill_dark : R.drawable.bg_walla_pink_pill);
         LinearLayout.LayoutParams btnLp = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, dp(36));
         btnTeleportHere.setLayoutParams(btnLp);
@@ -291,12 +291,12 @@ public class TeleportMapActivity extends AppCompatActivity {
         public RadarScannerView(Context context) {
             super(context);
             ringPaint.setStyle(Paint.Style.STROKE);
-            ringPaint.setStrokeWidth(3f);
-            ringPaint.setColor(Color.parseColor("#4400E5FF"));
+            ringPaint.setStrokeWidth(2.5f);
+            ringPaint.setColor(Color.parseColor("#2EFFFFFF"));
 
             crossPaint.setStyle(Paint.Style.STROKE);
-            crossPaint.setStrokeWidth(2f);
-            crossPaint.setColor(Color.parseColor("#2800E5FF"));
+            crossPaint.setStrokeWidth(1.5f);
+            crossPaint.setColor(Color.parseColor("#1EFFFFFF"));
 
             blipPaint.setStyle(Paint.Style.FILL);
 
@@ -339,7 +339,7 @@ public class TeleportMapActivity extends AppCompatActivity {
             canvas.rotate(sweepAngle, cx, cy);
             SweepGradient gradient = new SweepGradient(
                     cx, cy,
-                    new int[]{Color.TRANSPARENT, Color.parseColor("#1000E5FF"), Color.parseColor("#8800E5FF")},
+                    new int[]{Color.TRANSPARENT, Color.parseColor("#14FF1B6B"), Color.parseColor("#88FF1B6B")},
                     new float[]{0f, 0.72f, 1f}
             );
             sweepPaint.setShader(gradient);
@@ -354,12 +354,12 @@ public class TeleportMapActivity extends AppCompatActivity {
             for (int i = 0; i < blips.length; i++) {
                 float bx = cx + blips[i][0] * maxR;
                 float by = cy + blips[i][1] * maxR;
-                blipPaint.setColor(i % 2 == 0 ? Color.parseColor("#FF2A7A") : Color.parseColor("#00E676"));
+                blipPaint.setColor(i % 2 == 0 ? Color.parseColor("#FF1B6B") : Color.parseColor("#30D158"));
                 canvas.drawCircle(bx, by, 7f, blipPaint);
             }
 
             // Center GPS Beacon Dot
-            blipPaint.setColor(Color.parseColor("#F1C40F"));
+            blipPaint.setColor(Color.parseColor("#E6B800"));
             canvas.drawCircle(cx, cy, 9f, blipPaint);
         }
     }

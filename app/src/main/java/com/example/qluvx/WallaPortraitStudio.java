@@ -91,24 +91,40 @@ public class WallaPortraitStudio {
         return REAL_LIVE_PK_VIDEO_STREAMS[safeIdx];
     }
 
+    private static final int[] LOCAL_HD_PORTRAIT_RES = new int[]{
+            R.drawable.img_avatar_0,
+            R.drawable.img_avatar_1,
+            R.drawable.img_avatar_2,
+            R.drawable.img_avatar_4,
+            R.drawable.img_avatar_5,
+            R.drawable.img_avatar_6,
+            R.drawable.img_avatar_7,
+            R.drawable.img_avatar_8,
+            R.drawable.img_avatar_9,
+            R.drawable.img_avatar_10,
+            R.drawable.img_avatar_11,
+            R.drawable.img_avatar_3
+    };
+
     /**
-     * Loads a real HD male portrait photo from Unsplash into the target ImageView using Glide.
+     * Loads a real HD male portrait photo from Unsplash into the target ImageView using Glide,
+     * with bundled real portrait photography as immediate zero-latency fallback.
      */
     public static void loadGuyPhoto(Context context, ImageView imageView, int index) {
         if (context == null || imageView == null) return;
         String url = getGuyPhotoUrl(index);
-        Drawable placeholder = createSleekDarkShimmerDrawable(index);
+        int fallbackRes = LOCAL_HD_PORTRAIT_RES[Math.abs(index) % LOCAL_HD_PORTRAIT_RES.length];
         try {
             Glide.with(context)
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(placeholder)
-                    .error(placeholder)
+                    .placeholder(fallbackRes)
+                    .error(fallbackRes)
                     .centerCrop()
-                    .transition(DrawableTransitionOptions.withCrossFade(220))
+                    .transition(DrawableTransitionOptions.withCrossFade(180))
                     .into(imageView);
         } catch (Exception e) {
-            imageView.setImageDrawable(placeholder);
+            imageView.setImageResource(fallbackRes);
         }
     }
 
@@ -118,18 +134,18 @@ public class WallaPortraitStudio {
     public static void loadSecretBurnPhoto(Context context, ImageView imageView, int index) {
         if (context == null || imageView == null) return;
         String url = getSecretBurnPhotoUrl(index);
-        Drawable placeholder = createSleekDarkShimmerDrawable(index);
+        int fallbackRes = LOCAL_HD_PORTRAIT_RES[Math.abs(index) % LOCAL_HD_PORTRAIT_RES.length];
         try {
             Glide.with(context)
                     .load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(placeholder)
-                    .error(getGuyPhotoUrl(index))
+                    .placeholder(fallbackRes)
+                    .error(fallbackRes)
                     .centerCrop()
                     .transition(DrawableTransitionOptions.withCrossFade(180))
                     .into(imageView);
         } catch (Exception e) {
-            loadGuyPhoto(context, imageView, index);
+            imageView.setImageResource(fallbackRes);
         }
     }
 
@@ -155,10 +171,10 @@ public class WallaPortraitStudio {
 
     private static Drawable createSleekDarkShimmerDrawable(int index) {
         int[][] accents = new int[][]{
-                {0xFF241038, 0xFF0A0A14},
-                {0xFF0D2538, 0xFF0A0A14},
-                {0xFF2D1024, 0xFF0A0A14},
-                {0xFF1A163B, 0xFF0A0A14}
+                {0xFF13131D, 0xFF09090E},
+                {0xFF161322, 0xFF09090E},
+                {0xFF1B121D, 0xFF09090E},
+                {0xFF131722, 0xFF09090E}
         };
         int[] pair = accents[Math.abs(index) % accents.length];
         GradientDrawable gd = new GradientDrawable(

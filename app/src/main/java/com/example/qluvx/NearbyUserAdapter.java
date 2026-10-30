@@ -57,20 +57,9 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
             holder.tvVerifiedBadge.setVisibility(user.isVerified ? View.VISIBLE : View.GONE);
         }
 
-        // Style Role Chip ("Top", "Versatile", "Bottom")
-        GradientDrawable roleBg = new GradientDrawable();
-        roleBg.setCornerRadius(999f);
-        if ("Top".equalsIgnoreCase(user.role)) {
-            roleBg.setColor(Color.parseColor("#FF2A7A"));
-            holder.tvRoleTag.setTextColor(Color.WHITE);
-        } else if ("Bottom".equalsIgnoreCase(user.role)) {
-            roleBg.setColor(Color.parseColor("#8E24AA"));
-            holder.tvRoleTag.setTextColor(Color.WHITE);
-        } else {
-            roleBg.setColor(Color.parseColor("#00E5FF"));
-            holder.tvRoleTag.setTextColor(Color.parseColor("#0A0A14"));
-        }
-        holder.tvRoleTag.setBackground(roleBg);
+        // Minimalist role caption without clunky colored background boxes
+        holder.tvRoleTag.setBackground(null);
+        holder.tvRoleTag.setTextColor(Color.parseColor("#C7C7CC"));
 
         holder.viewOnline.setVisibility(user.isOnline ? View.VISIBLE : View.INVISIBLE);
 
@@ -91,7 +80,7 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
         LinearLayout root = new LinearLayout(context);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(20);
         root.setPadding(pad, dp(14), pad, dp(24));
 
@@ -99,23 +88,23 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
         View dragHandle = new View(context);
         GradientDrawable handleBg = new GradientDrawable();
         handleBg.setCornerRadius(dp(4));
-        handleBg.setColor(Color.parseColor("#44FFFFFF"));
+        handleBg.setColor(Color.parseColor("#33FFFFFF"));
         dragHandle.setBackground(handleBg);
-        LinearLayout.LayoutParams handleLp = new LinearLayout.LayoutParams(dp(44), dp(4));
+        LinearLayout.LayoutParams handleLp = new LinearLayout.LayoutParams(dp(40), dp(4));
         handleLp.bottomMargin = dp(14);
         root.addView(dragHandle, handleLp);
 
         // Large DP with Golden Dragon Frame
         FrameLayout dpFrameContainer = new FrameLayout(context);
-        LinearLayout.LayoutParams frameLp = new LinearLayout.LayoutParams(dp(128), dp(128));
+        LinearLayout.LayoutParams frameLp = new LinearLayout.LayoutParams(dp(124), dp(124));
         dpFrameContainer.setLayoutParams(frameLp);
 
         CardView circularDpCard = new CardView(context);
-        FrameLayout.LayoutParams cardLp = new FrameLayout.LayoutParams(dp(88), dp(88), Gravity.CENTER);
+        FrameLayout.LayoutParams cardLp = new FrameLayout.LayoutParams(dp(86), dp(86), Gravity.CENTER);
         circularDpCard.setLayoutParams(cardLp);
-        circularDpCard.setRadius(dp(44));
+        circularDpCard.setRadius(dp(43));
         circularDpCard.setCardElevation(0f);
-        circularDpCard.setCardBackgroundColor(Color.parseColor("#1E1E36"));
+        circularDpCard.setCardBackgroundColor(Color.parseColor("#13131D"));
 
         ImageView ivBigDp = new ImageView(context);
         ivBigDp.setLayoutParams(new FrameLayout.LayoutParams(
@@ -126,14 +115,14 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
         dpFrameContainer.addView(circularDpCard);
 
         ImageView ivDragonFrame = new ImageView(context);
-        ivDragonFrame.setLayoutParams(new FrameLayout.LayoutParams(dp(128), dp(128), Gravity.CENTER));
+        ivDragonFrame.setLayoutParams(new FrameLayout.LayoutParams(dp(124), dp(124), Gravity.CENTER));
         ivDragonFrame.setScaleType(ImageView.ScaleType.FIT_CENTER);
         ivDragonFrame.setImageDrawable(WallaPortraitStudio.getImperialDragonFrameDrawable(context));
         dpFrameContainer.addView(ivDragonFrame);
 
         if (user.isOnline) {
             View onlineDot = new View(context);
-            FrameLayout.LayoutParams dotLp = new FrameLayout.LayoutParams(dp(16), dp(16), Gravity.BOTTOM | Gravity.END);
+            FrameLayout.LayoutParams dotLp = new FrameLayout.LayoutParams(dp(14), dp(14), Gravity.BOTTOM | Gravity.END);
             dotLp.rightMargin = dp(16);
             dotLp.bottomMargin = dp(14);
             onlineDot.setLayoutParams(dotLp);
@@ -147,30 +136,30 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
         TextView tvTitle = new TextView(context);
         tvTitle.setText(user.name + ", " + user.age + (user.isVerified ? "  ✓" : ""));
         tvTitle.setTextColor(Color.WHITE);
-        tvTitle.setTextSize(21f);
+        tvTitle.setTextSize(20f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         tvTitle.setGravity(Gravity.CENTER);
         tvTitle.setPadding(0, dp(10), 0, dp(6));
         root.addView(tvTitle);
 
-        // Role Badge + Distance Pill Row
+        // Minimalist Role + Distance + VIP Pill Row
         LinearLayout badgesRow = new LinearLayout(context);
         badgesRow.setOrientation(LinearLayout.HORIZONTAL);
         badgesRow.setGravity(Gravity.CENTER);
 
         TextView tvRolePill = new TextView(context);
-        tvRolePill.setText("⚡ Role: " + user.role);
+        tvRolePill.setText(user.role);
         tvRolePill.setTextColor(Color.WHITE);
-        tvRolePill.setTextSize(11.5f);
+        tvRolePill.setTextSize(11f);
         tvRolePill.setTypeface(Typeface.DEFAULT_BOLD);
-        tvRolePill.setBackgroundResource(R.drawable.bg_walla_pink_pill);
+        tvRolePill.setBackgroundResource(R.drawable.bg_walla_cyan_pill);
         tvRolePill.setPadding(dp(12), dp(4), dp(12), dp(4));
         badgesRow.addView(tvRolePill);
 
         TextView tvDistPill = new TextView(context);
-        tvDistPill.setText("📍 " + user.distance + " away");
-        tvDistPill.setTextColor(Color.parseColor("#0A0A14"));
-        tvDistPill.setTextSize(11.5f);
+        tvDistPill.setText(user.distance + " away");
+        tvDistPill.setTextColor(Color.parseColor("#8E8E93"));
+        tvDistPill.setTextSize(11f);
         tvDistPill.setTypeface(Typeface.DEFAULT_BOLD);
         tvDistPill.setBackgroundResource(R.drawable.bg_walla_cyan_pill);
         tvDistPill.setPadding(dp(12), dp(4), dp(12), dp(4));
@@ -181,8 +170,8 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
         badgesRow.addView(tvDistPill);
 
         TextView tvVipBadge = new TextView(context);
-        tvVipBadge.setText("🐉 Golden Dragon VIP");
-        tvVipBadge.setTextColor(Color.parseColor("#0A0A14"));
+        tvVipBadge.setText("👑 VIP");
+        tvVipBadge.setTextColor(Color.parseColor("#E6B800"));
         tvVipBadge.setTextSize(11f);
         tvVipBadge.setTypeface(Typeface.DEFAULT_BOLD);
         tvVipBadge.setBackgroundResource(R.drawable.bg_walla_gold_pill);
@@ -197,9 +186,9 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
 
         // Bio / Stats Line
         TextView tvBio = new TextView(context);
-        tvBio.setText(user.bioStats != null ? user.bioStats : "180 cm • 75 kg • Bangalore Verified Member");
-        tvBio.setTextColor(Color.parseColor("#C7C7E2"));
-        tvBio.setTextSize(12.5f);
+        tvBio.setText(user.bioStats != null ? user.bioStats : "180 cm • 75 kg • Verified Member");
+        tvBio.setTextColor(Color.parseColor("#8E8E93"));
+        tvBio.setTextSize(12f);
         tvBio.setGravity(Gravity.CENTER);
         tvBio.setPadding(0, dp(10), 0, dp(16));
         root.addView(tvBio);
@@ -213,9 +202,9 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
 
         // 1. Working "+ Follow" / "✓ Following" Toggle Button
         final Button btnFollow = new Button(context);
-        btnFollow.setLayoutParams(new LinearLayout.LayoutParams(0, dp(46), 1f));
+        btnFollow.setLayoutParams(new LinearLayout.LayoutParams(0, dp(44), 1f));
         btnFollow.setAllCaps(false);
-        btnFollow.setTextSize(12.5f);
+        btnFollow.setTextSize(12f);
         btnFollow.setTypeface(Typeface.DEFAULT_BOLD);
         updateFollowButtonUI(btnFollow, followedUsers.contains(user.name));
 
@@ -228,7 +217,7 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
             } else {
                 followedUsers.add(user.name);
                 nowFollowing = true;
-                Toast.makeText(context, "💖 You are now following " + user.name + "!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Following " + user.name, Toast.LENGTH_SHORT).show();
             }
             updateFollowButtonUI(btnFollow, nowFollowing);
         });
@@ -238,12 +227,12 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
 
         // 2. Working "Chat" Button -> Directly opens 1-on-1 chat screen for that user
         Button btnChat = new Button(context);
-        btnChat.setLayoutParams(new LinearLayout.LayoutParams(0, dp(46), 1f));
-        btnChat.setText("💬 Chat");
+        btnChat.setLayoutParams(new LinearLayout.LayoutParams(0, dp(44), 1f));
+        btnChat.setText("Message");
         btnChat.setAllCaps(false);
-        btnChat.setTextSize(12.5f);
+        btnChat.setTextSize(12f);
         btnChat.setTypeface(Typeface.DEFAULT_BOLD);
-        btnChat.setTextColor(Color.parseColor("#0A0A14"));
+        btnChat.setTextColor(Color.WHITE);
         btnChat.setBackgroundResource(R.drawable.bg_walla_cyan_pill);
         btnChat.setOnClickListener(v -> {
             bottomSheet.dismiss();
@@ -263,12 +252,12 @@ public class NearbyUserAdapter extends RecyclerView.Adapter<NearbyUserAdapter.Vi
 
         // 3. Working "Send Gift" Button -> Opens Virtual Gift Tray
         Button btnSendGift = new Button(context);
-        btnSendGift.setLayoutParams(new LinearLayout.LayoutParams(0, dp(46), 1f));
-        btnSendGift.setText("🎁 Send Gift");
+        btnSendGift.setLayoutParams(new LinearLayout.LayoutParams(0, dp(44), 1f));
+        btnSendGift.setText("Gift");
         btnSendGift.setAllCaps(false);
-        btnSendGift.setTextSize(12.5f);
+        btnSendGift.setTextSize(12f);
         btnSendGift.setTypeface(Typeface.DEFAULT_BOLD);
-        btnSendGift.setTextColor(Color.parseColor("#0A0A14"));
+        btnSendGift.setTextColor(Color.parseColor("#E6B800"));
         btnSendGift.setBackgroundResource(R.drawable.bg_walla_gold_pill);
         btnSendGift.setOnClickListener(v -> showVirtualGiftTray(user));
 

@@ -231,7 +231,7 @@ public class MessagesFragment extends Fragment {
             roleLp.setMarginStart(dp(6));
             tvRole.setLayoutParams(roleLp);
             tvRole.setText(role + " • " + dist);
-            tvRole.setTextColor(Color.parseColor("#00E5FF"));
+            tvRole.setTextColor(Color.parseColor("#8E8E93"));
             tvRole.setTextSize(10.5f);
             tvRole.setTypeface(Typeface.DEFAULT_BOLD);
             titleLine.addView(tvRole);
@@ -245,10 +245,10 @@ public class MessagesFragment extends Fragment {
             tvPreview.setSingleLine(true);
             tvPreview.setPadding(0, dp(4), 0, 0);
             if (isDisappearing) {
-                tvPreview.setTextColor(Color.parseColor("#FF2A7A"));
+                tvPreview.setTextColor(Color.parseColor("#FF4585"));
                 tvPreview.setTypeface(Typeface.DEFAULT_BOLD);
             } else {
-                tvPreview.setTextColor(Color.parseColor("#B8B8D8"));
+                tvPreview.setTextColor(Color.parseColor("#8E8E93"));
             }
             centerCol.addView(tvPreview);
 
@@ -261,15 +261,15 @@ public class MessagesFragment extends Fragment {
                 final TextView btn5sChip = new TextView(ctx);
                 btn5sChip.setText("⏱️ 5s disappearing photo");
                 btn5sChip.setTextColor(Color.WHITE);
-                btn5sChip.setTextSize(10.5f);
+                btn5sChip.setTextSize(10f);
                 btn5sChip.setTypeface(Typeface.DEFAULT_BOLD);
                 btn5sChip.setBackgroundResource(R.drawable.bg_walla_pink_pill);
                 btn5sChip.setPadding(dp(9), dp(3), dp(9), dp(3));
                 btn5sChip.setOnClickListener(v -> {
                     WallaChatOverlay.showFiveSecondBurnPhotoDialog(ctx, nameAge, portraitIdx, () -> {
                         tvPreview.setText("🔥 5s Disappearing Photo (Burned & Destroyed)");
-                        tvPreview.setTextColor(Color.parseColor("#8A8AA8"));
-                        btn5sChip.setText("🔥 Burned");
+                        tvPreview.setTextColor(Color.parseColor("#8E8E93"));
+                        btn5sChip.setText("Burned");
                         btn5sChip.setBackgroundResource(R.drawable.bg_walla_pill_dark);
                     });
                 });
@@ -277,9 +277,9 @@ public class MessagesFragment extends Fragment {
             }
 
             TextView btnOpenChatChip = new TextView(ctx);
-            btnOpenChatChip.setText("💬 Open Chat");
-            btnOpenChatChip.setTextColor(Color.parseColor("#00E5FF"));
-            btnOpenChatChip.setTextSize(10.5f);
+            btnOpenChatChip.setText("Message ›");
+            btnOpenChatChip.setTextColor(Color.WHITE);
+            btnOpenChatChip.setTextSize(10f);
             btnOpenChatChip.setTypeface(Typeface.DEFAULT_BOLD);
             btnOpenChatChip.setBackgroundResource(R.drawable.bg_walla_pill_dark);
             btnOpenChatChip.setPadding(dp(9), dp(3), dp(9), dp(3));
@@ -301,7 +301,7 @@ public class MessagesFragment extends Fragment {
 
             final TextView tvTime = new TextView(ctx);
             tvTime.setText(timeAgo);
-            tvTime.setTextColor(Color.parseColor("#8A8AA8"));
+            tvTime.setTextColor(Color.parseColor("#8E8E93"));
             tvTime.setTextSize(10.5f);
             rightCol.addView(tvTime);
 

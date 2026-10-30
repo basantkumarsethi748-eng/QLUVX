@@ -4,7 +4,7 @@
     android:id="@+id/rootPrivateVideoCall"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14">
+    android:background="#09090E">
 
     <!-- 1. FULL-SCREEN REMOTE PARTNER HD VIDEO SURFACE + PORTRAIT BACKDROP -->
     <RelativeLayout
@@ -50,7 +50,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                app:cardBackgroundColor="#1E1E36"
+                app:cardBackgroundColor="#13131D"
                 app:cardCornerRadius="19dp"
                 app:cardElevation="0dp">
 
@@ -81,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="🔒 1-on-1 Private HD • E2EE Secured"
-                    android:textColor="#00E676"
+                    android:textColor="#30D158"
                     android:textSize="10.5sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -111,7 +111,7 @@
         android:layout_gravity="top|end"
         android:layout_marginTop="76dp"
         android:layout_marginEnd="14dp"
-        app:cardBackgroundColor="#141424"
+        app:cardBackgroundColor="#13131D"
         app:cardCornerRadius="16dp"
         app:cardElevation="8dp">
 
@@ -141,7 +141,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="2dp"
                 android:text="📹 You (Front)"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="9.5sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -173,7 +173,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="💡 Rapid-tap '🔥 Gift Combo' for COMBO STREAK x10! + Flying Gold Coins!"
-            android:textColor="#F1C40F"
+            android:textColor="#E6B800"
             android:textSize="11sp"
             android:textStyle="bold" />
 
@@ -194,7 +194,7 @@
                 android:background="@drawable/bg_walla_glass_card"
                 android:text="🎙️ Mic ON"
                 android:textAllCaps="false"
-                android:textColor="#00E676"
+                android:textColor="#30D158"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -208,7 +208,7 @@
                 android:background="@drawable/bg_walla_glass_card"
                 android:text="🔄 Flip Cam"
                 android:textAllCaps="false"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -222,7 +222,7 @@
                 android:background="@drawable/bg_walla_gold_pill"
                 android:text="🔥 Gift Combo"
                 android:textAllCaps="false"
-                android:textColor="#0A0A14"
+                android:textColor="#E6B800"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
 

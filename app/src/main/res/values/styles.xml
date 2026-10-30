@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- True Walla / Blued Dark Velvet Luxury Theme -->
+    <!-- 2026 World-Class Luxury Minimalist Theme (Walla / Tinder Gold / iOS Dark) -->
     <style name="Theme.QLUVX" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/walla_pink_neon</item>
         <item name="colorPrimaryVariant">@color/walla_surface_obsidian</item>
-        <item name="colorSecondary">@color/walla_cyan_neon</item>
+        <item name="colorSecondary">@color/walla_gold_royal</item>
         <item name="android:windowBackground">@color/walla_bg_velvet</item>
-        <item name="android:statusBarColor">#0A0A14</item>
-        <item name="android:navigationBarColor">#101020</item>
+        <item name="android:statusBarColor">#09090E</item>
+        <item name="android:navigationBarColor">#000000</item>
         <item name="android:textColorPrimary">@color/qluvx_text_primary</item>
         <item name="android:textColorSecondary">@color/qluvx_text_secondary</item>
     </style>
@@ -17,6 +17,7 @@
         <item name="android:textColor">@color/qluvx_text_primary</item>
         <item name="android:textStyle">bold</item>
         <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:letterSpacing">-0.01</item>
     </style>
 
     <style name="QluvxBodyText">

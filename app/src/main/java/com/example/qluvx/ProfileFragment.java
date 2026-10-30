@@ -259,13 +259,13 @@ public class ProfileFragment extends Fragment {
 
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(18);
         root.setPadding(pad, pad, pad, pad);
 
         TextView tvTitle = new TextView(ctx);
         tvTitle.setText("💎 Streamer Diamond Cashout");
-        tvTitle.setTextColor(Color.parseColor("#00E5FF"));
+        tvTitle.setTextColor(Color.WHITE);
         tvTitle.setTextSize(17f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(tvTitle);
@@ -274,7 +274,7 @@ public class ProfileFragment extends Fragment {
         tvInfo.setText(String.format(Locale.US,
                 "Balance: %s 💎 (≈ ₹%.2f INR)\nRate: 1 💎 = ₹0.50 INR • Instant UPI / IMPS",
                 sessionManager.getFormattedDiamonds(), inrVal));
-        tvInfo.setTextColor(Color.parseColor("#C7C7E2"));
+        tvInfo.setTextColor(Color.parseColor("#8E8E93"));
         tvInfo.setTextSize(12.5f);
         tvInfo.setPadding(0, dp(8), 0, dp(12));
         root.addView(tvInfo);
@@ -284,7 +284,7 @@ public class ProfileFragment extends Fragment {
         etAmount.setText("1000");
         etAmount.setInputType(InputType.TYPE_CLASS_NUMBER);
         etAmount.setTextColor(Color.WHITE);
-        etAmount.setBackgroundResource(R.drawable.bg_walla_pill_dark);
+        etAmount.setBackgroundResource(R.drawable.bg_walla_glass_card);
         etAmount.setPadding(dp(14), dp(10), dp(14), dp(10));
         root.addView(etAmount);
 
@@ -296,7 +296,7 @@ public class ProfileFragment extends Fragment {
         etUpi.setHint("Enter UPI ID (julian@upi)");
         etUpi.setText("julianvance@okaxis");
         etUpi.setTextColor(Color.WHITE);
-        etUpi.setBackgroundResource(R.drawable.bg_walla_pill_dark);
+        etUpi.setBackgroundResource(R.drawable.bg_walla_glass_card);
         etUpi.setPadding(dp(14), dp(10), dp(14), dp(10));
         root.addView(etUpi);
 
@@ -323,7 +323,7 @@ public class ProfileFragment extends Fragment {
         LinearLayout box = new LinearLayout(ctx);
         box.setOrientation(LinearLayout.VERTICAL);
         box.setGravity(Gravity.CENTER);
-        box.setBackgroundColor(Color.parseColor("#141424"));
+        box.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(22);
         box.setPadding(pad, pad, pad, pad);
 
@@ -335,7 +335,7 @@ public class ProfileFragment extends Fragment {
 
         TextView tvTitle = new TextView(ctx);
         tvTitle.setText("Interstellar Starship X 🚀");
-        tvTitle.setTextColor(Color.parseColor("#F1C40F"));
+        tvTitle.setTextColor(Color.parseColor("#E6B800"));
         tvTitle.setTextSize(19f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         tvTitle.setPadding(0, dp(10), 0, dp(6));
@@ -343,7 +343,7 @@ public class ProfileFragment extends Fragment {
 
         TextView tvDesc = new TextView(ctx);
         tvDesc.setText("Equipped VIP Entrance Mount & Imperial Gold Dragon Frame.\nAnnounces your arrival across all Live PK & 8-Seat Voice Party rooms!");
-        tvDesc.setTextColor(Color.parseColor("#C7C7E2"));
+        tvDesc.setTextColor(Color.parseColor("#8E8E93"));
         tvDesc.setTextSize(12.5f);
         tvDesc.setGravity(Gravity.CENTER);
         box.addView(tvDesc);

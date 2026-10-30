@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14"
+    android:background="#09090E"
     android:orientation="vertical">
 
-    <!-- 1. TOP MESSAGES BAR -->
+    <!-- 1. 2026 LUXURY MINIMALIST MESSAGES BAR -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
+        android:layout_height="56dp"
         android:paddingHorizontal="16dp">
 
         <LinearLayout
@@ -21,10 +21,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="-0.02"
                 android:text="Messages"
                 android:textColor="#FFFFFF"
-                android:textSize="22sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -44,42 +45,42 @@
         <TextView
             android:id="@+id/itemSystemAlert"
             android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_height="28dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/bg_walla_glass_card"
+            android:background="@drawable/bg_walla_pill_dark"
             android:gravity="center"
             android:paddingHorizontal="10dp"
-            android:text="🛡️ Screenshot Guard"
-            android:textColor="#00E5FF"
-            android:textSize="11sp"
+            android:text="🛡️ Privacy Shield"
+            android:textColor="#8E8E93"
+            android:textSize="10.5sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
-    <!-- 2. HORIZONTAL NEW MUTUAL MATCHES ROW -->
+    <!-- 2. MINIMALIST MUTUAL MATCHES STRIP -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/bg_walla_glass_card"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        android:paddingVertical="10dp">
+        android:paddingVertical="6dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp"
-            android:text="💖 NEW MUTUAL MATCHES (ONLINE NOW)"
-            android:textColor="#F1C40F"
-            android:textSize="10.5sp"
+            android:letterSpacing="0.06"
+            android:paddingHorizontal="16dp"
+            android:text="NEW MATCHES"
+            android:textColor="#8E8E93"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:paddingHorizontal="10dp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="14dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -90,11 +91,18 @@
         </HorizontalScrollView>
     </LinearLayout>
 
-    <!-- 3. SCROLLABLE WALLA CHAT INBOX LIST -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="#1E1E2C" />
+
+    <!-- 3. SCROLLABLE LUXURY MINIMALIST CHAT INBOX LIST -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="12dp"
+        android:paddingHorizontal="14dp"
         android:scrollbars="none">
 
         <LinearLayout

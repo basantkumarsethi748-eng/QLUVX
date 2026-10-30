@@ -140,7 +140,7 @@ public class WallaChatOverlay {
 
         LinearLayout root = new LinearLayout(context);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.parseColor("#0A0A14"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         root.setLayoutParams(new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -148,16 +148,16 @@ public class WallaChatOverlay {
 
         // 1. TOP HEADER BAR
         RelativeLayout topBar = new RelativeLayout(context);
-        topBar.setBackgroundColor(Color.parseColor("#141424"));
+        topBar.setBackgroundColor(Color.parseColor("#09090E"));
         topBar.setPadding(dp(context, 12), dp(context, 10), dp(context, 12), dp(context, 10));
 
         TextView btnBack = new TextView(context);
         btnBack.setId(View.generateViewId());
         btnBack.setText("⬅ Back");
-        btnBack.setTextColor(Color.parseColor("#00E5FF"));
-        btnBack.setTextSize(13.5f);
+        btnBack.setTextColor(Color.WHITE);
+        btnBack.setTextSize(13f);
         btnBack.setTypeface(Typeface.DEFAULT_BOLD);
-        btnBack.setBackgroundResource(R.drawable.bg_walla_pill_dark);
+        btnBack.setBackgroundResource(R.drawable.bg_walla_glass_card);
         btnBack.setPadding(dp(context, 12), dp(context, 7), dp(context, 12), dp(context, 7));
         RelativeLayout.LayoutParams backLp = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -178,7 +178,7 @@ public class WallaChatOverlay {
         CardView avatarCard = new CardView(context);
         avatarCard.setRadius(dp(context, 20));
         avatarCard.setCardElevation(0f);
-        avatarCard.setCardBackgroundColor(Color.parseColor("#1E1E36"));
+        avatarCard.setCardBackgroundColor(Color.parseColor("#13131D"));
         ImageView ivAvatar = new ImageView(context);
         ivAvatar.setScaleType(ImageView.ScaleType.CENTER_CROP);
         WallaPortraitStudio.loadGuyPhoto(context, ivAvatar, portraitIndex);
@@ -200,7 +200,7 @@ public class WallaChatOverlay {
 
         TextView tvPeerSub = new TextView(context);
         tvPeerSub.setText("🟢 Online • " + roleBadge + " • " + distance);
-        tvPeerSub.setTextColor(Color.parseColor("#00E676"));
+        tvPeerSub.setTextColor(Color.parseColor("#30D158"));
         tvPeerSub.setTextSize(11f);
         nameCol.addView(tvPeerSub);
 
@@ -218,10 +218,10 @@ public class WallaChatOverlay {
 
         TextView btnHeaderVideoCall = new TextView(context);
         btnHeaderVideoCall.setText("📹 HD Call");
-        btnHeaderVideoCall.setTextColor(Color.parseColor("#0A0A14"));
+        btnHeaderVideoCall.setTextColor(Color.WHITE);
         btnHeaderVideoCall.setTextSize(11f);
         btnHeaderVideoCall.setTypeface(Typeface.DEFAULT_BOLD);
-        btnHeaderVideoCall.setBackgroundResource(R.drawable.bg_walla_cyan_pill);
+        btnHeaderVideoCall.setBackgroundResource(R.drawable.bg_walla_glass_card);
         btnHeaderVideoCall.setPadding(dp(context, 10), dp(context, 6), dp(context, 10), dp(context, 6));
         btnHeaderVideoCall.setOnClickListener(v -> {
             android.content.Intent callIntent = new android.content.Intent(context, PrivateVideoCallActivity.class);
@@ -250,7 +250,7 @@ public class WallaChatOverlay {
 
         // Subtle divider
         View divider = new View(context);
-        divider.setBackgroundColor(Color.parseColor("#25FFFFFF"));
+        divider.setBackgroundColor(Color.parseColor("#1E1E2C"));
         root.addView(divider, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, dp(context, 1)));
 
         // 2. MESSAGE HISTORY RECYCLERVIEW
@@ -265,12 +265,12 @@ public class WallaChatOverlay {
         // 3. QUICK MEDIA BAR (5s Disappearing Photo + Voice Clip + Gift)
         LinearLayout mediaBar = new LinearLayout(context);
         mediaBar.setOrientation(LinearLayout.HORIZONTAL);
-        mediaBar.setBackgroundColor(Color.parseColor("#101020"));
+        mediaBar.setBackgroundColor(Color.parseColor("#09090E"));
         mediaBar.setPadding(dp(context, 12), dp(context, 8), dp(context, 12), dp(context, 6));
 
-        TextView btnSend5sPhoto = createMediaChip(context, "📸 Send 5s Photo", "#FF2A7A");
-        TextView btnView5sPhoto = createMediaChip(context, "⏱️ View 5s Photo", "#F1C40F");
-        TextView btnSendVoiceClip = createMediaChip(context, "🎙️ Send Voice Clip", "#00E5FF");
+        TextView btnSend5sPhoto = createMediaChip(context, "📸 Send 5s Photo", "#FF1B6B");
+        TextView btnView5sPhoto = createMediaChip(context, "⏱️ View 5s Photo", "#E6B800");
+        TextView btnSendVoiceClip = createMediaChip(context, "🎙️ Send Voice Clip", "#FFFFFF");
 
         mediaBar.addView(btnSend5sPhoto);
         LinearLayout.LayoutParams chipGap = new LinearLayout.LayoutParams(
@@ -289,17 +289,17 @@ public class WallaChatOverlay {
         LinearLayout inputBar = new LinearLayout(context);
         inputBar.setOrientation(LinearLayout.HORIZONTAL);
         inputBar.setGravity(Gravity.CENTER_VERTICAL);
-        inputBar.setBackgroundColor(Color.parseColor("#141424"));
+        inputBar.setBackgroundColor(Color.parseColor("#09090E"));
         inputBar.setPadding(dp(context, 12), dp(context, 10), dp(context, 12), dp(context, 12));
 
         final EditText etMessage = new EditText(context);
         etMessage.setHint("Message " + peerName + "...");
-        etMessage.setHintTextColor(Color.parseColor("#7E7E9C"));
+        etMessage.setHintTextColor(Color.parseColor("#8E8E93"));
         etMessage.setTextColor(Color.WHITE);
         etMessage.setTextSize(14f);
         etMessage.setSingleLine(true);
         etMessage.setImeOptions(EditorInfo.IME_ACTION_SEND);
-        etMessage.setBackgroundResource(R.drawable.bg_walla_pill_dark);
+        etMessage.setBackgroundResource(R.drawable.bg_walla_glass_card);
         etMessage.setPadding(dp(context, 16), dp(context, 10), dp(context, 16), dp(context, 10));
         LinearLayout.LayoutParams etLp = new LinearLayout.LayoutParams(0, dp(context, 44), 1f);
         inputBar.addView(etMessage, etLp);
@@ -452,7 +452,7 @@ public class WallaChatOverlay {
         burnDialog.setCancelable(true);
 
         RelativeLayout container = new RelativeLayout(context);
-        container.setBackgroundColor(Color.parseColor("#0A0A14"));
+        container.setBackgroundColor(Color.parseColor("#09090E"));
 
         // Full-Screen Real HD Disappearing Portrait Photo via Glide
         ImageView ivSecretPhoto = new ImageView(context);
@@ -467,17 +467,17 @@ public class WallaChatOverlay {
         LinearLayout topOverlay = new LinearLayout(context);
         topOverlay.setOrientation(LinearLayout.VERTICAL);
         topOverlay.setPadding(dp(context, 18), dp(context, 22), dp(context, 18), dp(context, 16));
-        topOverlay.setBackgroundColor(Color.parseColor("#AA0A0A14"));
+        topOverlay.setBackgroundColor(Color.parseColor("#B309090E"));
 
         ProgressBar progressBar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         progressBar.setMax(5000);
         progressBar.setProgress(5000);
         topOverlay.addView(progressBar, new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, dp(context, 8)));
+                ViewGroup.LayoutParams.MATCH_PARENT, dp(context, 6)));
 
         TextView tvTimerBadge = new TextView(context);
         tvTimerBadge.setText("🔥 5s DISAPPEARING PHOTO FROM " + senderName.toUpperCase(Locale.US) + " • 5s");
-        tvTimerBadge.setTextColor(Color.parseColor("#F1C40F"));
+        tvTimerBadge.setTextColor(Color.parseColor("#E6B800"));
         tvTimerBadge.setTextSize(14f);
         tvTimerBadge.setTypeface(Typeface.DEFAULT_BOLD);
         tvTimerBadge.setPadding(0, dp(context, 10), 0, 0);
@@ -753,7 +753,7 @@ public class WallaChatOverlay {
                 boxLp.gravity = Gravity.START;
                 holder.bubbleBox.setBackgroundResource(R.drawable.bg_walla_glass_card);
                 holder.tvText.setTextColor(Color.WHITE);
-                holder.tvTime.setTextColor(Color.parseColor("#8A8AA8"));
+                holder.tvTime.setTextColor(Color.parseColor("#8E8E93"));
             }
             holder.bubbleBox.setLayoutParams(boxLp);
 
@@ -762,10 +762,10 @@ public class WallaChatOverlay {
                 holder.waveformView.setPlaying(false, b.isMe);
                 if (b.isBurned) {
                     holder.tvText.setText("🔥 Disappearing Photo (Burned & Expired)");
-                    holder.tvText.setTextColor(Color.parseColor("#8A8AA8"));
+                    holder.tvText.setTextColor(Color.parseColor("#8E8E93"));
                 } else {
                     holder.tvText.setText("🔥 5s Disappearing Photo • Tap to View (5..4..3..2..1)");
-                    holder.tvText.setTextColor(Color.parseColor("#F1C40F"));
+                    holder.tvText.setTextColor(Color.parseColor("#E6B800"));
                 }
                 holder.bubbleBox.setOnClickListener(v -> {
                     int pos = holder.getAdapterPosition();
@@ -783,7 +783,7 @@ public class WallaChatOverlay {
                         ? ("🔊 Playing 0:0" + b.voicePlayProgressSec + " / 0:0" + b.voiceDurationSec)
                         : ("🎙️ Voice Clip (0:0" + b.voiceDurationSec + ") • Tap to Play");
                 holder.tvText.setText(status);
-                holder.tvText.setTextColor(b.isMe ? Color.WHITE : Color.parseColor("#00E5FF"));
+                holder.tvText.setTextColor(Color.WHITE);
                 holder.bubbleBox.setOnClickListener(v -> {
                     int pos = holder.getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {

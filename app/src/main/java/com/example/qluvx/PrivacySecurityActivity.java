@@ -218,20 +218,20 @@ public class PrivacySecurityActivity extends AppCompatActivity {
 
         LinearLayout root = new LinearLayout(context);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.parseColor("#0D0D14"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         root.setPadding(dp(context, 18), dp(context, 24), dp(context, 18), dp(context, 24));
 
         // Subtle Calculator Header
         TextView tvCalcTitle = new TextView(context);
         tvCalcTitle.setText("🧮 Calculator");
-        tvCalcTitle.setTextColor(Color.parseColor("#9E9EBC"));
+        tvCalcTitle.setTextColor(Color.WHITE);
         tvCalcTitle.setTextSize(15f);
         tvCalcTitle.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(tvCalcTitle);
 
         TextView tvSecretHint = new TextView(context);
         tvSecretHint.setText("Stealth Cloak Active • Type PIN (" + secretPin + ") or '=' to unlock QLUVX");
-        tvSecretHint.setTextColor(Color.parseColor("#5500E5FF"));
+        tvSecretHint.setTextColor(Color.parseColor("#8E8E93"));
         tvSecretHint.setTextSize(11f);
         tvSecretHint.setPadding(0, dp(context, 2), 0, dp(context, 16));
         root.addView(tvSecretHint);
@@ -270,7 +270,7 @@ public class PrivacySecurityActivity extends AppCompatActivity {
             btnKey.setTypeface(Typeface.DEFAULT_BOLD);
 
             boolean isOperator = "÷×-+=".contains(key);
-            btnKey.setTextColor(isOperator ? Color.parseColor("#0A0A14") : Color.WHITE);
+            btnKey.setTextColor("=".equals(key) ? Color.WHITE : (isOperator ? Color.parseColor("#E6B800") : Color.WHITE));
             btnKey.setBackgroundResource(
                     "=".equals(key)
                             ? R.drawable.bg_walla_pink_pill
@@ -336,7 +336,7 @@ public class PrivacySecurityActivity extends AppCompatActivity {
         LinearLayout root = new LinearLayout(context);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER);
-        root.setBackgroundColor(Color.parseColor("#0A0A14"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(context, 28);
         root.setPadding(pad, pad, pad, pad);
 
@@ -357,7 +357,7 @@ public class PrivacySecurityActivity extends AppCompatActivity {
 
         TextView tvSub = new TextView(context);
         tvSub.setText("Touch fingerprint sensor below or enter your 4-digit PIN (" + sm.getPrivacyPin() + ") to unlock");
-        tvSub.setTextColor(Color.parseColor("#C7C7E2"));
+        tvSub.setTextColor(Color.parseColor("#8E8E93"));
         tvSub.setTextSize(12.5f);
         tvSub.setGravity(Gravity.CENTER);
         tvSub.setPadding(0, 0, 0, dp(context, 20));
@@ -365,7 +365,7 @@ public class PrivacySecurityActivity extends AppCompatActivity {
 
         final EditText etPinInput = new EditText(context);
         etPinInput.setHint("Enter 4-Digit PIN (" + sm.getPrivacyPin() + ")");
-        etPinInput.setHintTextColor(Color.parseColor("#8A8AA8"));
+        etPinInput.setHintTextColor(Color.parseColor("#8E8E93"));
         etPinInput.setTextColor(Color.WHITE);
         etPinInput.setGravity(Gravity.CENTER);
         etPinInput.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
@@ -390,9 +390,9 @@ public class PrivacySecurityActivity extends AppCompatActivity {
         Button btnBioFinger = new Button(context);
         btnBioFinger.setText("🫆 Tap to Scan Fingerprint Biometrics");
         btnBioFinger.setAllCaps(false);
-        btnBioFinger.setTextColor(Color.parseColor("#0A0A14"));
+        btnBioFinger.setTextColor(Color.WHITE);
         btnBioFinger.setTypeface(Typeface.DEFAULT_BOLD);
-        btnBioFinger.setBackgroundResource(R.drawable.bg_walla_cyan_pill);
+        btnBioFinger.setBackgroundResource(R.drawable.bg_walla_glass_card);
         root.addView(btnBioFinger, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, dp(context, 48)));
 

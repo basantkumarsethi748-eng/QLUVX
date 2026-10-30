@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14"
+    android:background="#09090E"
     android:orientation="vertical">
 
-    <!-- 1. WALLA / BLUED TOP BAR: "Nearby" Title, "Bangalore ▾" Location Selector, Filter & Search Icons -->
+    <!-- 1. 2026 LUXURY MINIMALIST TOP BAR: "Nearby" Title, Sleek Search Icon, Translucent Filter Pill -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#0A0A14"
-        android:paddingHorizontal="14dp">
+        android:layout_height="56dp"
+        android:background="#09090E"
+        android:paddingHorizontal="16dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -19,60 +19,47 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <!-- "Nearby" Title with Neon Pink Accent Underline Feel -->
-            <LinearLayout
+            <TextView
+                android:id="@+id/tvNearbyTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="-0.02"
+                android:text="Nearby"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/tvNearbyTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:text="Nearby"
-                    android:textColor="#FFFFFF"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="28dp"
-                    android:layout_height="3dp"
-                    android:layout_marginTop="2dp"
-                    android:background="@drawable/bg_walla_pink_pill" />
-            </LinearLayout>
-
-            <!-- Location Selector Pill ("Bangalore ▾") -->
+            <!-- Minimalist Location Selector Capsule -->
             <TextView
                 android:id="@+id/tvLocationSelector"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 android:layout_marginStart="10dp"
-                android:background="@drawable/bg_walla_glass_card"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:gravity="center"
                 android:paddingHorizontal="10dp"
-                android:text="📍 Bangalore ▾"
-                android:textColor="#00E5FF"
-                android:textSize="11.5sp"
+                android:text="Bangalore ▾"
+                android:textColor="#8E8E93"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
-            <!-- 1-Tap Global City Radar Teleport Pill -->
+            <!-- Subtle Global Roaming Pill -->
             <TextView
                 android:id="@+id/btnTeleportRadar"
                 android:layout_width="wrap_content"
-                android:layout_height="32dp"
+                android:layout_height="28dp"
                 android:layout_marginStart="6dp"
-                android:background="@drawable/bg_walla_gold_pill"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:gravity="center"
-                android:paddingHorizontal="10dp"
-                android:text="🌍 Teleport"
-                android:textColor="#0A0A14"
-                android:textSize="11sp"
+                android:paddingHorizontal="9dp"
+                android:text="🌍 Roam"
+                android:textColor="#E6B800"
+                android:textSize="10.5sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- Right Action Icons: Search Icon & Filter Icon -->
+        <!-- Right Action Icons: Sleek Search Icon & Translucent Filter Pill -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,52 +70,52 @@
 
             <TextView
                 android:id="@+id/btnSearchToggle"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginEnd="6dp"
-                android:background="@drawable/bg_walla_glass_card"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:gravity="center"
-                android:text="🔍"
+                android:text="⌕"
                 android:textColor="#FFFFFF"
-                android:textSize="14sp" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/btnFilter"
                 android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:background="@drawable/bg_walla_glass_card"
+                android:layout_height="32dp"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:gravity="center"
-                android:paddingHorizontal="10dp"
-                android:text="⚡ Filter"
-                android:textColor="#FF2A7A"
+                android:paddingHorizontal="12dp"
+                android:text="Filter"
+                android:textColor="#FFFFFF"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 
-    <!-- Collapsible / Active Search Bar -->
+    <!-- Collapsible Minimalist Search Input -->
     <EditText
         android:id="@+id/etSearchNearby"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="12dp"
+        android:layout_height="38dp"
+        android:layout_marginHorizontal="14dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/bg_walla_glass_card"
-        android:hint="🔍 Search guys (Alex, Ryan, Top, Versatile, Bottom)..."
+        android:hint="Search name, role, or distance..."
         android:paddingHorizontal="14dp"
         android:singleLine="true"
         android:textColor="#FFFFFF"
-        android:textColorHint="#7A7A9A"
+        android:textColorHint="#8E8E93"
         android:textSize="12sp"
         android:visibility="gone" />
 
-    <!-- Role Quick Filter Chips Row -->
+    <!-- Minimalist Filter Pills Row (Electric Rose Active, Sleek Dark Glass Inactive) -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -145,9 +132,9 @@
                 android:background="@drawable/bg_walla_pink_pill"
                 android:gravity="center"
                 android:paddingHorizontal="14dp"
-                android:text="🔥 All Guys"
+                android:text="All"
                 android:textColor="#FFFFFF"
-                android:textSize="11sp"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -158,9 +145,9 @@
                 android:background="@drawable/bg_walla_glass_card"
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
-                android:text="🟢 Online Now"
-                android:textColor="#00E676"
-                android:textSize="11sp"
+                android:text="Online"
+                android:textColor="#8E8E93"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -172,8 +159,8 @@
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:text="Top"
-                android:textColor="#FF2A7A"
-                android:textSize="11sp"
+                android:textColor="#8E8E93"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -185,8 +172,8 @@
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:text="Versatile"
-                android:textColor="#00E5FF"
-                android:textSize="11sp"
+                android:textColor="#8E8E93"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -197,33 +184,33 @@
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:text="Bottom"
-                android:textColor="#CE93D8"
-                android:textSize="11sp"
+                android:textColor="#8E8E93"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </HorizontalScrollView>
 
-    <!-- 2. LIVE HOSTS BANNER: Horizontal Scroll of Active Live Broadcasters with Pulsing Gradient Rings -->
+    <!-- 2. SLEEK LIVE BROADCASTERS STRIP -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginBottom="6dp"
-        android:background="@drawable/bg_walla_glass_card"
+        android:layout_marginBottom="4dp"
         android:orientation="vertical"
-        android:paddingVertical="10dp">
+        android:paddingTop="2dp"
+        android:paddingBottom="6dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="12dp">
+            android:paddingHorizontal="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🔴 LIVE BROADCASTERS &amp; PK"
-                android:textColor="#F1C40F"
-                android:textSize="11sp"
+                android:letterSpacing="0.06"
+                android:text="LIVE NOW"
+                android:textColor="#8E8E93"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -231,8 +218,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="Watch Live ▸"
-                android:textColor="#FF2A7A"
+                android:text="See All ›"
+                android:textColor="#FF1B6B"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </RelativeLayout>
@@ -240,9 +227,9 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:clipToPadding="false"
-            android:paddingHorizontal="10dp"
+            android:paddingHorizontal="12dp"
             android:scrollbars="none">
 
             <LinearLayout
@@ -254,7 +241,7 @@
         </HorizontalScrollView>
     </LinearLayout>
 
-    <!-- 3. 3-COLUMN PHOTO GRID (Exact Walla / Blued Portrait Discovery Grid) -->
+    <!-- 3. 2026 EDGE-TO-EDGE 3-COLUMN PORTRAIT DISCOVERY GRID -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNearbyGrid"
         android:layout_width="match_parent"

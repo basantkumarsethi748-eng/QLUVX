@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- True Walla / Blued Luxury Palette -->
-    <color name="walla_bg_velvet">#0A0A14</color>
-    <color name="walla_surface_obsidian">#141424</color>
-    <color name="walla_surface_glass">#1E1E34</color>
-    <color name="walla_pink_neon">#FF2A7A</color>
-    <color name="walla_cyan_neon">#00E5FF</color>
-    <color name="walla_gold_royal">#F1C40F</color>
-    <color name="walla_online_green">#00E676</color>
-    <color name="walla_glass_border">#2EFFFFFF</color>
+    <!-- 2026 World-Class Luxury Minimalist Palette (Walla / Tinder Gold / Apple iOS Dark) -->
+    <color name="walla_bg_velvet">#09090E</color>
+    <color name="walla_bg_pure_black">#000000</color>
+    <color name="walla_surface_obsidian">#13131D</color>
+    <color name="walla_surface_elevated">#171723</color>
+    <color name="walla_border_hairline">#1E1E2C</color>
+    <color name="walla_glass_border">#1E1E2C</color>
 
-    <!-- Legacy compatibility aliases mapped to Walla theme -->
-    <color name="qluvx_bg_primary">#0A0A14</color>
-    <color name="qluvx_bg_secondary">#141424</color>
-    <color name="qluvx_surface_card">#141424</color>
-    <color name="qluvx_surface_elevated">#1E1E36</color>
-    <color name="qluvx_border_subtle">#2EFFFFFF</color>
+    <!-- Single Signature Accent: Electric Rose Gradient (#FF1B6B to #FF4585) -->
+    <color name="walla_pink_neon">#FF1B6B</color>
+    <color name="walla_pink_end">#FF4585</color>
 
-    <color name="qluvx_primary">#FF2A7A</color>
-    <color name="qluvx_primary_dark">#D81B60</color>
-    <color name="qluvx_accent_sky">#00E5FF</color>
-    <color name="qluvx_success">#00E676</color>
-    <color name="qluvx_warning">#F1C40F</color>
-    <color name="qluvx_danger">#FF1744</color>
-    <color name="qluvx_danger_surface">#3B1422</color>
+    <!-- Luxury Secondary: Subtle Champagne Gold (#E6B800) strictly for VIP badges -->
+    <color name="walla_gold_royal">#E6B800</color>
+    <color name="walla_cyan_neon">#FF4585</color>
+    <color name="walla_online_green">#30D158</color>
 
+    <!-- Typography & Legacy Resource Aliases Mapped to 2026 Minimalist Palette -->
+    <color name="qluvx_bg_dark">#09090E</color>
+    <color name="qluvx_surface_card">#13131D</color>
+    <color name="qluvx_surface_elevated">#171723</color>
+    <color name="qluvx_primary">#FF1B6B</color>
+    <color name="qluvx_primary_dark">#D81159</color>
+    <color name="qluvx_secondary">#E6B800</color>
+    <color name="qluvx_border_subtle">#1E1E2C</color>
+    <color name="qluvx_accent_pink">#FF1B6B</color>
+    <color name="qluvx_accent_purple">#FF4585</color>
+    <color name="qluvx_accent_cyan">#FF4585</color>
+    <color name="qluvx_gold_vip">#E6B800</color>
+    <color name="qluvx_online_green">#30D158</color>
     <color name="qluvx_text_primary">#FFFFFF</color>
-    <color name="qluvx_text_secondary">#C7C7E2</color>
-    <color name="qluvx_text_muted">#8A8AA8</color>
-    <color name="qluvx_white">#FFFFFF</color>
+    <color name="qluvx_text_secondary">#8E8E93</color>
 </resources>

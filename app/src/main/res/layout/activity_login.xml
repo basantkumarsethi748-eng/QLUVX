@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14"
+    android:background="#09090E"
     android:padding="26dp">
 
     <LinearLayout
@@ -13,19 +13,20 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
+            android:layout_width="68dp"
+            android:layout_height="68dp"
             android:background="@drawable/bg_seat_neon_gold"
             android:gravity="center"
             android:text="👑"
-            android:textSize="36sp" />
+            android:textSize="32sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:letterSpacing="0.12"
-            android:text="WALLA • QLUVX"
+            android:layout_marginTop="12dp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.08"
+            android:text="QLUVX"
             android:textColor="#FFFFFF"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -35,10 +36,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginBottom="28dp"
-            android:text="Nearby Guys • HD Live PK • 8-Seat Voice Party"
-            android:textColor="#00E5FF"
-            android:textSize="12.5sp"
-            android:textStyle="bold" />
+            android:text="Nearby Discovery • Live PK • Spatial Audio"
+            android:textColor="#8E8E93"
+            android:textSize="12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,48 +51,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
+                android:letterSpacing="0.06"
                 android:text="MOBILE NUMBER"
-                android:textColor="#F1C40F"
-                android:textSize="11sp"
+                android:textColor="#8E8E93"
+                android:textSize="10.5sp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/etPhone"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="46dp"
                 android:background="@drawable/bg_walla_pill_dark"
                 android:hint="+91 98765 43210"
                 android:inputType="phone"
                 android:paddingHorizontal="16dp"
                 android:textColor="#FFFFFF"
-                android:textColorHint="#7A7A9A"
+                android:textColorHint="#8E8E93"
                 android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/etOtp"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="46dp"
                 android:layout_marginTop="12dp"
                 android:background="@drawable/bg_walla_pill_dark"
                 android:hint="Enter 4-Digit OTP (e.g. 1234)"
                 android:inputType="numberPassword"
                 android:maxLength="4"
                 android:paddingHorizontal="16dp"
-                android:textColor="#F1C40F"
-                android:textColorHint="#7A7A9A"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#8E8E93"
                 android:textSize="14sp"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/btnSendOtp"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="16dp"
-                android:backgroundTint="#FF2A7A"
-                android:text="Get Verification Code"
+                android:background="@drawable/bg_walla_pink_pill"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Continue"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp"
+                android:textSize="14.5sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -100,30 +103,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="18dp"
-            android:text="— OR INSTANT LOGIN —"
-            android:textColor="#7E7E9C"
-            android:textSize="11sp"
+            android:letterSpacing="0.06"
+            android:text="OR SIGN IN WITH"
+            android:textColor="#8E8E93"
+            android:textSize="10.5sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnGoogleLogin"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:backgroundTint="#141424"
-            android:text="🌐  Continue with Google"
+            android:layout_height="46dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="Continue with Google"
             android:textAllCaps="false"
-            android:textColor="#00E5FF"
+            android:textColor="#FFFFFF"
+            android:textSize="13.5sp"
             android:textStyle="bold" />
 
         <Button
             android:id="@+id/btnQuickGuest"
             android:layout_width="match_parent"
-            android:layout_height="48dp"
+            android:layout_height="46dp"
             android:layout_marginTop="10dp"
-            android:backgroundTint="#F1C40F"
-            android:text="⚡  Quick VIP Login (Julian Vance)"
+            android:background="@drawable/bg_walla_gold_pill"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:text="👑 Quick VIP Access (Julian Vance)"
             android:textAllCaps="false"
-            android:textColor="#0A0A14"
+            android:textColor="#E6B800"
+            android:textSize="13.5sp"
             android:textStyle="bold" />
     </LinearLayout>
 </RelativeLayout>

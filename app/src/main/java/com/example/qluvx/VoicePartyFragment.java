@@ -57,7 +57,7 @@ public class VoicePartyFragment extends Fragment {
     private boolean isMicMuted = false;
     private int currentThemeIndex = 0; // 0: Cyber Galaxy, 1: Royal Gold Palace, 2: Velvet Rose, 3: Midnight Neon
     private boolean sendToAllMics = true;
-    private int selectedBetChip = 100; // Default betting chip (20, 50, 100, 500 coins)
+    private int selectedBetChip = 50; // Default 50-coin betting chip (20, 50, 100, 500 coins)
 
     private static final String[] THEME_NAMES = {
             "🌌 Cyber Galaxy",
@@ -66,10 +66,10 @@ public class VoicePartyFragment extends Fragment {
             "⚡ Midnight Neon"
     };
     private static final String[] THEME_ACCENTS = {
-            "#00E5FF",
-            "#F1C40F",
-            "#FF2A7A",
-            "#00E676"
+            "#FFFFFF",
+            "#E6B800",
+            "#FF1B6B",
+            "#FF4585"
     };
 
     private SessionManager sessionManager;
@@ -109,13 +109,13 @@ public class VoicePartyFragment extends Fragment {
      * [8] roleTag (String)
      */
     private final Object[][] guestSeatsState = new Object[][]{
-            {1, "Alex", 0, true, "#FF2A7A", false, false, 46, "Top"},
-            {2, "Ryan", 1, true, "#00E5FF", false, false, 42, "Versatile"},
-            {3, "Kabir", 2, true, "#F1C40F", false, false, 38, "Top"},
-            {4, "Empty Seat", -1, false, "#3D00E5FF", false, false, 1, "Versatile"},
-            {5, "Liam", 4, false, "#9E9EBC", true, false, 35, "Bottom"},
-            {6, "Zayn VIP", 3, true, "#F1C40F", false, false, 50, "Top"},
-            {7, "Locked Seat", -1, false, "#FF5252", false, true, 1, "Versatile"}
+            {1, "Alex", 0, true, "#FF1B6B", false, false, 46, "Top"},
+            {2, "Ryan", 1, true, "#FF4585", false, false, 42, "Versatile"},
+            {3, "Kabir", 2, true, "#E6B800", false, false, 38, "Top"},
+            {4, "Empty", -1, false, "#1E1E2C", false, false, 1, "Versatile"},
+            {5, "Liam", 4, false, "#1E1E2C", true, false, 35, "Bottom"},
+            {6, "Zayn VIP", 3, true, "#E6B800", false, false, 50, "Top"},
+            {7, "Locked", -1, false, "#1E1E2C", false, true, 1, "Versatile"}
     };
 
     private int entranceIndex = 0;
@@ -225,21 +225,18 @@ public class VoicePartyFragment extends Fragment {
         // 5. Render 7 Guest Circular Seats (Seats 1–7) around/below Host Throne (8 Seats Total)
         populateGuestCircularSeats(llEightSeatsGrid);
 
-        // 6. Bottom Bar: Host Mic Toggle
+        // 6. Bottom Bar: Host Mic Toggle (Minimalist Frosted Glass)
         btnMicToggle.setOnClickListener(v -> {
             isMicMuted = !isMicMuted;
             btnMicToggle.setText(isMicMuted ? "🔇 Muted" : "🎙️ Mic ON");
-            btnMicToggle.setBackgroundTintList(ColorStateList.valueOf(
-                    Color.parseColor(isMicMuted ? "#4A4A68" : "#00E676")
-            ));
-            btnMicToggle.setTextColor(isMicMuted ? Color.WHITE : Color.parseColor("#0A0A14"));
+            btnMicToggle.setTextColor(Color.parseColor(isMicMuted ? "#8E8E93" : "#FFFFFF"));
             if (tvHostMicBadge != null) {
-                tvHostMicBadge.setText(isMicMuted ? "🔇 MUTED" : "🎙️ ON AIR");
+                tvHostMicBadge.setText(isMicMuted ? "MUTED" : "ON AIR");
             }
             if (tvSfxLiveTicker != null) {
                 tvSfxLiveTicker.setText(isMicMuted
-                        ? "🔇 Host mic is muted • Tap again to resume live spatial voice!"
-                        : "🎙️ Host Throne (Seat 0) is LIVE with pulsing neon soundwaves!");
+                        ? "Host microphone muted • Tap to unmute"
+                        : "Host stage active with spatial audio");
             }
         });
 
@@ -264,8 +261,8 @@ public class VoicePartyFragment extends Fragment {
         String themeName = THEME_NAMES[currentThemeIndex];
         String accentHex = THEME_ACCENTS[currentThemeIndex];
         if (tvRoomTitle != null) {
-            tvRoomTitle.setText(themeName + " Audio Club");
-            tvRoomTitle.setTextColor(Color.parseColor(accentHex));
+            tvRoomTitle.setText(themeName);
+            tvRoomTitle.setTextColor(Color.WHITE);
         }
         if (btnWallpaperTheme != null) {
             btnWallpaperTheme.setText(themeName);
@@ -277,25 +274,25 @@ public class VoicePartyFragment extends Fragment {
         Context ctx = getContext();
         if (ctx == null) return;
         new AlertDialog.Builder(ctx)
-                .setTitle("🎨 Select Luxury Room Wallpaper Theme")
+                .setTitle("Select Stage Atmosphere")
                 .setItems(THEME_NAMES, (d, which) -> {
                     currentThemeIndex = which;
                     applyRoomWallpaper();
-                    prependRoomLog("🎨 Room theme switched to " + THEME_NAMES[which]);
+                    prependRoomLog("Stage atmosphere set to " + THEME_NAMES[which]);
                 })
                 .show();
     }
 
     private void triggerGoldenEntranceSlideAnimation(String bannerText) {
         if (cardGoldenEntranceBanner == null || tvGoldenEntranceMarquee == null) return;
-        tvGoldenEntranceMarquee.setText(bannerText + "   •   ✨ Tap banner to replay luxury entrance!");
-        cardGoldenEntranceBanner.setTranslationX(520f);
+        tvGoldenEntranceMarquee.setText(bannerText);
+        cardGoldenEntranceBanner.setTranslationX(420f);
         cardGoldenEntranceBanner.setAlpha(0.2f);
         cardGoldenEntranceBanner.animate()
                 .translationX(0f)
                 .alpha(1f)
-                .setDuration(620L)
-                .setInterpolator(new OvershootInterpolator(0.85f))
+                .setDuration(580L)
+                .setInterpolator(new OvershootInterpolator(0.75f))
                 .start();
     }
 
@@ -303,7 +300,7 @@ public class VoicePartyFragment extends Fragment {
         if (tvTopGiftersLeaderboard == null) return;
         tvTopGiftersLeaderboard.setText(String.format(
                 Locale.US,
-                "🥇 Alex %.1fk 🪙  •  🥈 Ryan %.1fk 🪙  •  🥉 Zayn %.1fk 🪙",
+                "1. Alex %.1fk  •  2. Ryan %.1fk  •  3. Zayn %.1fk",
                 gifterAlexCoins / 1000f,
                 gifterRyanCoins / 1000f,
                 gifterZaynCoins / 1000f
@@ -322,8 +319,8 @@ public class VoicePartyFragment extends Fragment {
             if (anim != null) anim.cancel();
         }
         seatAnimators.clear();
-        startNeonPulse(viewHostPulseOuter, 950L, 1.11f);
-        startNeonPulse(viewHostPulseInner, 740L, 1.07f);
+        startNeonPulse(viewHostPulseOuter, 1100L, 1.08f);
+        startNeonPulse(viewHostPulseInner, 860L, 1.05f);
 
         gridContainer.removeAllViews();
 
@@ -367,41 +364,41 @@ public class VoicePartyFragment extends Fragment {
                 FrameLayout avatarFrame = new FrameLayout(ctx);
                 avatarFrame.setLayoutParams(new LinearLayout.LayoutParams(dp(64), dp(64)));
 
-                // Outer Pulsing Speaking Soundwave Ring
+                // Subtle Outer Audio Halo Ring when Speaking
                 final View outerWaveRing = new View(ctx);
-                FrameLayout.LayoutParams outerLp = new FrameLayout.LayoutParams(dp(62), dp(62), Gravity.CENTER);
+                FrameLayout.LayoutParams outerLp = new FrameLayout.LayoutParams(dp(60), dp(60), Gravity.CENTER);
                 outerWaveRing.setLayoutParams(outerLp);
                 GradientDrawable outerShape = new GradientDrawable();
                 outerShape.setShape(GradientDrawable.OVAL);
                 boolean activeWave = isSpeaking && !isMuted && !isLocked && portraitIdx >= 0;
-                outerShape.setColor(activeWave ? Color.parseColor("#2A00E5FF") : Color.TRANSPARENT);
-                outerShape.setStroke(dp(2), Color.parseColor(isLocked ? "#FF5252" : ringColor));
+                outerShape.setColor(activeWave ? Color.parseColor("#18FF1B6B") : Color.TRANSPARENT);
+                outerShape.setStroke(dp(1), Color.parseColor(activeWave ? ringColor : "#1E1E2C"));
                 outerWaveRing.setBackground(outerShape);
                 avatarFrame.addView(outerWaveRing);
 
-                // Inner Luxury Avatar Frame Ring
+                // Inner Clean Avatar Frame Ring (#13131D surface with #1E1E2C or Electric Rose border)
                 final View neonRing = new View(ctx);
-                FrameLayout.LayoutParams ringLp = new FrameLayout.LayoutParams(dp(55), dp(55), Gravity.CENTER);
+                FrameLayout.LayoutParams ringLp = new FrameLayout.LayoutParams(dp(53), dp(53), Gravity.CENTER);
                 neonRing.setLayoutParams(ringLp);
                 GradientDrawable ringShape = new GradientDrawable();
                 ringShape.setShape(GradientDrawable.OVAL);
-                ringShape.setColor(activeWave ? Color.parseColor("#22FF2A7A") : Color.parseColor("#141424"));
-                ringShape.setStroke(dp(2), Color.parseColor(isLocked ? "#FF5252" : ringColor));
+                ringShape.setColor(Color.parseColor("#13131D"));
+                ringShape.setStroke(dp(1), Color.parseColor(activeWave ? ringColor : "#1E1E2C"));
                 neonRing.setBackground(ringShape);
                 avatarFrame.addView(neonRing);
 
                 if (activeWave) {
-                    startNeonPulse(outerWaveRing, 700L + idx * 65L, 1.16f);
-                    startNeonPulse(neonRing, 620L + idx * 55L, 1.09f);
+                    startNeonPulse(outerWaveRing, 850L + idx * 75L, 1.11f);
+                    startNeonPulse(neonRing, 740L + idx * 65L, 1.05f);
                 }
 
-                // Circular Seat Avatar, Lock Icon 🔒, or Empty "+" Mic Icon
+                // Circular Seat Avatar, Lock Icon, or Minimalist "+" Mic Icon
                 final CardView circleCard = new CardView(ctx);
                 FrameLayout.LayoutParams cardLp = new FrameLayout.LayoutParams(dp(46), dp(46), Gravity.CENTER);
                 circleCard.setLayoutParams(cardLp);
                 circleCard.setRadius(dp(23));
                 circleCard.setCardElevation(0f);
-                circleCard.setCardBackgroundColor(Color.parseColor("#181830"));
+                circleCard.setCardBackgroundColor(Color.parseColor("#13131D"));
 
                 if (isLocked) {
                     TextView tvLock = new TextView(ctx);
@@ -411,7 +408,7 @@ public class VoicePartyFragment extends Fragment {
                     ));
                     tvLock.setGravity(Gravity.CENTER);
                     tvLock.setText("🔒");
-                    tvLock.setTextSize(17f);
+                    tvLock.setTextSize(14f);
                     circleCard.addView(tvLock);
                 } else if (portraitIdx >= 0) {
                     ImageView ivSeat = new ImageView(ctx);
@@ -429,28 +426,28 @@ public class VoicePartyFragment extends Fragment {
                             ViewGroup.LayoutParams.MATCH_PARENT
                     ));
                     tvPlus.setGravity(Gravity.CENTER);
-                    tvPlus.setText("🎙️");
-                    tvPlus.setTextColor(Color.parseColor("#00E5FF"));
-                    tvPlus.setTextSize(16f);
+                    tvPlus.setText("+");
+                    tvPlus.setTextColor(Color.parseColor("#8E8E93"));
+                    tvPlus.setTextSize(18f);
                     circleCard.addView(tvPlus);
                 }
                 avatarFrame.addView(circleCard);
 
-                // Top-Right VIP Frame Crown or Muted Mic Badge
-                if (portraitIdx >= 0 && !isLocked) {
+                // Top-Right Subtle Muted Indicator or VIP Crown
+                if (portraitIdx >= 0 && !isLocked && isMuted) {
                     TextView tvCornerBadge = new TextView(ctx);
                     FrameLayout.LayoutParams cornerLp = new FrameLayout.LayoutParams(
-                            dp(18), dp(18), Gravity.TOP | Gravity.END
+                            dp(16), dp(16), Gravity.TOP | Gravity.END
                     );
                     tvCornerBadge.setLayoutParams(cornerLp);
                     tvCornerBadge.setGravity(Gravity.CENTER);
-                    tvCornerBadge.setTextSize(8.5f);
-                    tvCornerBadge.setText(isMuted ? "🔇" : "👑");
-                    tvCornerBadge.setBackgroundResource(isMuted ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_gold_pill);
+                    tvCornerBadge.setTextSize(8f);
+                    tvCornerBadge.setText("🔇");
+                    tvCornerBadge.setBackgroundResource(R.drawable.bg_walla_pill_dark);
                     avatarFrame.addView(tvCornerBadge);
                 }
 
-                // Bottom Status Pill on Seat (Speaking / Muted / Locked / Take Mic)
+                // Bottom Minimalist Status Pill on Seat
                 final TextView tvStatus = new TextView(ctx);
                 FrameLayout.LayoutParams statusLp = new FrameLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -460,18 +457,18 @@ public class VoicePartyFragment extends Fragment {
                 tvStatus.setLayoutParams(statusLp);
                 String statusText;
                 if (isLocked) {
-                    statusText = "🔒 Locked";
+                    statusText = "Locked";
                 } else if (portraitIdx < 0) {
-                    statusText = "➕ Take Mic";
+                    statusText = "Join";
                 } else if (isMuted) {
-                    statusText = "🔇 Muted";
+                    statusText = "Muted";
                 } else {
-                    statusText = "🎙️ Lv." + wealthLevel;
+                    statusText = "Lv." + wealthLevel;
                 }
                 tvStatus.setText(statusText);
                 tvStatus.setTextSize(7.5f);
                 tvStatus.setTypeface(Typeface.DEFAULT_BOLD);
-                tvStatus.setTextColor(Color.WHITE);
+                tvStatus.setTextColor(activeWave ? Color.WHITE : Color.parseColor("#8E8E93"));
                 tvStatus.setPadding(dp(5), dp(1), dp(5), dp(1));
                 tvStatus.setBackgroundResource(activeWave ? R.drawable.bg_walla_pink_pill : R.drawable.bg_walla_pill_dark);
                 avatarFrame.addView(tvStatus);
@@ -479,8 +476,8 @@ public class VoicePartyFragment extends Fragment {
                 seatBox.addView(avatarFrame);
 
                 final TextView tvLabel = new TextView(ctx);
-                tvLabel.setText("#" + seatNum + " " + seatName);
-                tvLabel.setTextColor(portraitIdx >= 0 && !isLocked ? Color.WHITE : Color.parseColor("#9E9EBC"));
+                tvLabel.setText(seatName);
+                tvLabel.setTextColor(portraitIdx >= 0 && !isLocked ? Color.WHITE : Color.parseColor("#8E8E93"));
                 tvLabel.setTextSize(10f);
                 tvLabel.setTypeface(Typeface.DEFAULT_BOLD);
                 tvLabel.setSingleLine(true);
@@ -563,14 +560,14 @@ public class VoicePartyFragment extends Fragment {
         final BottomSheetDialog sheet = new BottomSheetDialog(ctx);
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(18);
         root.setPadding(pad, pad, pad, pad);
 
         // Header Row with Avatar & Seat Badge
         TextView tvTitle = new TextView(ctx);
         tvTitle.setText("👑 Host Seat #" + seatNum + " Management • " + seatName);
-        tvTitle.setTextColor(Color.parseColor("#F1C40F"));
+        tvTitle.setTextColor(Color.parseColor("#E6B800"));
         tvTitle.setTextSize(16.5f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(tvTitle);
@@ -579,21 +576,21 @@ public class VoicePartyFragment extends Fragment {
         tvSub.setText(isLocked
                 ? "Status: 🔒 Seat Locked by Host • Tap Unlock below to allow speakers"
                 : "Status: " + (isMuted ? "🔇 Mic Muted by Host" : "🎙️ Live on Spatial Mic") + " • Wealth Lv." + wealthLevel);
-        tvSub.setTextColor(Color.parseColor("#00E5FF"));
+        tvSub.setTextColor(Color.parseColor("#8E8E93"));
         tvSub.setTextSize(12f);
         tvSub.setPadding(0, dp(4), 0, dp(12));
         root.addView(tvSub);
 
         // Button 1: View Speaker Mini Profile (if occupied) or Take Mic (if unlocked empty)
         if (portraitIdx >= 0 && !isLocked) {
-            Button btnProfile = createSheetButton(ctx, "👤 View " + seatName + "'s Mini Profile (Lv." + wealthLevel + ")", "#1E1E36", "#FFFFFF");
+            Button btnProfile = createSheetButton(ctx, "👤 View " + seatName + "'s Mini Profile (Lv." + wealthLevel + ")", "#13131D", "#FFFFFF");
             btnProfile.setOnClickListener(v -> {
                 sheet.dismiss();
                 showMiniProfileBottomSheet(seatName, portraitIdx, wealthLevel, roleTag, (seatNum * 180) + "m", "Seat #" + seatNum + " Speaker");
             });
             root.addView(btnProfile);
         } else if (!isLocked) {
-            Button btnTakeMic = createSheetButton(ctx, "🎙️ Take Mic on Seat #" + seatNum, "#00E676", "#0A0A14");
+            Button btnTakeMic = createSheetButton(ctx, "🎙️ Take Mic on Seat #" + seatNum, "#FF1B6B", "#FFFFFF");
             btnTakeMic.setOnClickListener(v -> {
                 sheet.dismiss();
                 occupyEmptySeatWithUser(idx, seatNum);
@@ -605,8 +602,8 @@ public class VoicePartyFragment extends Fragment {
         Button btnMute = createSheetButton(
                 ctx,
                 isMuted ? "🎙️ Unmute Seat #" + seatNum + " Mic" : "🔇 Mute Seat #" + seatNum + " Mic",
-                "#252542",
-                "#00E5FF"
+                "#13131D",
+                "#FFFFFF"
         );
         btnMute.setOnClickListener(v -> {
             boolean newMute = !isMuted;
@@ -627,8 +624,8 @@ public class VoicePartyFragment extends Fragment {
         Button btnLock = createSheetButton(
                 ctx,
                 isLocked ? "🔓 Unlock Seat #" + seatNum + " (Open for Guests)" : "🔒 Lock Seat #" + seatNum + " (Host Only)",
-                "#252542",
-                "#F1C40F"
+                "#13131D",
+                "#E6B800"
         );
         btnLock.setOnClickListener(v -> {
             boolean newLock = !isLocked;
@@ -707,29 +704,29 @@ public class VoicePartyFragment extends Fragment {
         final BottomSheetDialog sheet = new BottomSheetDialog(ctx);
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(18);
         root.setPadding(pad, pad, pad, pad);
 
         TextView tvTitle = new TextView(ctx);
         tvTitle.setText("🔊 Live Voice Party SFX Soundboard");
-        tvTitle.setTextColor(Color.parseColor("#00E5FF"));
+        tvTitle.setTextColor(Color.WHITE);
         tvTitle.setTextSize(17f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(tvTitle);
 
         TextView tvSub = new TextView(ctx);
         tvSub.setText("Tap any pad below to broadcast spatial sound effects to all 8 seats:");
-        tvSub.setTextColor(Color.parseColor("#B0B0D0"));
+        tvSub.setTextColor(Color.parseColor("#8E8E93"));
         tvSub.setTextSize(12f);
         tvSub.setPadding(0, dp(4), 0, dp(12));
         root.addView(tvSub);
 
         final String[][] sfxItems = new String[][]{
-                {"👏 Applause", "👏 Stadium Applause & Standing Ovation!", "#00E676"},
-                {"🎉 Cheering", "🎉 VIP Crowd Cheering & Confetti Roar!", "#F1C40F"},
-                {"🎺 DJ Air Horn", "🎺 Club DJ Triple Air Horn Blast (x3)!", "#FF2A7A"},
-                {"😂 Laughter", "😂 Studio Audience Burst of Laughter!", "#00E5FF"}
+                {"👏 Applause", "👏 Stadium Applause & Standing Ovation!", "#FFFFFF"},
+                {"🎉 Cheering", "🎉 VIP Crowd Cheering & Confetti Roar!", "#E6B800"},
+                {"🎺 DJ Air Horn", "🎺 Club DJ Triple Air Horn Blast (x3)!", "#FF1B6B"},
+                {"😂 Laughter", "😂 Studio Audience Burst of Laughter!", "#FFFFFF"}
         };
         final int[] tones = {
                 ToneGenerator.TONE_PROP_ACK,
@@ -744,7 +741,7 @@ public class VoicePartyFragment extends Fragment {
             final String colorHex = sfxItems[i][2];
             final int toneType = tones[i];
 
-            Button btnSfx = createSheetButton(ctx, label + "   •   Broadcast to Room", "#1F1F38", colorHex);
+            Button btnSfx = createSheetButton(ctx, label + "   •   Broadcast to Room", "#13131D", colorHex);
             btnSfx.setOnClickListener(v -> {
                 playSfxTone(toneType, 240);
                 if (tvSfxLiveTicker != null) {
@@ -771,20 +768,20 @@ public class VoicePartyFragment extends Fragment {
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(18);
         root.setPadding(pad, pad, pad, pad);
 
         TextView tvTitle = new TextView(ctx);
         tvTitle.setText("🎰 Royal Lucky Spin Wheel Arena");
-        tvTitle.setTextColor(Color.parseColor("#F1C40F"));
+        tvTitle.setTextColor(Color.parseColor("#E6B800"));
         tvTitle.setTextSize(18f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(tvTitle);
 
         final TextView tvSub = new TextView(ctx);
         tvSub.setText("Wallet Balance: " + sessionManager.getFormattedCoins() + " 🪙  •  Select Betting Chip:");
-        tvSub.setTextColor(Color.parseColor("#00E5FF"));
+        tvSub.setTextColor(Color.parseColor("#8E8E93"));
         tvSub.setTextSize(12.5f);
         tvSub.setTypeface(Typeface.DEFAULT_BOLD);
         tvSub.setPadding(0, dp(4), 0, dp(8));
@@ -966,9 +963,9 @@ public class VoicePartyFragment extends Fragment {
         for (int i = 0; i < buttons.length; i++) {
             boolean selected = values[i] == selectedValue;
             buttons[i].setBackgroundTintList(ColorStateList.valueOf(
-                    Color.parseColor(selected ? "#F1C40F" : "#252542")
+                    Color.parseColor(selected ? "#E6B800" : "#13131D")
             ));
-            buttons[i].setTextColor(selected ? Color.parseColor("#0A0A14") : Color.WHITE);
+            buttons[i].setTextColor(selected ? Color.parseColor("#09090E") : Color.WHITE);
         }
     }
 
@@ -982,20 +979,20 @@ public class VoicePartyFragment extends Fragment {
         final BottomSheetDialog sheet = new BottomSheetDialog(ctx);
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(18);
         root.setPadding(pad, pad, pad, pad);
 
         TextView tvTitle = new TextView(ctx);
         tvTitle.setText("🎁 Luxury Voice Club Gift Drawer");
-        tvTitle.setTextColor(Color.parseColor("#F1C40F"));
+        tvTitle.setTextColor(Color.parseColor("#E6B800"));
         tvTitle.setTextSize(17.5f);
         tvTitle.setTypeface(Typeface.DEFAULT_BOLD);
         root.addView(tvTitle);
 
         TextView tvLeaderboard = new TextView(ctx);
         tvLeaderboard.setText("🏆 Top 3 Gifters: 🥇 Alex (" + (gifterAlexCoins / 1000f) + "k) • 🥈 Ryan (" + (gifterRyanCoins / 1000f) + "k) • 🥉 Zayn (" + (gifterZaynCoins / 1000f) + "k)");
-        tvLeaderboard.setTextColor(Color.parseColor("#00E5FF"));
+        tvLeaderboard.setTextColor(Color.parseColor("#8E8E93"));
         tvLeaderboard.setTextSize(11.5f);
         tvLeaderboard.setTypeface(Typeface.DEFAULT_BOLD);
         tvLeaderboard.setPadding(0, dp(4), 0, dp(10));
@@ -1011,8 +1008,8 @@ public class VoicePartyFragment extends Fragment {
                 sendToAllMics
                         ? "✅ Send to All Mics: ON (Broadcasts to All 8 Seats)"
                         : "🎯 Target: " + (specificRecipient != null ? specificRecipient : "Host Seat 0 Only") + " (Tap to switch to All Mics)",
-                sendToAllMics ? "#1B3B2B" : "#252542",
-                sendToAllMics ? "#00E676" : "#F1C40F"
+                "#13131D",
+                sendToAllMics ? "#E6B800" : "#FFFFFF"
         );
         btnAllMicsToggle.setOnClickListener(v -> {
             sendToAllMics = !sendToAllMics;
@@ -1020,9 +1017,9 @@ public class VoicePartyFragment extends Fragment {
                     ? "✅ Send to All Mics: ON (Broadcasts to All 8 Seats)"
                     : "🎯 Target: Single Mic Seat Only (Tap for All Mics)");
             btnAllMicsToggle.setBackgroundTintList(ColorStateList.valueOf(
-                    Color.parseColor(sendToAllMics ? "#1B3B2B" : "#252542")
+                    Color.parseColor("#13131D")
             ));
-            btnAllMicsToggle.setTextColor(Color.parseColor(sendToAllMics ? "#00E676" : "#F1C40F"));
+            btnAllMicsToggle.setTextColor(Color.parseColor(sendToAllMics ? "#E6B800" : "#FFFFFF"));
         });
         root.addView(btnAllMicsToggle);
 
@@ -1041,7 +1038,7 @@ public class VoicePartyFragment extends Fragment {
             Button btnGiftItem = createSheetButton(
                     ctx,
                     emoji + "  " + giftName + "   •   " + cost + " 🪙",
-                    "#1F1F38",
+                    "#13131D",
                     "#FFFFFF"
             );
             btnGiftItem.setOnClickListener(v -> {
@@ -1116,7 +1113,7 @@ public class VoicePartyFragment extends Fragment {
         LinearLayout root = new LinearLayout(ctx);
         root.setOrientation(LinearLayout.VERTICAL);
         root.setGravity(Gravity.CENTER_HORIZONTAL);
-        root.setBackgroundColor(Color.parseColor("#141424"));
+        root.setBackgroundColor(Color.parseColor("#09090E"));
         int pad = dp(20);
         root.setPadding(pad, pad, pad, pad);
 
@@ -1127,7 +1124,7 @@ public class VoicePartyFragment extends Fragment {
         CardView cardAvatar = new CardView(ctx);
         cardAvatar.setLayoutParams(new FrameLayout.LayoutParams(dp(74), dp(74), Gravity.CENTER));
         cardAvatar.setRadius(dp(37));
-        cardAvatar.setCardBackgroundColor(Color.parseColor("#1E1E36"));
+        cardAvatar.setCardBackgroundColor(Color.parseColor("#13131D"));
         ImageView ivAvatar = new ImageView(ctx);
         ivAvatar.setLayoutParams(new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -1157,7 +1154,7 @@ public class VoicePartyFragment extends Fragment {
         // Wealth Level Badge + Role + Seat Info
         TextView tvBadges = new TextView(ctx);
         tvBadges.setText("👑 Wealth Lv." + wealthLevel + "  •  " + roleTag + "  •  📍 " + distance + "  •  " + seatSubtitle);
-        tvBadges.setTextColor(Color.parseColor("#F1C40F"));
+        tvBadges.setTextColor(Color.parseColor("#E6B800"));
         tvBadges.setTextSize(12f);
         tvBadges.setTypeface(Typeface.DEFAULT_BOLD);
         tvBadges.setPadding(0, 0, 0, dp(14));
@@ -1168,32 +1165,32 @@ public class VoicePartyFragment extends Fragment {
         final Button btnFollow = createSheetButton(
                 ctx,
                 isFollowing ? "✓ Following " + speakerName : "➕ Follow " + speakerName,
-                isFollowing ? "#1B3B2B" : "#FF2A7A",
+                isFollowing ? "#13131D" : "#FF1B6B",
                 "#FFFFFF"
         );
         btnFollow.setOnClickListener(v -> {
             if (followedSpeakers.contains(speakerName)) {
                 followedSpeakers.remove(speakerName);
                 btnFollow.setText("➕ Follow " + speakerName);
-                btnFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF2A7A")));
+                btnFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#FF1B6B")));
             } else {
                 followedSpeakers.add(speakerName);
                 btnFollow.setText("✓ Following " + speakerName);
-                btnFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#1B3B2B")));
+                btnFollow.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#13131D")));
                 prependRoomLog("💖 " + sessionManager.getUserName() + " followed " + speakerName + "!");
                 Toast.makeText(ctx, "💖 You are now following " + speakerName + "!", Toast.LENGTH_SHORT).show();
             }
         });
         root.addView(btnFollow);
 
-        Button btnGiftSpeaker = createSheetButton(ctx, "🎁 Send Luxury Gift to " + speakerName, "#F1C40F", "#0A0A14");
+        Button btnGiftSpeaker = createSheetButton(ctx, "🎁 Send Luxury Gift to " + speakerName, "#13131D", "#E6B800");
         btnGiftSpeaker.setOnClickListener(v -> {
             sheet.dismiss();
             showVoicePartyGiftDrawer(speakerName);
         });
         root.addView(btnGiftSpeaker);
 
-        Button btnChatSpeaker = createSheetButton(ctx, "💬 Open 1-on-1 Private Chat with " + speakerName, "#00E5FF", "#0A0A14");
+        Button btnChatSpeaker = createSheetButton(ctx, "💬 Open 1-on-1 Private Chat with " + speakerName, "#13131D", "#FFFFFF");
         btnChatSpeaker.setOnClickListener(v -> {
             sheet.dismiss();
             WallaChatOverlay.openFullScreenChat(ctx, speakerName + ", 25", Math.max(0, portraitIdx), roleTag, distance, false, null);

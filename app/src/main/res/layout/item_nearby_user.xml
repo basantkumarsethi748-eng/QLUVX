@@ -2,66 +2,65 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="168dp"
+    android:layout_height="172dp"
     android:layout_margin="4dp"
-    app:cardBackgroundColor="#141424"
+    app:cardBackgroundColor="#000000"
     app:cardCornerRadius="16dp"
-    app:cardElevation="6dp">
+    app:cardElevation="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_walla_glass_card">
+        android:layout_height="match_parent">
 
-        <!-- High-Res Portrait Image -->
+        <!-- Edge-to-Edge Full-Bleed Portrait Filling 100% of Card Height -->
         <ImageView
             android:id="@+id/ivUserPhoto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop" />
 
-        <!-- Subtle Glassmorphic Border Overlay -->
+        <!-- Smooth Black Gradient Shadow at Bottom Only for Clean Readability -->
         <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="84dp"
+            android:layout_alignParentBottom="true"
             android:background="@drawable/bg_nearby_bottom_scrim" />
 
-        <!-- Top Left: Distance Badge ("120m", "450m", "1.2km") -->
+        <!-- Top-Left: Tiny Translucent Pill for Distance ("0.3 km") -->
         <TextView
             android:id="@+id/tvDistance"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="19dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="7dp"
+            android:layout_margin="8dp"
             android:background="@drawable/bg_walla_pill_dark"
+            android:gravity="center"
             android:paddingHorizontal="7dp"
-            android:paddingVertical="2dp"
-            android:text="120m"
-            android:textColor="#E8E8FF"
+            android:text="0.3 km"
+            android:textColor="#FFFFFF"
             android:textSize="9.5sp"
             android:textStyle="bold" />
 
-        <!-- Top Right: Glowing Green Online Status Dot -->
+        <!-- Top-Right: Glowing Green Online Status Dot -->
         <View
             android:id="@+id/viewOnlineIndicator"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_margin="8dp"
+            android:layout_margin="10dp"
             android:background="@drawable/bg_online_dot_glow" />
 
-        <!-- Bottom Info Overlay: Name & Age + Verification Blue Tick + Role Chip -->
+        <!-- Bottom Text Overlay: Clean White Bold Name ("Alex, 25") + Subtle Role Label (No Clunky Colored Box) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:orientation="vertical"
-            android:paddingHorizontal="8dp"
-            android:paddingBottom="8dp">
+            android:paddingHorizontal="9dp"
+            android:paddingBottom="9dp">
 
-            <!-- Name & Age + Blue Tick Badge Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,43 +72,35 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
+                    android:fontFamily="sans-serif-medium"
                     android:maxLines="1"
-                    android:shadowColor="#CC000000"
-                    android:shadowDx="0"
-                    android:shadowDy="1"
-                    android:shadowRadius="3"
                     android:text="Alex, 25"
                     android:textColor="#FFFFFF"
-                    android:textSize="12.5sp"
+                    android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <!-- Verification Blue Tick Badge -->
                 <TextView
                     android:id="@+id/tvVerifiedBadge"
-                    android:layout_width="14dp"
-                    android:layout_height="14dp"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
                     android:layout_marginStart="4dp"
                     android:background="@drawable/bg_verified_tick"
                     android:gravity="center"
                     android:text="✓"
-                    android:textColor="#0A0A14"
-                    android:textSize="9sp"
+                    android:textColor="#000000"
+                    android:textSize="8sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Role Chip ("Top", "Versatile", "Bottom") -->
+            <!-- Subtle Muted Role Caption (Preserves ID without rainbow rectangle box) -->
             <TextView
                 android:id="@+id/tvRoleTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:background="@drawable/bg_walla_pink_pill"
-                android:paddingHorizontal="7dp"
-                android:paddingVertical="1.5dp"
+                android:layout_marginTop="1.5dp"
                 android:text="Top"
-                android:textColor="#FFFFFF"
-                android:textSize="9sp"
-                android:textStyle="bold" />
+                android:textColor="#8E8E93"
+                android:textSize="10sp" />
         </LinearLayout>
 
     </RelativeLayout>

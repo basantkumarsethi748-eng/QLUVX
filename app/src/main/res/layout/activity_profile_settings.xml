@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14"
+    android:background="#09090E"
     android:padding="16dp"
     android:scrollbars="none">
 
@@ -27,7 +27,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:text="⬅ Back"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="DISPLAY NICKNAME"
-                android:textColor="#F1C40F"
+                android:textColor="#8E8E93"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="ABOUT ME / BIO"
-                android:textColor="#F1C40F"
+                android:textColor="#8E8E93"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="WALLA DATING ROLE TAG"
-                android:textColor="#FF2A7A"
+                android:textColor="#FF1B6B"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -141,7 +141,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
                 android:text="Height: 180 cm"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:text="Weight: 75 kg"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -186,7 +186,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:text="🕵️ VIP STEALTH &amp; PRIVACY CONTROLS"
-                android:textColor="#F1C40F"
+                android:textColor="#E6B800"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -212,10 +212,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginTop="14dp"
-                android:background="@drawable/bg_walla_gold_pill"
+                android:background="@drawable/bg_walla_glass_card"
                 android:text="🛡️ Privacy Cloak, Calculator Disguise 🧮 &amp; Panic Exit 🚨"
                 android:textAllCaps="false"
-                android:textColor="#0A0A14"
+                android:textColor="#E6B800"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
@@ -224,10 +224,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/bg_walla_cyan_pill"
+                android:background="@drawable/bg_walla_glass_card"
                 android:text="🌍 Global City Radar Teleport (Bangkok, Tokyo, NY...)"
                 android:textAllCaps="false"
-                android:textColor="#0A0A14"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -238,10 +238,10 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="18dp"
-            android:backgroundTint="#00E5FF"
+            android:background="@drawable/bg_walla_pink_pill"
             android:text="💾  Save Profile &amp; Privacy Settings"
             android:textAllCaps="false"
-            android:textColor="#0A0A14"
+            android:textColor="#FFFFFF"
             android:textSize="15sp"
             android:textStyle="bold" />
 
@@ -253,13 +253,13 @@
             android:layout_height="50dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="28dp"
-            android:backgroundTint="#28101C"
+            android:backgroundTint="#13131D"
             android:text="🚪 Log Out of QLUVX"
             android:textAllCaps="false"
-            android:textColor="#FF2A7A"
+            android:textColor="#FF1B6B"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:strokeColor="#FF2A7A" />
+            app:strokeColor="#1E1E2C" />
 
     </LinearLayout>
 </ScrollView>

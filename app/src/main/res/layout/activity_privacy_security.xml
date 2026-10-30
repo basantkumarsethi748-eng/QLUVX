@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14"
+    android:background="#09090E"
     android:fillViewport="true"
     android:scrollbars="none">
 
@@ -26,7 +26,7 @@
                 android:gravity="center"
                 android:paddingHorizontal="12dp"
                 android:text="⬅ Back"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="13sp"
                 android:textStyle="bold" />
 
@@ -70,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="MILITARY-GRADE STEALTH ARMOR"
-                    android:textColor="#F1C40F"
+                    android:textColor="#E6B800"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
                     android:text="Calculator App Disguise • Biometric/PIN Vault • Screenshot Shield"
-                    android:textColor="#C7C7E2"
+                    android:textColor="#8E8E93"
                     android:textSize="11.5sp" />
             </LinearLayout>
         </LinearLayout>
@@ -98,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🧮 HOME SCREEN STEALTH DISGUISE"
-                android:textColor="#00E5FF"
+                android:textColor="#8E8E93"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
 
@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="Cloaks QLUVX behind a working scientific Calculator screen. Enter your secret 4-digit PIN + '=' on the calculator pad to unlock QLUVX."
-                android:textColor="#9E9EBC"
+                android:textColor="#8E8E93"
                 android:textSize="11.5sp" />
 
             <Button
@@ -125,10 +125,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginTop="12dp"
-                android:background="@drawable/bg_walla_cyan_pill"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:text="🧮 Open Disguised Calculator Screen Now"
                 android:textAllCaps="false"
-                android:textColor="#0A0A14"
+                android:textColor="#FFFFFF"
                 android:textSize="12.5sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -146,7 +146,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🔐 BIOMETRIC &amp; PIN VAULT ON LAUNCH"
-                android:textColor="#F1C40F"
+                android:textColor="#E6B800"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
 
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
                 android:text="Current Vault PIN: 2580 • Biometric Sensor Ready"
-                android:textColor="#00E676"
+                android:textColor="#30D158"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
 
@@ -183,10 +183,10 @@
                     android:layout_height="40dp"
                     android:layout_marginEnd="6dp"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_walla_glass_card"
+                    android:background="@drawable/bg_walla_pill_dark"
                     android:text="🔢 Set Secret PIN"
                     android:textAllCaps="false"
-                    android:textColor="#F1C40F"
+                    android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -199,7 +199,7 @@
                     android:background="@drawable/bg_walla_gold_pill"
                     android:text="🫆 Test Biometric Lock"
                     android:textAllCaps="false"
-                    android:textColor="#0A0A14"
+                    android:textColor="#E6B800"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -218,7 +218,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🛡️ ANTI-SCREENSHOT &amp; GHOST PRIVACY"
-                android:textColor="#FF2A7A"
+                android:textColor="#FF1B6B"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
 
@@ -256,7 +256,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="🚨 INSTANT EMERGENCY PROTECTION"
-                android:textColor="#FF5252"
+                android:textColor="#FF1B6B"
                 android:textSize="11.5sp"
                 android:textStyle="bold" />
 
@@ -265,7 +265,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="Instantly scrubs active screen from Android Recents and terminates QLUVX in 1 tap."
-                android:textColor="#C7C7E2"
+                android:textColor="#8E8E93"
                 android:textSize="11.5sp" />
 
             <Button

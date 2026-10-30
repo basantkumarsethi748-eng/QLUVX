@@ -3,57 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0A0A14"
+    android:background="#09090E"
     android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="24dp">
+        android:paddingBottom="28dp">
 
-        <!-- 1. HEADER WITH COVER WALLPAPER, SETTINGS GEAR, AND BIG DP SURROUNDED BY IMPERIAL GOLD DRAGON AVATAR FRAME -->
+        <!-- 1. HIGH-END MINIMALIST PROFILE HEADER WITH ROUNDED AVATAR, DELICATE GOLDEN DRAGON FRAME & VERIFIED BLUE CHECK -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="228dp">
+            android:layout_height="220dp">
 
-            <!-- Cover Wallpaper -->
+            <!-- Subtle Ambient Cover Wallpaper -->
             <ImageView
                 android:id="@+id/ivProfileCover"
                 android:layout_width="match_parent"
-                android:layout_height="156dp"
+                android:layout_height="148dp"
+                android:alpha="0.55"
                 android:scaleType="centerCrop" />
 
-            <!-- Bottom Gradient Fade on Cover -->
+            <!-- Smooth Deep Obsidian Fade on Cover -->
             <View
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="96dp"
                 android:layout_alignBottom="@id/ivProfileCover"
                 android:background="@drawable/bg_nearby_bottom_scrim" />
 
-            <!-- Top Bar Over Cover Wallpaper: VIP Badge & Settings Gear -->
+            <!-- Top Bar Over Cover: Subtle Champagne Gold VIP Badge & Minimalist Settings Icon -->
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:paddingHorizontal="14dp"
+                android:paddingHorizontal="16dp"
                 android:paddingTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="28dp"
+                    android:layout_height="26dp"
                     android:layout_centerVertical="true"
-                    android:background="@drawable/bg_walla_pill_dark"
+                    android:background="@drawable/bg_walla_gold_pill"
                     android:gravity="center"
+                    android:letterSpacing="0.04"
                     android:paddingHorizontal="12dp"
-                    android:text="👑 WALLA DELUXE VIP"
-                    android:textColor="#F1C40F"
-                    android:textSize="11sp"
+                    android:text="👑 VIP MEMBER"
+                    android:textColor="#E6B800"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/ivSettings"
-                    android:layout_width="38dp"
-                    android:layout_height="38dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:background="@drawable/bg_walla_pill_dark"
@@ -62,21 +64,20 @@
                     android:src="@android:drawable/ic_menu_preferences" />
             </RelativeLayout>
 
-            <!-- Big DP Surrounded by Imperial Gold Dragon Avatar Frame -->
+            <!-- Rounded Avatar with Delicate Golden Dragon Frame -->
             <FrameLayout
                 android:id="@+id/avatarDragonContainer"
-                android:layout_width="116dp"
-                android:layout_height="116dp"
+                android:layout_width="108dp"
+                android:layout_height="108dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="16dp">
 
-                <!-- Circular Portrait DP -->
                 <androidx.cardview.widget.CardView
-                    android:layout_width="78dp"
-                    android:layout_height="78dp"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
                     android:layout_gravity="center"
-                    app:cardBackgroundColor="#141424"
-                    app:cardCornerRadius="39dp"
+                    app:cardBackgroundColor="#13131D"
+                    app:cardCornerRadius="38dp"
                     app:cardElevation="0dp">
 
                     <ImageView
@@ -86,22 +87,21 @@
                         android:scaleType="centerCrop" />
                 </androidx.cardview.widget.CardView>
 
-                <!-- Imperial Gold Dragon Avatar Frame Overlay -->
                 <ImageView
                     android:id="@+id/ivDragonFrameOverlay"
-                    android:layout_width="116dp"
-                    android:layout_height="116dp"
+                    android:layout_width="108dp"
+                    android:layout_height="108dp"
                     android:layout_gravity="center"
                     android:scaleType="fitCenter" />
             </FrameLayout>
 
-            <!-- User Name, Verified Badge & 1-Tap ID Copy ("ID: 1002938 📑") -->
+            <!-- User Name, Verified Blue Check & Minimalist ID Capsule -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="14dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:layout_toEndOf="@id/avatarDragonContainer"
                 android:orientation="vertical">
@@ -116,42 +116,44 @@
                         android:id="@+id/tvDisplayName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:letterSpacing="-0.01"
                         android:text="Julian Vance"
                         android:textColor="#FFFFFF"
-                        android:textSize="20sp"
+                        android:textSize="21sp"
                         android:textStyle="bold" />
 
-                    <!-- Verified Blue Tick Badge -->
+                    <!-- Verified Blue Check Badge -->
                     <TextView
-                        android:layout_width="17dp"
-                        android:layout_height="17dp"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:layout_marginStart="6dp"
                         android:background="@drawable/bg_verified_tick"
                         android:gravity="center"
                         android:text="✓"
-                        android:textColor="#0A0A14"
-                        android:textSize="10.5sp"
+                        android:textColor="#000000"
+                        android:textSize="9.5sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- 1-Tap ID Copy Pill ("ID: 1002938 📑") + Lv.50 Wealth Badge -->
+                <!-- 1-Tap ID Copy Capsule + Subtle Champagne Gold VIP Level -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/tvUserId"
                         android:layout_width="wrap_content"
-                        android:layout_height="26dp"
+                        android:layout_height="24dp"
                         android:background="@drawable/bg_walla_glass_card"
                         android:gravity="center"
                         android:paddingHorizontal="10dp"
                         android:text="ID: 1002938 📑"
-                        android:textColor="#00E5FF"
-                        android:textSize="11.5sp"
+                        android:textColor="#8E8E93"
+                        android:textSize="11sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -160,9 +162,9 @@
                         android:layout_marginStart="6dp"
                         android:background="@drawable/bg_walla_gold_pill"
                         android:gravity="center"
-                        android:paddingHorizontal="8dp"
+                        android:paddingHorizontal="9dp"
                         android:text="👑 Lv.50"
-                        android:textColor="#0A0A14"
+                        android:textColor="#E6B800"
                         android:textSize="10.5sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -174,16 +176,16 @@
                     android:layout_marginTop="5dp"
                     android:singleLine="true"
                     android:text="Versatile • 180 cm • 75 kg • Bangalore"
-                    android:textColor="#C7C7E2"
+                    android:textColor="#8E8E93"
                     android:textSize="11.5sp" />
             </LinearLayout>
         </RelativeLayout>
 
-        <!-- 2. STATS ROW: Following (142), Followers (3.8k), Visitors (840) -->
+        <!-- 2. CLEAN STATISTICS ROW (Following, Followers, Visitors) WITH SUBTLE VERTICAL HAIRLINE DIVIDERS (#1E1E2C) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="14dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_walla_glass_card"
             android:orientation="horizontal"
@@ -201,6 +203,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
                     android:text="142"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
@@ -211,15 +214,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Following"
-                    android:textColor="#8A8AA8"
-                    android:textSize="11.5sp" />
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
-                android:background="#26FFFFFF" />
+                android:background="#1E1E2C" />
 
             <LinearLayout
                 android:id="@+id/statFollowers"
@@ -232,6 +235,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
                     android:text="3.8k"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
@@ -242,15 +246,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Followers"
-                    android:textColor="#8A8AA8"
-                    android:textSize="11.5sp" />
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="30dp"
+                android:layout_height="28dp"
                 android:layout_gravity="center_vertical"
-                android:background="#26FFFFFF" />
+                android:background="#1E1E2C" />
 
             <LinearLayout
                 android:id="@+id/statVisitors"
@@ -263,8 +267,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-medium"
                     android:text="840"
-                    android:textColor="#00E5FF"
+                    android:textColor="#FFFFFF"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -273,93 +278,53 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:text="Visitors"
-                    android:textColor="#8A8AA8"
-                    android:textSize="11.5sp" />
+                    android:textColor="#8E8E93"
+                    android:textSize="11sp" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 3. WALLET CARD: Coins (1,250 🪙) and Diamonds (4,800 💎) -->
+        <!-- 3. MINIMALIST WALLET CAPSULE (COINS & DIAMONDS) WITH ELEGANT TYPOGRAPHY -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="14dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:paddingVertical="14dp"
             android:weightSum="2">
 
-            <!-- Coins Card -->
+            <!-- Coins Half of Wallet Capsule -->
             <LinearLayout
                 android:id="@+id/cardBuyCoins"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                android:background="@drawable/bg_walla_glass_card"
                 android:clickable="true"
                 android:focusable="true"
+                android:gravity="center_vertical"
                 android:orientation="vertical"
-                android:padding="14dp">
+                android:paddingHorizontal="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="WALLET COINS"
-                    android:textColor="#F1C40F"
-                    android:textSize="10.5sp"
+                    android:letterSpacing="0.05"
+                    android:text="COINS BALANCE"
+                    android:textColor="#8E8E93"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tvCoins"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
                     android:text="1,250 🪙"
                     android:textColor="#FFFFFF"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="22dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/bg_walla_gold_pill"
-                    android:gravity="center"
-                    android:paddingHorizontal="10dp"
-                    android:text="+ Recharge Coins"
-                    android:textColor="#0A0A14"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Diamonds Card -->
-            <LinearLayout
-                android:id="@+id/cardDiamondPayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_walla_glass_card"
-                android:clickable="true"
-                android:focusable="true"
-                android:orientation="vertical"
-                android:padding="14dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="STREAM DIAMONDS"
-                    android:textColor="#00E5FF"
-                    android:textSize="10.5sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tvDiamonds"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="4,800 💎"
-                    android:textColor="#FFFFFF"
-                    android:textSize="20sp"
+                    android:textSize="19sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -368,20 +333,71 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/bg_walla_pink_pill"
                     android:gravity="center"
-                    android:paddingHorizontal="10dp"
-                    android:text="💸 Instant Cashout"
+                    android:paddingHorizontal="11dp"
+                    android:text="+ Top Up"
                     android:textColor="#FFFFFF"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <!-- Hairline Divider inside Wallet Capsule -->
+            <View
+                android:layout_width="1dp"
+                android:layout_height="52dp"
+                android:background="#1E1E2C" />
+
+            <!-- Diamonds Half of Wallet Capsule -->
+            <LinearLayout
+                android:id="@+id/cardDiamondPayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.05"
+                    android:text="DIAMOND EARNINGS"
+                    android:textColor="#8E8E93"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvDiamonds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="4,800 💎"
+                    android:textColor="#FFFFFF"
+                    android:textSize="19sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_walla_pill_dark"
+                    android:gravity="center"
+                    android:paddingHorizontal="11dp"
+                    android:text="Cashout ›"
+                    android:textColor="#E6B800"
                     android:textSize="10sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- 4. EQUIPPED RIDE BADGE: "Interstellar Starship X 🚀" -->
+        <!-- 4. SLEEK VIP ENTRANCE MOUNT CAPSULE -->
         <LinearLayout
             android:id="@+id/cardEquippedRide"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="14dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_walla_glass_card"
             android:gravity="center_vertical"
@@ -389,12 +405,12 @@
             android:padding="14dp">
 
             <TextView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
                 android:background="@drawable/bg_seat_neon_gold"
                 android:gravity="center"
                 android:text="🚀"
-                android:textSize="24sp" />
+                android:textSize="20sp" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -406,9 +422,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EQUIPPED ENTRANCE RIDE"
-                    android:textColor="#00E5FF"
-                    android:textSize="10sp"
+                    android:letterSpacing="0.05"
+                    android:text="ACTIVE VIP MOUNT"
+                    android:textColor="#E6B800"
+                    android:textSize="9.5sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -416,17 +433,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
-                    android:text="Interstellar Starship X 🚀"
-                    android:textColor="#F1C40F"
-                    android:textSize="15sp"
+                    android:text="Interstellar Starship X"
+                    android:textColor="#FFFFFF"
+                    android:textSize="14.5sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="🐉 Imperial Gold Dragon Avatar Frame • Active"
-                    android:textColor="#C7C7E2"
+                    android:layout_marginTop="1dp"
+                    android:text="Imperial Gold Dragon Frame • Equipped"
+                    android:textColor="#8E8E93"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -434,20 +451,20 @@
                 android:id="@+id/btnPreviewStarship"
                 android:layout_width="wrap_content"
                 android:layout_height="28dp"
-                android:background="@drawable/bg_walla_cyan_pill"
+                android:background="@drawable/bg_walla_pill_dark"
                 android:gravity="center"
-                android:paddingHorizontal="10dp"
-                android:text="Preview ▸"
-                android:textColor="#0A0A14"
+                android:paddingHorizontal="12dp"
+                android:text="Preview"
+                android:textColor="#FFFFFF"
                 android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <!-- 5. WALLA VIP PRIVILEGES, VANITY MALL & SETTINGS SHORTCUTS -->
+        <!-- 5. SLEEK DARK GLASS VIP SUITE & PRIVACY CONTROLS (NO CHUNKY RAINBOW BUTTONS) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="14dp"
+            android:layout_marginHorizontal="16dp"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_walla_glass_card"
             android:orientation="vertical"
@@ -456,18 +473,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="✨ WALLA DELUXE CENTER"
-                android:textColor="#F1C40F"
-                android:textSize="12sp"
+                android:letterSpacing="0.06"
+                android:text="VIP SUITE &amp; PRIVACY"
+                android:textColor="#8E8E93"
+                android:textSize="10.5sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnBuyCoins"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="10dp"
-                android:backgroundTint="#FF2A7A"
-                android:text="🪙 Top Up Coins &amp; VIP Packages"
+                android:background="@drawable/bg_walla_pink_pill"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="🪙 Recharge Coins &amp; VIP Packages"
                 android:textAllCaps="false"
                 android:textColor="#FFFFFF"
                 android:textSize="12.5sp"
@@ -476,73 +496,85 @@
             <Button
                 android:id="@+id/btnWithdrawDiamonds"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="#00E5FF"
-                android:text="💎 Streamer Diamond Cashout (UPI / Bank)"
+                android:background="@drawable/bg_walla_glass_card"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="💎 Streamer Diamond Cashout"
                 android:textAllCaps="false"
-                android:textColor="#0A0A14"
+                android:textColor="#FFFFFF"
                 android:textSize="12.5sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnOpenTeleportRadar"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="#1E1E36"
-                android:text="🌍 Global Radar City Teleport (Bangkok, Tokyo, NY...)"
+                android:background="@drawable/bg_walla_glass_card"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="🌍 Global City Roaming (Bangkok, Tokyo, NY...)"
                 android:textAllCaps="false"
-                android:textColor="#00E5FF"
+                android:textColor="#FFFFFF"
                 android:textSize="12.5sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnOpenPrivacySecurity"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="#1E1E36"
-                android:text="🛡️ Privacy Cloak, Calculator Disguise 🧮 &amp; Panic Exit 🚨"
+                android:background="@drawable/bg_walla_glass_card"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="🛡️ Privacy Cloak, Calculator Disguise &amp; Panic Exit"
                 android:textAllCaps="false"
-                android:textColor="#F1C40F"
+                android:textColor="#FFFFFF"
                 android:textSize="12sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnTestPrivateVideoCall"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="#1E1E36"
-                android:text="📹 1-on-1 Private HD Video Call + Gift Combo Streak 🔥"
+                android:background="@drawable/bg_walla_glass_card"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="📹 1-on-1 Private HD Video Call"
                 android:textAllCaps="false"
-                android:textColor="#FF2A7A"
-                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                android:textSize="12.5sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnOpenProfileSettings"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
+                android:layout_height="44dp"
                 android:layout_marginTop="8dp"
-                android:backgroundTint="#1E1E36"
-                android:text="⚙️ Profile Settings, Height/Weight &amp; Stealth"
+                android:background="@drawable/bg_walla_glass_card"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="⚙️ Account &amp; Profile Preferences"
                 android:textAllCaps="false"
-                android:textColor="#C7C7E2"
+                android:textColor="#8E8E93"
                 android:textSize="12.5sp"
                 android:textStyle="bold" />
 
             <Button
                 android:id="@+id/btnDirectLogout"
                 android:layout_width="match_parent"
-                android:layout_height="46dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="#28101C"
-                android:text="🚪 Log Out of QLUVX"
+                android:layout_height="42dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_walla_glass_card"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="Log Out"
                 android:textAllCaps="false"
-                android:textColor="#FF2A7A"
-                android:textSize="13sp"
+                android:textColor="#FF1B6B"
+                android:textSize="12.5sp"
                 android:textStyle="bold" />
 
             <!-- Hidden legacy buttons preserved for safe lookup -->

@@ -191,6 +191,60 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
+        <!-- Ngrok / Backend Server URL (Port 5000) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#16162E"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌐 NGROK / BACKEND TUNNEL URL (PORT 5000)"
+                android:textColor="#00E5FF"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Run `node backend/server.js` &amp; `ngrok http 5000`, then paste your https://xxxx.ngrok-free.app URL below:"
+                android:textColor="#9E9EBA"
+                android:textSize="11sp" />
+
+            <EditText
+                android:id="@+id/etServerUrl"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:background="#0D0D1F"
+                android:hint="https://xxxx-xx-xx.ngrok-free.app"
+                android:inputType="textUri"
+                android:paddingHorizontal="12dp"
+                android:singleLine="true"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#5C5C7B"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/btnTestNgrok"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#102536"
+                android:text="⚡ Test Ngrok / Port 5000 Connection"
+                android:textAllCaps="false"
+                android:textColor="#00E5FF"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                app:strokeColor="#00E5FF" />
+        </LinearLayout>
+
         <!-- Save Profile Button -->
         <Button
             android:id="@+id/btnSaveProfile"

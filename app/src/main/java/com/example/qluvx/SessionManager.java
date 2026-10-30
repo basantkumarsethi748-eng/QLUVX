@@ -21,6 +21,7 @@ public class SessionManager {
     private static final String KEY_WEIGHT_KG = "userWeightKg";
     private static final String KEY_HIDE_DISTANCE = "hideDistance";
     private static final String KEY_GHOST_MODE = "incognitoGhostMode";
+    private static final String KEY_SERVER_URL = "customServerUrl";
 
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
@@ -30,6 +31,10 @@ public class SessionManager {
         this.context = context;
         prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = prefs.edit();
+        String savedUrl = prefs.getString(KEY_SERVER_URL, "");
+        if (savedUrl != null && !savedUrl.isEmpty()) {
+            ApiClient.setCustomBaseUrl(savedUrl);
+        }
     }
 
     public void createLoginSession(String userId, String userName, String role) {
@@ -145,6 +150,17 @@ public class SessionManager {
     public void setAvatarResId(int resId) {
         editor.putInt(KEY_AVATAR_RES_ID, resId);
         editor.apply();
+    }
+
+    public String getServerUrl() {
+        return prefs.getString(KEY_SERVER_URL, "http://10.0.2.2:5000");
+    }
+
+    public void setServerUrl(String serverUrl) {
+        String cleanUrl = serverUrl != null ? serverUrl.trim() : "";
+        editor.putString(KEY_SERVER_URL, cleanUrl);
+        editor.apply();
+        ApiClient.setCustomBaseUrl(cleanUrl);
     }
 
     public void logoutUser() {

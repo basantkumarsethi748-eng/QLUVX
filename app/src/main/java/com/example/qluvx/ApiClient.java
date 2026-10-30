@@ -17,6 +17,7 @@ public class ApiClient {
     private static final String DEFAULT_BASE_URL = "https://api.qluvx.app/";
     private static volatile Retrofit retrofit = null;
     private static volatile String authToken = "";
+    private static volatile String customBaseUrl = "";
 
     private ApiClient() {
     }
@@ -25,7 +26,24 @@ public class ApiClient {
         authToken = token != null ? token.trim() : "";
     }
 
+    public static synchronized void setCustomBaseUrl(String url) {
+        String normalized = "";
+        if (url != null) {
+            String trimmed = url.trim();
+            if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+                normalized = trimmed.endsWith("/") ? trimmed : (trimmed + "/");
+            }
+        }
+        if (!normalized.equals(customBaseUrl)) {
+            customBaseUrl = normalized;
+            retrofit = null;
+        }
+    }
+
     public static String getResolvedBaseUrl() {
+        if (customBaseUrl != null && !customBaseUrl.isEmpty()) {
+            return customBaseUrl;
+        }
         String configured = BuildConfig.AGORA_TOKEN_SERVER_URL;
         if (configured != null) {
             String trimmed = configured.trim();
@@ -47,7 +65,8 @@ public class ApiClient {
                         Request original = chain.request();
                         Request.Builder builder = original.newBuilder()
                                 .header("Accept", "application/json")
-                                .header("X-Client-App", "QLUVX-Android-1.0");
+                                .header("X-Client-App", "QLUVX-Android-1.0")
+                                .header("ngrok-skip-browser-warning", "true");
                         if (authToken != null && !authToken.isEmpty()) {
                             builder.header("Authorization", "Bearer " + authToken);
                         }

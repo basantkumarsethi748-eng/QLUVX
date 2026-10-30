@@ -137,7 +137,21 @@ app.post('/api/support/ticket', (req, res) => {
   return res.json(ticket);
 });
 
-const PORT = process.env.PORT || 8080;
+/**
+ * GET /api/health
+ * Health check endpoint for verifying ngrok http 5000 tunnel connectivity from Android app.
+ */
+app.get('/api/health', (req, res) => {
+  return res.json({
+    status: 'OK',
+    service: 'QLUVX Backend Server',
+    port: Number(process.env.PORT || 5000),
+    timestamp: new Date().toISOString()
+  });
+});
+
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`QLUVX Agora Token & Platform Backend listening on port ${PORT}`);
+  console.log(`Expose publicly with: ngrok http ${PORT}`);
 });

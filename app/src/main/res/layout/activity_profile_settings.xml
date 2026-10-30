@@ -206,6 +206,30 @@
                 android:text="📍 Hide My Exact Distance on Nearby Grid"
                 android:textColor="#FFFFFF"
                 android:textSize="13.5sp" />
+
+            <Button
+                android:id="@+id/btnOpenPrivacyCloakFromSettings"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_walla_gold_pill"
+                android:text="🛡️ Privacy Cloak, Calculator Disguise 🧮 &amp; Panic Exit 🚨"
+                android:textAllCaps="false"
+                android:textColor="#0A0A14"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnOpenTeleportFromSettings"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_walla_cyan_pill"
+                android:text="🌍 Global City Radar Teleport (Bangkok, Tokyo, NY...)"
+                android:textAllCaps="false"
+                android:textColor="#0A0A14"
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Save Profile Button -->
@@ -230,7 +254,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="28dp"
             android:backgroundTint="#28101C"
-            android:text="🚪  Log Out"
+            android:text="🚪 Log Out of QLUVX"
             android:textAllCaps="false"
             android:textColor="#FF2A7A"
             android:textSize="15sp"

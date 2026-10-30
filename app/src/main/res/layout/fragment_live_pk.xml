@@ -14,11 +14,11 @@
         <!-- 1. TOP BROADCAST BAR: Broadcaster Pill (Top-Left) + Top 3 Gold/Silver Gifters & Close Button (Top-Right) -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="58dp"
             android:paddingHorizontal="10dp"
-            android:paddingTop="6dp">
+            android:paddingTop="4dp">
 
-            <!-- Top-Left: Broadcaster Pill with HD Avatar, Name, Viewer Count ("1.4k"), and Pink "+ Follow" Button -->
+            <!-- Top-Left: Broadcaster Pill with Real HD Glide Avatar, Name, Viewer Count ("1.4k"), and Pink "+ Follow" Button -->
             <LinearLayout
                 android:id="@+id/pillBroadcaster"
                 android:layout_width="wrap_content"
@@ -285,7 +285,7 @@
                 android:textStyle="bold" />
         </FrameLayout>
 
-        <!-- 3. SPLIT-SCREEN DUAL HD LIVE FEEDS WITH LIVE COUNTDOWN TIMER -->
+        <!-- 3. SPLIT-SCREEN DUAL REAL LIVE STREAM VIDEO SURFACES (Left: Real CameraX Live Feed • Right: Real Looping HD Video Stream) -->
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -300,7 +300,7 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Left Host HD Stream Feed (Alex • Red Side) -->
+                <!-- Left Host Real Live Camera Surface (Host 1 • Red Side) -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -314,11 +314,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <!-- Real HD Glide Portrait Fallback under Live Camera -->
                         <ImageView
                             android:id="@+id/ivHostRedStream"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop" />
+
+                        <!-- REAL LIVE FRONT/BACK CAMERAX PREVIEW SURFACE -->
+                        <androidx.camera.view.PreviewView
+                            android:id="@+id/previewHostRedCamera"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+                        <!-- Warm Rose/Gold Beauty Filter Glow Overlay -->
+                        <View
+                            android:id="@+id/viewRedBeautyOverlay"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="#22FF2A7A" />
 
                         <View
                             android:layout_width="match_parent"
@@ -327,13 +341,14 @@
                             android:background="@drawable/bg_nearby_bottom_scrim" />
 
                         <TextView
+                            android:id="@+id/tvLeftCameraBadge"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="8dp"
                             android:background="@drawable/bg_walla_pink_pill"
                             android:paddingHorizontal="7dp"
                             android:paddingVertical="2dp"
-                            android:text="🔴 LIVE • WINNING"
+                            android:text="📹 FRONT CAM LIVE"
                             android:textColor="#FFFFFF"
                             android:textSize="9sp"
                             android:textStyle="bold" />
@@ -352,7 +367,7 @@
                                 android:layout_weight="1"
                                 android:text="🎙️ Alex Royal"
                                 android:textColor="#FFFFFF"
-                                android:textSize="12sp"
+                                android:textSize="11.5sp"
                                 android:textStyle="bold" />
 
                             <Button
@@ -365,16 +380,16 @@
                                 android:minWidth="0dp"
                                 android:minHeight="0dp"
                                 android:paddingHorizontal="8dp"
-                                android:text="🌹 +500"
+                                android:text="🌹 +500 Gift Red"
                                 android:textAllCaps="false"
                                 android:textColor="#FFFFFF"
-                                android:textSize="10sp"
+                                android:textSize="9.5sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </RelativeLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- Right Host HD Stream Feed (Ryan • Blue Side) -->
+                <!-- Right Host Real Looping HD Video Stream (Host 2 Challenger • Blue Side) -->
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -388,11 +403,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
+                        <!-- Real HD Glide Portrait Backdrop while Video Buffers -->
                         <ImageView
                             android:id="@+id/ivHostBlueStream"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:scaleType="centerCrop" />
+
+                        <!-- REAL LOOPING HD VIDEO STREAM SURFACE -->
+                        <VideoView
+                            android:id="@+id/vvHostBlueStream"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true" />
 
                         <View
                             android:layout_width="match_parent"
@@ -408,7 +431,7 @@
                             android:background="@drawable/bg_walla_cyan_pill"
                             android:paddingHorizontal="7dp"
                             android:paddingVertical="2dp"
-                            android:text="⚡ CHALLENGER"
+                            android:text="⚡ HD STREAM"
                             android:textColor="#0A0A14"
                             android:textSize="9sp"
                             android:textStyle="bold" />
@@ -427,7 +450,7 @@
                                 android:layout_weight="1"
                                 android:text="🎧 Ryan Beats"
                                 android:textColor="#FFFFFF"
-                                android:textSize="12sp"
+                                android:textSize="11.5sp"
                                 android:textStyle="bold" />
 
                             <Button
@@ -440,10 +463,10 @@
                                 android:minWidth="0dp"
                                 android:minHeight="0dp"
                                 android:paddingHorizontal="8dp"
-                                android:text="🏎️ +500"
+                                android:text="🏎️ +500 Gift Blue"
                                 android:textAllCaps="false"
                                 android:textColor="#0A0A14"
-                                android:textSize="10sp"
+                                android:textSize="9.5sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </RelativeLayout>
@@ -466,14 +489,77 @@
                 android:textStyle="bold" />
         </FrameLayout>
 
+        <!-- 3B. LIVE CAMERA & BROADCASTER CONTROL BAR: Camera Flip, Mic Mute, Beauty Filter, Full-Screen Studio -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="34dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <TextView
+                android:id="@+id/btnFlipCameraPk"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:text="🔄 Flip Cam"
+                android:textColor="#00E5FF"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnToggleMicPk"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:text="🎙️ Mic ON"
+                android:textColor="#00E676"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnToggleBeautyPk"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="2dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:text="✨ Beauty ON"
+                android:textColor="#FF2A7A"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/btnOpenBroadcasterStudio"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_walla_pink_pill"
+                android:gravity="center"
+                android:text="🔴 GO LIVE"
+                android:textColor="#FFFFFF"
+                android:textSize="10.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <!-- 4. BOTTOM OVERLAY: Semi-Transparent Floating Live Chat Stream (Bottom-Left) + Gift & Heart Particle Tap (Bottom-Right) -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="8dp"
-            android:layout_weight="0.85"
+            android:layout_weight="0.80"
             android:orientation="vertical">
 
             <!-- VIP Entrance Banner Pill -->
@@ -522,22 +608,22 @@
 
                     <TextView
                         android:id="@+id/btnTapHeart"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_width="46dp"
+                        android:layout_height="46dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@drawable/bg_walla_pink_pill"
                         android:gravity="center"
                         android:text="❤️"
-                        android:textSize="20sp" />
+                        android:textSize="19sp" />
 
                     <TextView
                         android:id="@+id/btnOpenGiftTray"
-                        android:layout_width="52dp"
-                        android:layout_height="52dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:background="@drawable/bg_walla_gold_pill"
                         android:gravity="center"
                         android:text="🎁"
-                        android:textSize="22sp" />
+                        android:textSize="21sp" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -545,7 +631,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="5dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -579,7 +665,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Floating Heart Particle Layer -->
+    <!-- Floating Heart Particle & Full-Screen Gift Blast Layer -->
     <FrameLayout
         android:id="@+id/heartParticleContainer"
         android:layout_width="match_parent"

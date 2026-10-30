@@ -486,15 +486,63 @@
                 android:textStyle="bold" />
 
             <Button
+                android:id="@+id/btnOpenTeleportRadar"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#1E1E36"
+                android:text="🌍 Global Radar City Teleport (Bangkok, Tokyo, NY...)"
+                android:textAllCaps="false"
+                android:textColor="#00E5FF"
+                android:textSize="12.5sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnOpenPrivacySecurity"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#1E1E36"
+                android:text="🛡️ Privacy Cloak, Calculator Disguise 🧮 &amp; Panic Exit 🚨"
+                android:textAllCaps="false"
+                android:textColor="#F1C40F"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnTestPrivateVideoCall"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#1E1E36"
+                android:text="📹 1-on-1 Private HD Video Call + Gift Combo Streak 🔥"
+                android:textAllCaps="false"
+                android:textColor="#FF2A7A"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
                 android:id="@+id/btnOpenProfileSettings"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="#1E1E36"
-                android:text="⚙️ Profile Settings, Stealth Mode &amp; Log Out"
+                android:text="⚙️ Profile Settings, Height/Weight &amp; Stealth"
                 android:textAllCaps="false"
-                android:textColor="#F1C40F"
+                android:textColor="#C7C7E2"
                 android:textSize="12.5sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnDirectLogout"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="#28101C"
+                android:text="🚪 Log Out of QLUVX"
+                android:textAllCaps="false"
+                android:textColor="#FF2A7A"
+                android:textSize="13sp"
                 android:textStyle="bold" />
 
             <!-- Hidden legacy buttons preserved for safe lookup -->

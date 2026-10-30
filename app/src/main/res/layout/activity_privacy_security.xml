@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0A0A14"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- 1. TOP HEADER BAR -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp">
+
+            <TextView
+                android:id="@+id/btnBackPrivacy"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/bg_walla_glass_card"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:text="⬅ Back"
+                android:textColor="#00E5FF"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="🛡️ Privacy Cloak &amp; Security"
+                android:textColor="#FFFFFF"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+        <!-- 2. HERO STATUS BANNER -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="14dp">
+
+            <TextView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_seat_neon_gold"
+                android:gravity="center"
+                android:text="🕵️"
+                android:textSize="24sp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvCloakStatusHeadline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MILITARY-GRADE STEALTH ARMOR"
+                    android:textColor="#F1C40F"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCloakStatusSub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Calculator App Disguise • Biometric/PIN Vault • Screenshot Shield"
+                    android:textColor="#C7C7E2"
+                    android:textSize="11.5sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 3. DISGUISE AS CALCULATOR 🧮 CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🧮 HOME SCREEN STEALTH DISGUISE"
+                android:textColor="#00E5FF"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/swDisguiseCalculator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Disguise as Calculator 🧮"
+                android:textColor="#FFFFFF"
+                android:textSize="14.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Cloaks QLUVX behind a working scientific Calculator screen. Enter your secret 4-digit PIN + '=' on the calculator pad to unlock QLUVX."
+                android:textColor="#9E9EBC"
+                android:textSize="11.5sp" />
+
+            <Button
+                android:id="@+id/btnTestCalculatorCloak"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_walla_cyan_pill"
+                android:text="🧮 Open Disguised Calculator Screen Now"
+                android:textAllCaps="false"
+                android:textColor="#0A0A14"
+                android:textSize="12.5sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- 4. BIOMETRIC FINGERPRINT / PIN APP LOCK CARD -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔐 BIOMETRIC &amp; PIN VAULT ON LAUNCH"
+                android:textColor="#F1C40F"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/swBiometricPinLock"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Biometric Fingerprint / PIN App Lock 🔒"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvCurrentPinDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Current Vault PIN: 2580 • Biometric Sensor Ready"
+                android:textColor="#00E676"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/btnChangePinCode"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_walla_glass_card"
+                    android:text="🔢 Set Secret PIN"
+                    android:textAllCaps="false"
+                    android:textColor="#F1C40F"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnTestBiometricScan"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_walla_gold_pill"
+                    android:text="🫆 Test Biometric Lock"
+                    android:textAllCaps="false"
+                    android:textColor="#0A0A14"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- 5. SCREENSHOT PROTECTION & STEALTH BROWSING -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🛡️ ANTI-SCREENSHOT &amp; GHOST PRIVACY"
+                android:textColor="#FF2A7A"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/swScreenshotShield"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:checked="true"
+                android:text="Block Screenshots &amp; Screen Recording (FLAG_SECURE)"
+                android:textColor="#FFFFFF"
+                android:textSize="13.5sp" />
+
+            <Switch
+                android:id="@+id/swGhostStealth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Incognito Ghost Mode (Hide Visit Footprints)"
+                android:textColor="#FFFFFF"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <!-- 6. 1-TAP EMERGENCY PANIC EXIT 🚨 BUTTON -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            android:background="@drawable/bg_walla_glass_card"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🚨 INSTANT EMERGENCY PROTECTION"
+                android:textColor="#FF5252"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Instantly scrubs active screen from Android Recents and terminates QLUVX in 1 tap."
+                android:textColor="#C7C7E2"
+                android:textSize="11.5sp" />
+
+            <Button
+                android:id="@+id/btnEmergencyPanicExit"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/bg_walla_pink_pill"
+                android:text="1-Tap Emergency Panic Exit 🚨"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

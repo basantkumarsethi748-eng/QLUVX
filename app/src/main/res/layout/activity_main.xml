@@ -12,6 +12,24 @@
         android:layout_height="match_parent"
         android:layout_above="@id/bottomNavigationView" />
 
+    <!-- Glowing Neon Hot Pink "🔴 GO LIVE" Floating Broadcast Button -->
+    <TextView
+        android:id="@+id/btnFloatingGoLive"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_above="@id/bottomNavigationView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="14dp"
+        android:background="@drawable/bg_walla_pink_pill"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:paddingHorizontal="18dp"
+        android:text="🔴 GO LIVE"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        android:textStyle="bold" />
+
     <!-- Subtle Glassmorphic Neon Top Border Line above Bottom Bar -->
     <View
         android:layout_width="match_parent"

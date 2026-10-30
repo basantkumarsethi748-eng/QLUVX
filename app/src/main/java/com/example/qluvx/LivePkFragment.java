@@ -16,9 +16,12 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.DecelerateInterpolator;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -28,8 +31,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.camera.view.PreviewView;
 import androidx.fragment.app.Fragment;
 import java.text.NumberFormat;
 import java.util.Locale;
@@ -39,21 +44,33 @@ public class LivePkFragment extends Fragment {
 
     private int redScore = 18450;
     private int blueScore = 14900;
+    private float currentRedWeight = 55f;
     private boolean isFollowingHost = false;
+    private boolean isFrontCamera = true;
+    private boolean isMicMuted = false;
+    private boolean isBeautyFilterEnabled = true;
 
     private TextView tvScoreRed;
     private TextView tvScoreBlue;
     private TextView tvPkTimer;
     private TextView tvVipEntranceBanner;
+    private TextView tvLeftCameraBadge;
     private RelativeLayout barRedSegment;
     private RelativeLayout barBlueSegment;
     private LinearLayout llLiveChatMessages;
     private ScrollView svLiveChat;
     private FrameLayout heartParticleContainer;
 
+    private PreviewView previewHostRedCamera;
+    private ImageView ivHostRedStream;
+    private View viewRedBeautyOverlay;
+    private VideoView vvHostBlueStream;
+    private ImageView ivHostBlueStream;
+
     private SessionManager sessionManager;
     private CountDownTimer pkCountdownTimer;
     private ObjectAnimator giftPulseAnimator;
+    private ValueAnimator tugBarAnimator;
     private final Random random = new Random();
 
     @Nullable
@@ -68,6 +85,7 @@ public class LivePkFragment extends Fragment {
         tvScoreBlue = view.findViewById(R.id.tvScoreBlue);
         tvPkTimer = view.findViewById(R.id.tvPkTimer);
         tvVipEntranceBanner = view.findViewById(R.id.tvVipEntranceBanner);
+        tvLeftCameraBadge = view.findViewById(R.id.tvLeftCameraBadge);
         barRedSegment = view.findViewById(R.id.barRedSegment);
         barBlueSegment = view.findViewById(R.id.barBlueSegment);
         llLiveChatMessages = view.findViewById(R.id.llLiveChatMessages);
@@ -78,8 +96,16 @@ public class LivePkFragment extends Fragment {
         ImageView ivGifter1 = view.findViewById(R.id.ivGifter1);
         ImageView ivGifter2 = view.findViewById(R.id.ivGifter2);
         ImageView ivGifter3 = view.findViewById(R.id.ivGifter3);
-        ImageView ivHostRedStream = view.findViewById(R.id.ivHostRedStream);
-        ImageView ivHostBlueStream = view.findViewById(R.id.ivHostBlueStream);
+
+        previewHostRedCamera = view.findViewById(R.id.previewHostRedCamera);
+        ivHostRedStream = view.findViewById(R.id.ivHostRedStream);
+        viewRedBeautyOverlay = view.findViewById(R.id.viewRedBeautyOverlay);
+        vvHostBlueStream = view.findViewById(R.id.vvHostBlueStream);
+        ivHostBlueStream = view.findViewById(R.id.ivHostBlueStream);
+
+        View gifter1Box = view.findViewById(R.id.gifter1Box);
+        View gifter2Box = view.findViewById(R.id.gifter2Box);
+        View gifter3Box = view.findViewById(R.id.gifter3Box);
 
         TextView btnFollowHost = view.findViewById(R.id.btnFollowHost);
         TextView btnCloseBroadcast = view.findViewById(R.id.btnCloseBroadcast);
@@ -90,24 +116,87 @@ public class LivePkFragment extends Fragment {
         EditText etLiveChatInput = view.findViewById(R.id.etLiveChatInput);
         Button btnSendLiveChat = view.findViewById(R.id.btnSendLiveChat);
 
-        // Bind High-Res Streamer Feeds & Avatars from WallaPortraitStudio
+        TextView btnFlipCameraPk = view.findViewById(R.id.btnFlipCameraPk);
+        TextView btnToggleMicPk = view.findViewById(R.id.btnToggleMicPk);
+        TextView btnToggleBeautyPk = view.findViewById(R.id.btnToggleBeautyPk);
+        TextView btnOpenBroadcasterStudio = view.findViewById(R.id.btnOpenBroadcasterStudio);
+
+        // 1. Load Real High-Resolution Male Portraits via Glide (NO cartoon faces!)
+        WallaPortraitStudio.loadGuyPhoto(ctx, ivBroadcasterAvatar, 0);
         if (ivBroadcasterAvatar != null) {
-            ivBroadcasterAvatar.setImageDrawable(WallaPortraitStudio.getGuyPortraitDrawable(ctx, 0));
+            ivBroadcasterAvatar.setOnClickListener(v ->
+                    WallaChatOverlay.openFullScreenChat(ctx, "Alex Royal, 25", 0, "Top", "120m", false, null)
+            );
         }
-        if (ivGifter1 != null) {
-            ivGifter1.setImageDrawable(WallaPortraitStudio.getGuyPortraitDrawable(ctx, 6));
+        WallaPortraitStudio.loadGuyPhoto(ctx, ivGifter1, 6);
+        WallaPortraitStudio.loadGuyPhoto(ctx, ivGifter2, 3);
+        WallaPortraitStudio.loadGuyPhoto(ctx, ivGifter3, 9);
+
+        // 2. Start REAL LIVE CameraX Front Camera on Left Screen + Real Looping HD Video Stream on Right Screen
+        refreshLiveCameraFeed();
+        if (vvHostBlueStream != null && ivHostBlueStream != null) {
+            WallaBroadcasterStudio.startLoopingChallengerVideo(ctx, vvHostBlueStream, ivHostBlueStream, 0);
         }
-        if (ivGifter2 != null) {
-            ivGifter2.setImageDrawable(WallaPortraitStudio.getGuyPortraitDrawable(ctx, 3));
+
+        // 3. Camera Flip Button (Front <-> Back Camera)
+        if (btnFlipCameraPk != null) {
+            btnFlipCameraPk.setOnClickListener(v -> {
+                isFrontCamera = !isFrontCamera;
+                refreshLiveCameraFeed();
+                Toast.makeText(ctx, isFrontCamera ? "📹 Switched to Front Camera" : "📹 Switched to Back Camera", Toast.LENGTH_SHORT).show();
+            });
         }
-        if (ivGifter3 != null) {
-            ivGifter3.setImageDrawable(WallaPortraitStudio.getGuyPortraitDrawable(ctx, 9));
+
+        // 4. Mic Mute / Unmute Button
+        if (btnToggleMicPk != null) {
+            btnToggleMicPk.setOnClickListener(v -> {
+                isMicMuted = !isMicMuted;
+                btnToggleMicPk.setText(isMicMuted ? "🔇 Muted" : "🎙️ Mic ON");
+                btnToggleMicPk.setTextColor(Color.parseColor(isMicMuted ? "#FF5252" : "#00E676"));
+                Toast.makeText(ctx, isMicMuted ? "🔇 Live Microphone Muted" : "🎙️ Live Microphone Unmuted", Toast.LENGTH_SHORT).show();
+            });
         }
-        if (ivHostRedStream != null) {
-            ivHostRedStream.setImageDrawable(WallaPortraitStudio.getLiveStreamerFeedDrawable(ctx, true));
+
+        // 5. Beauty Filter Toggle Button
+        if (btnToggleBeautyPk != null) {
+            btnToggleBeautyPk.setOnClickListener(v -> {
+                isBeautyFilterEnabled = !isBeautyFilterEnabled;
+                if (viewRedBeautyOverlay != null) {
+                    viewRedBeautyOverlay.setVisibility(isBeautyFilterEnabled ? View.VISIBLE : View.GONE);
+                }
+                btnToggleBeautyPk.setText(isBeautyFilterEnabled ? "✨ Beauty ON" : "✨ Beauty OFF");
+                btnToggleBeautyPk.setTextColor(Color.parseColor(isBeautyFilterEnabled ? "#FF2A7A" : "#9E9EBC"));
+                if (tvLeftCameraBadge != null) {
+                    String cam = isFrontCamera ? "FRONT CAM LIVE" : "BACK CAM LIVE";
+                    tvLeftCameraBadge.setText("📹 " + cam + (isBeautyFilterEnabled ? " • ✨ BEAUTY" : ""));
+                }
+            });
         }
-        if (ivHostBlueStream != null) {
-            ivHostBlueStream.setImageDrawable(WallaPortraitStudio.getLiveStreamerFeedDrawable(ctx, false));
+
+        // 6. "🔴 GO LIVE" Full-Screen Broadcaster Studio Button
+        if (btnOpenBroadcasterStudio != null) {
+            btnOpenBroadcasterStudio.setOnClickListener(v -> {
+                if (getActivity() != null) {
+                    WallaBroadcasterStudio.openBroadcasterStudio(getActivity());
+                }
+            });
+        }
+
+        // Top 3 Gifter Leaderboard Clicks
+        if (gifter1Box != null) {
+            gifter1Box.setOnClickListener(v ->
+                    Toast.makeText(ctx, "👑 #1 Top Gifter: Aarav (14,200 🪙 gifted tonight)", Toast.LENGTH_SHORT).show()
+            );
+        }
+        if (gifter2Box != null) {
+            gifter2Box.setOnClickListener(v ->
+                    Toast.makeText(ctx, "🥈 #2 Top Gifter: Zayn (8,600 🪙 gifted tonight)", Toast.LENGTH_SHORT).show()
+            );
+        }
+        if (gifter3Box != null) {
+            gifter3Box.setOnClickListener(v ->
+                    Toast.makeText(ctx, "🥉 #3 Top Gifter: Vikram (5,100 🪙 gifted tonight)", Toast.LENGTH_SHORT).show()
+            );
         }
 
         // Top-Left Pink "+ Follow" Button
@@ -119,6 +208,7 @@ public class LivePkFragment extends Fragment {
                 btnFollowHost.setTextColor(isFollowingHost ? Color.parseColor("#0A0A14") : Color.WHITE);
                 if (isFollowingHost) {
                     appendLiveChatMessage("💖 " + sessionManager.getUserName(), "followed Host Alex Royal!", "#FF2A7A");
+                    spawnHeartBurst(4);
                 }
             });
         }
@@ -149,43 +239,67 @@ public class LivePkFragment extends Fragment {
 
         // Heart Particle Tap Button
         if (btnTapHeart != null) {
-            btnTapHeart.setOnClickListener(v -> {
-                for (int i = 0; i < 3; i++) {
-                    spawnFloatingHeartParticle();
-                }
-            });
+            btnTapHeart.setOnClickListener(v -> spawnHeartBurst(5));
         }
 
-        // Red vs Blue PK Vote / Gift Boost Buttons
+        // "+500 Gift Red" and "+500 Gift Blue" Buttons -> Slide PK Bar + Full-Screen Animated Gift Blast!
         if (btnGiftRed != null) {
-            btnGiftRed.setOnClickListener(v -> sendPkGift(true, "🌹 Rose Bouquet", 500, 50));
+            btnGiftRed.setOnClickListener(v -> sendPkGift(true, "🏎️ LUXURY SPORTS CAR", 500, 50));
         }
         if (btnGiftBlue != null) {
-            btnGiftBlue.setOnClickListener(v -> sendPkGift(false, "🏎️ Neon Sports Car", 500, 50));
+            btnGiftBlue.setOnClickListener(v -> sendPkGift(false, "🚀 SUPERSONIC ROCKET", 500, 50));
         }
 
         // Seed Initial Live Chat Stream
         seedInitialChatMessages();
 
-        // Live Chat Input
+        // Live Comment Bar: Typing and pressing send adds the comment to the live stream floating chat list
         if (btnSendLiveChat != null && etLiveChatInput != null) {
-            btnSendLiveChat.setOnClickListener(v -> {
+            Runnable sendCommentAction = () -> {
                 String text = etLiveChatInput.getText().toString().trim();
-                if (text.isEmpty()) return;
+                if (text.isEmpty()) {
+                    Toast.makeText(ctx, "Type a live comment first!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 etLiveChatInput.setText("");
                 appendLiveChatMessage("👑 " + sessionManager.getUserName(), text, "#F1C40F");
-                spawnFloatingHeartParticle();
+                spawnHeartBurst(3);
+            };
+
+            btnSendLiveChat.setOnClickListener(v -> sendCommentAction.run());
+            etLiveChatInput.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_SEND ||
+                        (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_DOWN)) {
+                    sendCommentAction.run();
+                    return true;
+                }
+                return false;
             });
         }
 
-        // Start 5-Minute Live PK Countdown Timer
         startPkCountdownTimer();
-        updatePkTugOfWarBar();
+        animatePkTugOfWarBar(false);
 
         return view;
     }
 
+    public void refreshLiveCameraFeed() {
+        Context ctx = getContext();
+        if (ctx == null || previewHostRedCamera == null || ivHostRedStream == null || tvLeftCameraBadge == null) {
+            return;
+        }
+        WallaBroadcasterStudio.bindCameraFeed(
+                requireActivity(),
+                previewHostRedCamera,
+                ivHostRedStream,
+                tvLeftCameraBadge,
+                isFrontCamera,
+                isBeautyFilterEnabled
+        );
+    }
+
     private void sendPkGift(boolean toRedHost, String giftTitle, int pkPoints, int coinCost) {
+        Context ctx = getContext();
         int currentCoins = sessionManager.getUserCoins();
         if (currentCoins >= coinCost) {
             sessionManager.setUserCoins(currentCoins - coinCost);
@@ -194,25 +308,35 @@ public class LivePkFragment extends Fragment {
         if (toRedHost) {
             redScore += pkPoints;
             appendLiveChatMessage("🎁 " + sessionManager.getUserName(),
-                    "sent " + giftTitle + " (+" + pkPoints + " PK) to Alex!", "#FF2A7A");
+                    "sent " + giftTitle + " (+" + pkPoints + " PK) to RED Host Alex!", "#FF2A7A");
             if (tvVipEntranceBanner != null) {
-                tvVipEntranceBanner.setText("🔥 " + sessionManager.getUserName() + " boosted RED with " + giftTitle + "!");
+                tvVipEntranceBanner.setText("🔥 " + sessionManager.getUserName() + " boosted RED (+" + pkPoints + ") with " + giftTitle + "!");
             }
         } else {
             blueScore += pkPoints;
             appendLiveChatMessage("🎁 " + sessionManager.getUserName(),
-                    "sent " + giftTitle + " (+" + pkPoints + " PK) to Ryan!", "#00E5FF");
+                    "sent " + giftTitle + " (+" + pkPoints + " PK) to BLUE Host Ryan!", "#00E5FF");
             if (tvVipEntranceBanner != null) {
-                tvVipEntranceBanner.setText("❄️ " + sessionManager.getUserName() + " boosted BLUE with " + giftTitle + "!");
+                tvVipEntranceBanner.setText("❄️ " + sessionManager.getUserName() + " boosted BLUE (+" + pkPoints + ") with " + giftTitle + "!");
             }
         }
 
-        updatePkTugOfWarBar();
-        spawnFloatingHeartParticle();
-        spawnFloatingHeartParticle();
+        animatePkTugOfWarBar(true);
+        spawnHeartBurst(6);
+
+        // Trigger Full-Screen Animated Gift Blast (Flying Luxury Car / Rocket across the screen)
+        if (ctx != null && heartParticleContainer != null) {
+            WallaBroadcasterStudio.triggerFullScreenGiftBlast(
+                    ctx,
+                    heartParticleContainer,
+                    toRedHost,
+                    giftTitle,
+                    sessionManager.getUserName()
+            );
+        }
     }
 
-    private void updatePkTugOfWarBar() {
+    private void animatePkTugOfWarBar(boolean animateSlide) {
         NumberFormat nf = NumberFormat.getNumberInstance(Locale.US);
         if (tvScoreRed != null) {
             tvScoreRed.setText("🔥 RED " + nf.format(redScore));
@@ -221,18 +345,40 @@ public class LivePkFragment extends Fragment {
             tvScoreBlue.setText(nf.format(blueScore) + " BLUE ❄️");
         }
 
-        if (barRedSegment != null && barBlueSegment != null) {
-            float total = Math.max(1f, redScore + blueScore);
-            float redWeight = Math.max(20f, Math.min(80f, (redScore / total) * 100f));
-            float blueWeight = 100f - redWeight;
+        if (barRedSegment == null || barBlueSegment == null) return;
 
-            LinearLayout.LayoutParams redLp = (LinearLayout.LayoutParams) barRedSegment.getLayoutParams();
-            LinearLayout.LayoutParams blueLp = (LinearLayout.LayoutParams) barBlueSegment.getLayoutParams();
-            redLp.weight = redWeight;
-            blueLp.weight = blueWeight;
-            barRedSegment.setLayoutParams(redLp);
-            barBlueSegment.setLayoutParams(blueLp);
+        float total = Math.max(1f, redScore + blueScore);
+        final float targetRedWeight = Math.max(18f, Math.min(82f, (redScore / total) * 100f));
+
+        if (!animateSlide) {
+            currentRedWeight = targetRedWeight;
+            applyBarWeights(currentRedWeight);
+            return;
         }
+
+        if (tugBarAnimator != null) {
+            tugBarAnimator.cancel();
+        }
+
+        tugBarAnimator = ValueAnimator.ofFloat(currentRedWeight, targetRedWeight);
+        tugBarAnimator.setDuration(420L);
+        tugBarAnimator.setInterpolator(new DecelerateInterpolator());
+        tugBarAnimator.addUpdateListener(anim -> {
+            currentRedWeight = (float) anim.getAnimatedValue();
+            applyBarWeights(currentRedWeight);
+        });
+        tugBarAnimator.start();
+    }
+
+    private void applyBarWeights(float redWeight) {
+        if (barRedSegment == null || barBlueSegment == null) return;
+        float blueWeight = 100f - redWeight;
+        LinearLayout.LayoutParams redLp = (LinearLayout.LayoutParams) barRedSegment.getLayoutParams();
+        LinearLayout.LayoutParams blueLp = (LinearLayout.LayoutParams) barBlueSegment.getLayoutParams();
+        redLp.weight = redWeight;
+        blueLp.weight = blueWeight;
+        barRedSegment.setLayoutParams(redLp);
+        barBlueSegment.setLayoutParams(blueLp);
     }
 
     private void showLuxuryGiftBottomDialog() {
@@ -240,20 +386,20 @@ public class LivePkFragment extends Fragment {
         if (ctx == null) return;
 
         String[] gifts = new String[]{
-                "🌹 Neon Rose (10 🪙)  •  +150 PK Score",
-                "🏎️ Cyber Sports Car (100 🪙)  •  +1,000 PK Score",
-                "✈️ Supersonic Private Jet (500 🪙)  •  +5,000 PK Score",
-                "👑 Imperial Dragon Crown (1,000 🪙)  •  +12,000 PK Score"
+                "🌹 Neon Rose to RED (10 🪙)  •  +500 PK Score",
+                "🏎️ Cyber Sports Car to BLUE (100 🪙)  •  +1,000 PK Score",
+                "🚀 Interstellar Rocket to RED (500 🪙)  •  +2,500 PK Score",
+                "👑 Imperial Dragon Crown to BLUE (1,000 🪙)  •  +5,000 PK Score"
         };
 
         new AlertDialog.Builder(ctx)
-                .setTitle("🎁 Send Luxury Gift (Balance: " + sessionManager.getFormattedCoins() + " 🪙)")
+                .setTitle("🎁 Send Luxury PK Gift (Balance: " + sessionManager.getFormattedCoins() + " 🪙)")
                 .setItems(gifts, (dialog, which) -> {
                     int[] costs = {10, 100, 500, 1000};
-                    int[] points = {150, 1000, 5000, 12000};
-                    String[] names = {"🌹 Neon Rose", "🏎️ Cyber Sports Car", "✈️ Supersonic Jet", "👑 Imperial Dragon Crown"};
-                    sendPkGift(true, names[which], points[which], costs[which]);
-                    Toast.makeText(ctx, "Sent " + names[which] + "! Wallet: " + sessionManager.getFormattedCoins() + " 🪙", Toast.LENGTH_SHORT).show();
+                    int[] points = {500, 1000, 2500, 5000};
+                    boolean[] toRed = {true, false, true, false};
+                    String[] names = {"🌹 NEON ROSE", "🏎️ CYBER SPORTS CAR", "🚀 INTERSTELLAR ROCKET", "👑 IMPERIAL DRAGON CROWN"};
+                    sendPkGift(toRed[which], names[which], points[which], costs[which]);
                 })
                 .show();
     }
@@ -261,11 +407,10 @@ public class LivePkFragment extends Fragment {
     private void seedInitialChatMessages() {
         if (llLiveChatMessages == null) return;
         llLiveChatMessages.removeAllViews();
-        appendLiveChatMessage("🛡️ System", "Welcome to Walla HD Live PK Battle! Tap ❤️ or send gifts to boost your host.", "#00E5FF");
-        appendLiveChatMessage("👑 Kabir (Lv.42)", "Alex's studio lighting looks insane tonight 🔥🔥", "#F1C40F");
-        appendLiveChatMessage("💎 Zayn_BLR", "Sent 🌹 Neon Rose x5 to Alex Royal!", "#FF2A7A");
+        appendLiveChatMessage("🛡️ System", "Real CameraX Live PK & Looping HD Challenger Stream Active! Tap '+500 Gift Red' or '+500 Gift Blue' for a Gift Blast!", "#00E5FF");
+        appendLiveChatMessage("👑 Kabir (Lv.42)", "Live camera feed & beauty glow look fire tonight 🔥🔥", "#F1C40F");
+        appendLiveChatMessage("💎 Zayn_BLR", "Sent 🏎️ Luxury Sports Car to Alex Royal!", "#FF2A7A");
         appendLiveChatMessage("⚡ Liam_23", "Team Blue let's catch up! Ryan drop the beat 🎧", "#00E5FF");
-        appendLiveChatMessage("🔥 Vikram", "Who's joining the 8-seat voice party after this PK?", "#00E676");
     }
 
     private void appendLiveChatMessage(String sender, String message, String senderHexColor) {
@@ -291,35 +436,41 @@ public class LivePkFragment extends Fragment {
         }
     }
 
+    private void spawnHeartBurst(int count) {
+        for (int i = 0; i < count; i++) {
+            spawnFloatingHeartParticle();
+        }
+    }
+
     private void spawnFloatingHeartParticle() {
         Context ctx = getContext();
         if (ctx == null || heartParticleContainer == null) return;
 
-        String[] hearts = {"❤️", "💖", "💗", "🔥", "💎", "✨"};
+        String[] hearts = {"❤️", "💖", "💗", "🔥", "💎", "✨", "🌹"};
         final TextView tvHeart = new TextView(ctx);
         tvHeart.setText(hearts[random.nextInt(hearts.length)]);
-        tvHeart.setTextSize(20f);
+        tvHeart.setTextSize(20f + random.nextInt(6));
 
         FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.BOTTOM | Gravity.END
         );
-        lp.rightMargin = dp(18 + random.nextInt(36));
-        lp.bottomMargin = dp(90);
+        lp.rightMargin = dp(16 + random.nextInt(90));
+        lp.bottomMargin = dp(86 + random.nextInt(25));
         tvHeart.setLayoutParams(lp);
         heartParticleContainer.addView(tvHeart);
 
-        float driftX = (random.nextFloat() - 0.5f) * dp(70);
-        ObjectAnimator moveUp = ObjectAnimator.ofFloat(tvHeart, View.TRANSLATION_Y, 0f, -dp(260));
+        float driftX = (random.nextFloat() - 0.5f) * dp(110);
+        ObjectAnimator moveUp = ObjectAnimator.ofFloat(tvHeart, View.TRANSLATION_Y, 0f, -dp(290 + random.nextInt(80)));
         ObjectAnimator moveSide = ObjectAnimator.ofFloat(tvHeart, View.TRANSLATION_X, 0f, driftX);
         ObjectAnimator fadeOut = ObjectAnimator.ofFloat(tvHeart, View.ALPHA, 1f, 0f);
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(tvHeart, View.SCALE_X, 0.7f, 1.3f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(tvHeart, View.SCALE_Y, 0.7f, 1.3f);
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(tvHeart, View.SCALE_X, 0.7f, 1.35f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(tvHeart, View.SCALE_Y, 0.7f, 1.35f);
 
         AnimatorSet set = new AnimatorSet();
         set.playTogether(moveUp, moveSide, fadeOut, scaleX, scaleY);
-        set.setDuration(1400 + random.nextInt(500));
+        set.setDuration(1200 + random.nextInt(650));
         set.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -348,7 +499,7 @@ public class LivePkFragment extends Fragment {
             @Override
             public void onFinish() {
                 if (tvPkTimer != null) {
-                    tvPkTimer.setText("🏆 RED VICTORY!");
+                    tvPkTimer.setText(redScore >= blueScore ? "🏆 RED VICTORY!" : "🏆 BLUE VICTORY!");
                 }
             }
         }.start();
@@ -366,6 +517,14 @@ public class LivePkFragment extends Fragment {
         }
         if (giftPulseAnimator != null) {
             giftPulseAnimator.cancel();
+        }
+        if (tugBarAnimator != null) {
+            tugBarAnimator.cancel();
+        }
+        if (vvHostBlueStream != null) {
+            try {
+                vvHostBlueStream.stopPlayback();
+            } catch (Exception ignored) {}
         }
         super.onDestroyView();
     }

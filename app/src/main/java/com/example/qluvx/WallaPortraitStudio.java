@@ -13,83 +13,176 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.util.LruCache;
+import android.widget.ImageView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 /**
- * Self-contained High-Resolution Visual Studio for Walla / Blued Luxury UI.
- * Generates crisp portrait photography-style bitmaps, live streamer studio feeds,
- * Cyber Galaxy / Velvet Rose room wallpapers, and the Imperial Gold Dragon Avatar Frame
- * with zero external dependencies or network lag.
+ * Real High-Definition Male Portrait Photography & Live Media Studio for Walla / Blued (QLUVX).
+ * Uses Glide to load real HD male portrait photography from Unsplash across all screens
+ * (Nearby Grid, Live Stories, Live PK, 8-Seat Voice Party, Messages, 5s Burn Photos, and Profile).
+ * Zero cartoon or vector face illustrations.
  */
 public class WallaPortraitStudio {
 
-    private static final LruCache<String, Bitmap> BITMAP_CACHE = new LruCache<>(28);
+    private static final LruCache<String, Bitmap> BITMAP_CACHE = new LruCache<>(16);
 
-    // 12 Distinct Handsome Guy Palettes: [bgTop, bgBottom, rimLeft, rimRight, skinTone, hairColor, shirtColor, styleType]
-    private static final int[][] GUY_THEMES = new int[][]{
-            // 0: Alex, 25 (Hot Pink & Cyan Lounge, Athletic Henley)
-            {0xFF1A0B2E, 0xFF0A0A14, 0xFFFF2A7A, 0xFF00E5FF, 0xFFE8B49A, 0xFF1C1412, 0xFF1E2238, 0},
-            // 1: Ryan, 28 (Cyan & Gold Penthouse, Black Leather Jacket)
-            {0xFF091E2C, 0xFF0A0A14, 0xFF00E5FF, 0xFFF1C40F, 0xFFDFA689, 0xFF231815, 0xFF14161D, 1},
-            // 2: Kabir, 24 (Crimson Velvet Club, Fitted V-Neck)
-            {0xFF2B091E, 0xFF0A0A14, 0xFFFF2A7A, 0xFFFF9100, 0xFFD2997A, 0xFF120E0D, 0xFF281524, 2},
-            // 3: Zayn, 26 (Electric Violet & Cyan Studio, Streetwear Hoodie)
-            {0xFF1B1035, 0xFF0A0A14, 0xFF7C4DFF, 0xFF00E5FF, 0xFFE2AD91, 0xFF181210, 0xFF1B1E32, 3},
-            // 4: Liam, 23 (Golden Hour Sunset Loft, White/Dark Open Collar)
-            {0xFF281812, 0xFF0A0A14, 0xFFF1C40F, 0xFFFF2A7A, 0xFFF0C0A6, 0xFF3A2418, 0xFF23263A, 0},
-            // 5: Noah, 27 (Emerald & Cyan Cyber Bar, Sleek Turtleneck)
-            {0xFF082426, 0xFF0A0A14, 0xFF00E676, 0xFF00E5FF, 0xFFD99E80, 0xFF1A1412, 0xFF121C24, 1},
-            // 6: Aarav, 25 (Royal Gold & Magenta VIP Suite, Tailored Blazer)
-            {0xFF24142E, 0xFF0A0A14, 0xFFF1C40F, 0xFFFF2A7A, 0xFFCE9272, 0xFF110D0C, 0xFF19192B, 2},
-            // 7: Ethan, 29 (Deep Blue & Neon Pink Rooftop, Fitted Gym Tank)
-            {0xFF0D1B38, 0xFF0A0A14, 0xFF00E5FF, 0xFFFF2A7A, 0xFFE5B196, 0xFF2A1B14, 0xFF1D2236, 3},
-            // 8: Rohan, 22 (Neon Rose & Violet Studio, Bomber Jacket)
-            {0xFF2A0D26, 0xFF0A0A14, 0xFFFF2A7A, 0xFF7C4DFF, 0xFFD49B7B, 0xFF15100F, 0xFF221A30, 0},
-            // 9: Vikram, 28 (Amber & Cyan Whiskey Lounge, Dark Shirt)
-            {0xFF221810, 0xFF0A0A14, 0xFFF1C40F, 0xFF00E5FF, 0xFFCA8E6E, 0xFF100C0B, 0xFF161A28, 1},
-            // 10: Lucas, 26 (Cyber Cyan & Magenta Arcade, Crewneck)
-            {0xFF0C2233, 0xFF0A0A14, 0xFF00E5FF, 0xFFFF2A7A, 0xFFECBAA0, 0xFF322016, 0xFF1A2436, 2},
-            // 11: Dev, 24 (Velvet Purple & Gold Lounge, Designer Jacket)
-            {0xFF1F0F2E, 0xFF0A0A14, 0xFF9C27B0, 0xFFF1C40F, 0xFFD19676, 0xFF140F0E, 0xFF1C182B, 3}
+    // 12 Curated Real High-Resolution Male Portrait Photos from Unsplash (Gym, Travel, Stylish, Rooftop)
+    private static final String[] REAL_HD_MALE_PHOTOS = new String[]{
+            // 0: Alex, 25 (Exact user-requested Unsplash HD male portrait #1)
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=85",
+            // 1: Ryan, 28 (Exact user-requested Unsplash HD male portrait #2)
+            "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=900&q=85",
+            // 2: Kabir, 24 (Exact user-requested Unsplash HD male portrait #3)
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=85",
+            // 3: Zayn, 26 (Exact user-requested Unsplash HD male portrait #4)
+            "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=900&q=85",
+            // 4: Liam, 23 (Stylish model portrait)
+            "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=900&q=85",
+            // 5: Noah, 27 (Athletic coastal male portrait)
+            "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?auto=format&fit=crop&w=900&q=85",
+            // 6: Aarav, 25 / Julian Vance (Sharp modern male portrait)
+            "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=900&q=85",
+            // 7: Ethan, 29 (Fitness & tailored style male portrait)
+            "https://images.unsplash.com/photo-1534030347209-467a5b0ad3e6?auto=format&fit=crop&w=900&q=85",
+            // 8: Rohan, 22 (Urban jacket male portrait)
+            "https://images.unsplash.com/photo-1488161628813-04466f872be2?auto=format&fit=crop&w=900&q=85",
+            // 9: Vikram, 28 (Bearded athletic male portrait)
+            "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=900&q=85",
+            // 10: Lucas, 26 (Travel & gym male portrait)
+            "https://images.unsplash.com/photo-1504257432389-52343af06ae3?auto=format&fit=crop&w=900&q=85",
+            // 11: Dev, 24 (Nightlife & fashion male portrait)
+            "https://images.unsplash.com/photo-1513956589380-bad6acb9b9d4?auto=format&fit=crop&w=900&q=85"
     };
 
-    public static Drawable getGuyPortraitDrawable(Context context, int index) {
-        int safeIdx = Math.abs(index) % GUY_THEMES.length;
-        String key = "guy_portrait_" + safeIdx;
-        Bitmap bmp = BITMAP_CACHE.get(key);
-        if (bmp == null || bmp.isRecycled()) {
-            bmp = renderGuyPortraitBitmap(420, 560, safeIdx, false, false);
-            BITMAP_CACHE.put(key, bmp);
-        }
-        return new BitmapDrawable(context.getResources(), bmp);
+    // Real High-Resolution 5s Disappearing Secret Photos (Fitness / Gym / Poolside / Travel shots)
+    private static final String[] REAL_HD_SECRET_BURN_PHOTOS = new String[]{
+            "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=1000&q=85",
+            "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=1000&q=85",
+            "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1000&q=85",
+            "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1000&q=85"
+    };
+
+    // Real Looping HD Video Stream URLs for Challenger (Host 2) in Dual PK Battle
+    private static final String[] REAL_LIVE_PK_VIDEO_STREAMS = new String[]{
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+            "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoy.mp4"
+    };
+
+    private static final String REAL_PROFILE_COVER_URL =
+            "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=1200&q=85";
+
+    public static String getGuyPhotoUrl(int index) {
+        int safeIdx = Math.abs(index) % REAL_HD_MALE_PHOTOS.length;
+        return REAL_HD_MALE_PHOTOS[safeIdx];
     }
 
-    public static Bitmap getGuyPortraitBitmap(Context context, int index) {
-        int safeIdx = Math.abs(index) % GUY_THEMES.length;
-        String key = "guy_portrait_" + safeIdx;
-        Bitmap bmp = BITMAP_CACHE.get(key);
-        if (bmp == null || bmp.isRecycled()) {
-            bmp = renderGuyPortraitBitmap(420, 560, safeIdx, false, false);
-            BITMAP_CACHE.put(key, bmp);
-        }
-        return bmp;
+    public static String getSecretBurnPhotoUrl(int index) {
+        int safeIdx = Math.abs(index) % REAL_HD_SECRET_BURN_PHOTOS.length;
+        return REAL_HD_SECRET_BURN_PHOTOS[safeIdx];
     }
 
-    public static Drawable getLiveStreamerFeedDrawable(Context context, boolean isRedSide) {
-        String key = isRedSide ? "pk_streamer_red" : "pk_streamer_blue";
-        Bitmap bmp = BITMAP_CACHE.get(key);
-        if (bmp == null || bmp.isRecycled()) {
-            bmp = renderGuyPortraitBitmap(540, 780, isRedSide ? 0 : 1, true, isRedSide);
-            BITMAP_CACHE.put(key, bmp);
+    public static String getLiveChallengerVideoUrl(int index) {
+        int safeIdx = Math.abs(index) % REAL_LIVE_PK_VIDEO_STREAMS.length;
+        return REAL_LIVE_PK_VIDEO_STREAMS[safeIdx];
+    }
+
+    /**
+     * Loads a real HD male portrait photo from Unsplash into the target ImageView using Glide.
+     */
+    public static void loadGuyPhoto(Context context, ImageView imageView, int index) {
+        if (context == null || imageView == null) return;
+        String url = getGuyPhotoUrl(index);
+        Drawable placeholder = createSleekDarkShimmerDrawable(index);
+        try {
+            Glide.with(context)
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(placeholder)
+                    .error(placeholder)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade(220))
+                    .into(imageView);
+        } catch (Exception e) {
+            imageView.setImageDrawable(placeholder);
         }
-        return new BitmapDrawable(context.getResources(), bmp);
+    }
+
+    /**
+     * Loads a real HD 5-second disappearing photo into the full-screen burn dialog via Glide.
+     */
+    public static void loadSecretBurnPhoto(Context context, ImageView imageView, int index) {
+        if (context == null || imageView == null) return;
+        String url = getSecretBurnPhotoUrl(index);
+        Drawable placeholder = createSleekDarkShimmerDrawable(index);
+        try {
+            Glide.with(context)
+                    .load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(placeholder)
+                    .error(getGuyPhotoUrl(index))
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade(180))
+                    .into(imageView);
+        } catch (Exception e) {
+            loadGuyPhoto(context, imageView, index);
+        }
+    }
+
+    /**
+     * Loads a real HD nightlife cover photo into the Profile cover banner via Glide.
+     */
+    public static void loadProfileCoverPhoto(Context context, ImageView imageView) {
+        if (context == null || imageView == null) return;
+        Drawable fallback = getProfileCoverDrawable(context);
+        try {
+            Glide.with(context)
+                    .load(REAL_PROFILE_COVER_URL)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .placeholder(fallback)
+                    .error(fallback)
+                    .centerCrop()
+                    .transition(DrawableTransitionOptions.withCrossFade(250))
+                    .into(imageView);
+        } catch (Exception e) {
+            imageView.setImageDrawable(fallback);
+        }
+    }
+
+    private static Drawable createSleekDarkShimmerDrawable(int index) {
+        int[][] accents = new int[][]{
+                {0xFF241038, 0xFF0A0A14},
+                {0xFF0D2538, 0xFF0A0A14},
+                {0xFF2D1024, 0xFF0A0A14},
+                {0xFF1A163B, 0xFF0A0A14}
+        };
+        int[] pair = accents[Math.abs(index) % accents.length];
+        GradientDrawable gd = new GradientDrawable(
+                GradientDrawable.Orientation.TOP_BOTTOM,
+                new int[]{pair[0], pair[1]}
+        );
+        gd.setShape(GradientDrawable.RECTANGLE);
+        return gd;
     }
 
     public static Drawable getVoiceRoomWallpaper(Context context, boolean isVelvetRose) {
-        String key = isVelvetRose ? "wallpaper_velvet_rose" : "wallpaper_cyber_galaxy";
+        return getVoiceRoomWallpaperByIndex(context, isVelvetRose ? 2 : 0);
+    }
+
+    /**
+     * Returns one of the 4 Luxury Voice Party Room Wallpapers:
+     * 0 = Cyber Galaxy, 1 = Royal Gold Palace, 2 = Velvet Rose, 3 = Midnight Neon.
+     */
+    public static Drawable getVoiceRoomWallpaperByIndex(Context context, int themeIndex) {
+        int safeTheme = Math.abs(themeIndex) % 4;
+        String key = "wallpaper_theme_" + safeTheme;
         Bitmap bmp = BITMAP_CACHE.get(key);
         if (bmp == null || bmp.isRecycled()) {
-            bmp = renderRoomWallpaperBitmap(720, 1280, isVelvetRose);
+            bmp = renderRoomWallpaperBitmapByTheme(720, 1280, safeTheme);
             BITMAP_CACHE.put(key, bmp);
         }
         return new BitmapDrawable(context.getResources(), bmp);
@@ -115,275 +208,51 @@ public class WallaPortraitStudio {
         return new BitmapDrawable(context.getResources(), bmp);
     }
 
-    private static Bitmap renderGuyPortraitBitmap(int w, int h, int themeIdx, boolean isStreamerStudio, boolean isRedHost) {
-        int[] t = GUY_THEMES[themeIdx % GUY_THEMES.length];
-        int bgTop = isStreamerStudio ? (isRedHost ? 0xFF33081C : 0xFF071F38) : t[0];
-        int bgBottom = 0xFF0A0A14;
-        int rimLeft = isStreamerStudio ? (isRedHost ? 0xFFFF2A7A : 0xFF00E5FF) : t[2];
-        int rimRight = isStreamerStudio ? (isRedHost ? 0xFFF1C40F : 0xFF7C4DFF) : t[3];
-        int skinBase = t[4];
-        int hairColor = t[5];
-        int outfitColor = t[6];
-        int styleType = t[7];
-
+    private static Bitmap renderRoomWallpaperBitmapByTheme(int w, int h, int themeIndex) {
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bmp);
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        // 1. Deep Studio Backdrop Gradient
-        p.setShader(new LinearGradient(0, 0, 0, h, bgTop, bgBottom, Shader.TileMode.CLAMP));
-        canvas.drawRect(0, 0, w, h, p);
-
-        // 2. Ambient Neon Bokeh Lights
-        p.setShader(new RadialGradient(w * 0.18f, h * 0.25f, w * 0.55f,
-                withAlpha(rimLeft, 115), Color.TRANSPARENT, Shader.TileMode.CLAMP));
-        canvas.drawCircle(w * 0.18f, h * 0.25f, w * 0.55f, p);
-
-        p.setShader(new RadialGradient(w * 0.85f, h * 0.35f, w * 0.50f,
-                withAlpha(rimRight, 105), Color.TRANSPARENT, Shader.TileMode.CLAMP));
-        canvas.drawCircle(w * 0.85f, h * 0.35f, w * 0.50f, p);
-
-        // Studio Neon Light Bars for Live Streamers or Penthouse Bokeh
-        p.setShader(null);
-        if (isStreamerStudio) {
-            Paint neonBar = new Paint(Paint.ANTI_ALIAS_FLAG);
-            neonBar.setStrokeWidth(w * 0.018f);
-            neonBar.setStrokeCap(Paint.Cap.ROUND);
-            neonBar.setColor(withAlpha(rimLeft, 190));
-            canvas.drawLine(w * 0.12f, h * 0.10f, w * 0.12f, h * 0.48f, neonBar);
-            neonBar.setColor(withAlpha(rimRight, 180));
-            canvas.drawLine(w * 0.88f, h * 0.14f, w * 0.88f, h * 0.52f, neonBar);
-        } else {
-            // Soft bokeh orbs
-            p.setColor(withAlpha(rimLeft, 55));
-            canvas.drawCircle(w * 0.22f, h * 0.18f, w * 0.09f, p);
-            p.setColor(withAlpha(rimRight, 50));
-            canvas.drawCircle(w * 0.78f, h * 0.22f, w * 0.07f, p);
-            p.setColor(withAlpha(0xFFF1C40F, 40));
-            canvas.drawCircle(w * 0.82f, h * 0.12f, w * 0.045f, p);
-        }
-
-        float cx = w * 0.5f;
-        float headCy = h * 0.36f;
-        float headRx = w * 0.21f;
-        float headRy = h * 0.165f;
-
-        // 3. Broad Athletic Shoulders & Torso
-        Path torso = new Path();
-        torso.moveTo(cx - w * 0.44f, h);
-        torso.cubicTo(cx - w * 0.42f, h * 0.72f, cx - w * 0.28f, h * 0.63f, cx - w * 0.11f, h * 0.60f);
-        torso.lineTo(cx + w * 0.11f, h * 0.60f);
-        torso.cubicTo(cx + w * 0.28f, h * 0.63f, cx + w * 0.42f, h * 0.72f, cx + w * 0.44f, h);
-        torso.close();
-
-        p.setShader(new LinearGradient(cx - w * 0.4f, h * 0.6f, cx + w * 0.4f, h,
-                blendColor(outfitColor, rimLeft, 0.22f),
-                blendColor(outfitColor, 0xFF05050A, 0.5f),
-                Shader.TileMode.CLAMP));
-        canvas.drawPath(torso, p);
-
-        // Rim light on shoulders
-        Paint rimPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        rimPaint.setStyle(Paint.Style.STROKE);
-        rimPaint.setStrokeWidth(w * 0.014f);
-        rimPaint.setShader(new LinearGradient(0, h * 0.6f, w, h * 0.85f,
-                rimLeft, rimRight, Shader.TileMode.CLAMP));
-        canvas.drawPath(torso, rimPaint);
-
-        // 4. Muscular Neck & Collar Shadow
-        p.setShader(new LinearGradient(cx - w * 0.09f, h * 0.48f, cx + w * 0.09f, h * 0.66f,
-                darken(skinBase, 0.88f), darken(skinBase, 0.70f), Shader.TileMode.CLAMP));
-        RectF neckRect = new RectF(cx - w * 0.095f, h * 0.47f, cx + w * 0.095f, h * 0.65f);
-        canvas.drawRoundRect(neckRect, w * 0.04f, w * 0.04f, p);
-
-        // V-Neck / Jacket Lapels
-        Path collar = new Path();
-        collar.moveTo(cx - w * 0.10f, h * 0.59f);
-        collar.lineTo(cx, h * 0.70f);
-        collar.lineTo(cx + w * 0.10f, h * 0.59f);
-        collar.close();
-        p.setShader(new LinearGradient(cx, h * 0.58f, cx, h * 0.70f,
-                darken(skinBase, 0.85f), darken(skinBase, 0.62f), Shader.TileMode.CLAMP));
-        canvas.drawPath(collar, p);
-
-        if (styleType == 1 || styleType == 3) {
-            // Sleek Jacket Collar / Lapel lines
-            Paint lapel = new Paint(Paint.ANTI_ALIAS_FLAG);
-            lapel.setStyle(Paint.Style.STROKE);
-            lapel.setStrokeWidth(w * 0.012f);
-            lapel.setColor(withAlpha(0xFFFFFFFF, 45));
-            canvas.drawLine(cx - w * 0.13f, h * 0.60f, cx - w * 0.04f, h * 0.76f, lapel);
-            canvas.drawLine(cx + w * 0.13f, h * 0.60f, cx + w * 0.04f, h * 0.76f, lapel);
-        }
-
-        // Silver/Gold Chain Necklace detail
-        Paint chain = new Paint(Paint.ANTI_ALIAS_FLAG);
-        chain.setStyle(Paint.Style.STROKE);
-        chain.setStrokeWidth(w * 0.006f);
-        chain.setColor(0xFFD4AF37);
-        RectF chainOval = new RectF(cx - w * 0.085f, h * 0.56f, cx + w * 0.085f, h * 0.67f);
-        canvas.drawArc(chainOval, 15, 150, false, chain);
-
-        // 5. Ears
-        p.setShader(null);
-        p.setColor(darken(skinBase, 0.86f));
-        canvas.drawOval(new RectF(cx - headRx * 1.12f, headCy - headRy * 0.15f, cx - headRx * 0.88f, headCy + headRy * 0.32f), p);
-        canvas.drawOval(new RectF(cx + headRx * 0.88f, headCy - headRy * 0.15f, cx + headRx * 1.12f, headCy + headRy * 0.32f), p);
-
-        // 6. Sculpted Male Face & Chiseled Jawline
-        Path facePath = new Path();
-        facePath.moveTo(cx - headRx, headCy - headRy * 0.25f);
-        facePath.cubicTo(cx - headRx, headCy - headRy * 1.05f, cx + headRx, headCy - headRy * 1.05f, cx + headRx, headCy - headRy * 0.25f);
-        facePath.lineTo(cx + headRx * 0.92f, headCy + headRy * 0.38f);
-        facePath.cubicTo(cx + headRx * 0.75f, headCy + headRy * 0.82f, cx + headRx * 0.28f, headCy + headRy * 1.05f, cx, headCy + headRy * 1.08f);
-        facePath.cubicTo(cx - headRx * 0.28f, headCy + headRy * 1.05f, cx - headRx * 0.75f, headCy + headRy * 0.82f, cx - headRx * 0.92f, headCy + headRy * 0.38f);
-        facePath.close();
-
-        p.setShader(new LinearGradient(cx - headRx, headCy - headRy, cx + headRx, headCy + headRy,
-                blendColor(skinBase, rimLeft, 0.16f),
-                darken(skinBase, 0.82f),
-                Shader.TileMode.CLAMP));
-        canvas.drawPath(facePath, p);
-
-        // Neon Rim Highlight on Cheek & Jaw
-        Paint faceRim = new Paint(Paint.ANTI_ALIAS_FLAG);
-        faceRim.setStyle(Paint.Style.STROKE);
-        faceRim.setStrokeWidth(w * 0.009f);
-        faceRim.setShader(new LinearGradient(cx - headRx, headCy, cx + headRx, headCy,
-                withAlpha(rimLeft, 190), withAlpha(rimRight, 170), Shader.TileMode.CLAMP));
-        canvas.drawPath(facePath, faceRim);
-
-        // 7. Designer Stubble / Jaw Shading (for mature masculine look)
-        if (themeIdx % 2 == 1 || isStreamerStudio) {
-            Path beardPath = new Path();
-            beardPath.moveTo(cx - headRx * 0.90f, headCy + headRy * 0.18f);
-            beardPath.quadTo(cx, headCy + headRy * 0.58f, cx + headRx * 0.90f, headCy + headRy * 0.18f);
-            beardPath.lineTo(cx + headRx * 0.88f, headCy + headRy * 0.42f);
-            beardPath.cubicTo(cx + headRx * 0.65f, headCy + headRy * 0.92f, cx + headRx * 0.25f, headCy + headRy * 1.06f, cx, headCy + headRy * 1.08f);
-            beardPath.cubicTo(cx - headRx * 0.25f, headCy + headRy * 1.06f, cx - headRx * 0.65f, headCy + headRy * 0.92f, cx - headRx * 0.88f, headCy + headRy * 0.42f);
-            beardPath.close();
-            p.setShader(null);
-            p.setColor(withAlpha(hairColor, 68));
-            canvas.drawPath(beardPath, p);
-        }
-
-        // 8. Expressive Eyes, Brows, Nose & Confident Smile
-        p.setShader(null);
-        float eyeY = headCy - headRy * 0.06f;
-        float eyeOffsetX = headRx * 0.42f;
-
-        // Eyebrows
-        Paint browPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        browPaint.setStyle(Paint.Style.STROKE);
-        browPaint.setStrokeWidth(w * 0.015f);
-        browPaint.setStrokeCap(Paint.Cap.ROUND);
-        browPaint.setColor(hairColor);
-        canvas.drawLine(cx - eyeOffsetX - headRx * 0.20f, eyeY - headRy * 0.18f,
-                cx - eyeOffsetX + headRx * 0.18f, eyeY - headRy * 0.21f, browPaint);
-        canvas.drawLine(cx + eyeOffsetX - headRx * 0.18f, eyeY - headRy * 0.21f,
-                cx + eyeOffsetX + headRx * 0.20f, eyeY - headRy * 0.18f, browPaint);
-
-        // Eyes
-        p.setColor(0xFFF8F9FA);
-        canvas.drawOval(new RectF(cx - eyeOffsetX - headRx * 0.17f, eyeY - headRy * 0.07f,
-                cx - eyeOffsetX + headRx * 0.17f, eyeY + headRy * 0.07f), p);
-        canvas.drawOval(new RectF(cx + eyeOffsetX - headRx * 0.17f, eyeY - headRy * 0.07f,
-                cx + eyeOffsetX + headRx * 0.17f, eyeY + headRy * 0.07f), p);
-
-        // Irises & Catchlights
-        p.setColor(themeIdx % 3 == 0 ? 0xFF3E2723 : (themeIdx % 3 == 1 ? 0xFF263238 : 0xFF4E342E));
-        canvas.drawCircle(cx - eyeOffsetX, eyeY, headRx * 0.085f, p);
-        canvas.drawCircle(cx + eyeOffsetX, eyeY, headRx * 0.085f, p);
-        p.setColor(0xFF0A0A10);
-        canvas.drawCircle(cx - eyeOffsetX, eyeY, headRx * 0.045f, p);
-        canvas.drawCircle(cx + eyeOffsetX, eyeY, headRx * 0.045f, p);
-        p.setColor(0xFFFFFFFF);
-        canvas.drawCircle(cx - eyeOffsetX + headRx * 0.028f, eyeY - headRy * 0.025f, headRx * 0.022f, p);
-        canvas.drawCircle(cx + eyeOffsetX + headRx * 0.028f, eyeY - headRy * 0.025f, headRx * 0.022f, p);
-
-        // Nose Bridge & Shadow
-        Paint nosePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        nosePaint.setStyle(Paint.Style.STROKE);
-        nosePaint.setStrokeWidth(w * 0.008f);
-        nosePaint.setStrokeCap(Paint.Cap.ROUND);
-        nosePaint.setColor(darken(skinBase, 0.72f));
-        Path nosePath = new Path();
-        nosePath.moveTo(cx - headRx * 0.02f, eyeY + headRy * 0.05f);
-        nosePath.lineTo(cx - headRx * 0.05f, headCy + headRy * 0.30f);
-        nosePath.quadTo(cx, headCy + headRy * 0.35f, cx + headRx * 0.06f, headCy + headRy * 0.30f);
-        canvas.drawPath(nosePath, nosePaint);
-
-        // Confident Warm Smile
-        Paint lipPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        lipPaint.setStyle(Paint.Style.STROKE);
-        lipPaint.setStrokeWidth(w * 0.013f);
-        lipPaint.setStrokeCap(Paint.Cap.ROUND);
-        lipPaint.setColor(blendColor(darken(skinBase, 0.68f), 0xFFD85A6C, 0.42f));
-        Path smile = new Path();
-        smile.moveTo(cx - headRx * 0.25f, headCy + headRy * 0.55f);
-        smile.quadTo(cx, headCy + headRy * 0.67f, cx + headRx * 0.26f, headCy + headRy * 0.53f);
-        canvas.drawPath(smile, lipPaint);
-
-        // 9. Modern Textured Haircut
-        Path hairPath = new Path();
-        hairPath.moveTo(cx - headRx * 1.04f, headCy - headRy * 0.12f);
-        hairPath.cubicTo(cx - headRx * 1.15f, headCy - headRy * 0.95f,
-                cx - headRx * 0.45f, headCy - headRy * 1.38f,
-                cx + headRx * 0.08f, headCy - headRy * 1.30f);
-        hairPath.cubicTo(cx + headRx * 0.68f, headCy - headRy * 1.35f,
-                cx + headRx * 1.14f, headCy - headRy * 0.88f,
-                cx + headRx * 1.04f, headCy - headRy * 0.12f);
-        // Textured fringe wave
-        hairPath.cubicTo(cx + headRx * 0.65f, headCy - headRy * 0.58f,
-                cx + headRx * 0.15f, headCy - headRy * 0.42f,
-                cx - headRx * 0.25f, headCy - headRy * 0.56f);
-        hairPath.cubicTo(cx - headRx * 0.65f, headCy - headRy * 0.68f,
-                cx - headRx * 0.90f, headCy - headRy * 0.42f,
-                cx - headRx * 1.04f, headCy - headRy * 0.12f);
-        hairPath.close();
-
-        p.setShader(new LinearGradient(cx - headRx, headCy - headRy * 1.3f, cx + headRx, headCy,
-                blendColor(hairColor, rimLeft, 0.20f), hairColor, Shader.TileMode.CLAMP));
-        canvas.drawPath(hairPath, p);
-
-        // 10. If Live Streamer Studio: Draw Professional Condenser Microphone & Studio Headphones
-        if (isStreamerStudio) {
-            Paint gear = new Paint(Paint.ANTI_ALIAS_FLAG);
-            // Studio Mic on Boom Arm in foreground
-            float micX = isRedHost ? cx + w * 0.20f : cx - w * 0.20f;
-            float micY = h * 0.72f;
-            gear.setColor(0xFF1E2230);
-            gear.setStrokeWidth(w * 0.025f);
-            canvas.drawLine(isRedHost ? w : 0, h * 0.88f, micX, micY + h * 0.06f, gear);
-
-            // Mic capsule
-            RectF micCapsule = new RectF(micX - w * 0.055f, micY - h * 0.06f, micX + w * 0.055f, micY + h * 0.06f);
-            gear.setShader(new LinearGradient(micCapsule.left, micCapsule.top, micCapsule.right, micCapsule.bottom,
-                    0xFF454B66, 0xFF161824, Shader.TileMode.CLAMP));
-            canvas.drawRoundRect(micCapsule, w * 0.05f, w * 0.05f, gear);
-
-            // Neon LED ring on mic
-            gear.setShader(null);
-            gear.setColor(rimLeft);
-            canvas.drawRect(micX - w * 0.055f, micY, micX + w * 0.055f, micY + h * 0.008f, gear);
-        }
-
-        // 11. Subtle Bottom Vignette for Text Legibility
-        p.setShader(new LinearGradient(0, h * 0.58f, 0, h,
-                Color.TRANSPARENT, 0xE6070710, Shader.TileMode.CLAMP));
-        canvas.drawRect(0, h * 0.58f, w, h, p);
-
-        return bmp;
-    }
-
-    private static Bitmap renderRoomWallpaperBitmap(int w, int h, boolean isVelvetRose) {
-        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bmp);
-        Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
-
-        int topColor = isVelvetRose ? 0xFF1D061A : 0xFF080B24;
-        int midColor = isVelvetRose ? 0xFF120517 : 0xFF0A0A18;
+        int topColor;
+        int midColor;
         int botColor = 0xFF070710;
+        int glow1;
+        int glow2;
+        int glow3;
+
+        if (themeIndex == 1) {
+            // 1: Royal Gold Palace
+            topColor = 0xFF281C06;
+            midColor = 0xFF171005;
+            botColor = 0xFF0A0805;
+            glow1 = 0xFFF1C40F;
+            glow2 = 0xFFFF8F00;
+            glow3 = 0xFFFFD54F;
+        } else if (themeIndex == 2) {
+            // 2: Velvet Rose
+            topColor = 0xFF23061C;
+            midColor = 0xFF140517;
+            botColor = 0xFF08050E;
+            glow1 = 0xFFFF2A7A;
+            glow2 = 0xFFF1C40F;
+            glow3 = 0xFF9C27B0;
+        } else if (themeIndex == 3) {
+            // 3: Midnight Neon
+            topColor = 0xFF051D24;
+            midColor = 0xFF0A0B24;
+            botColor = 0xFF05060F;
+            glow1 = 0xFF00E676;
+            glow2 = 0xFF00E5FF;
+            glow3 = 0xFFFF2A7A;
+        } else {
+            // 0: Cyber Galaxy
+            topColor = 0xFF080B24;
+            midColor = 0xFF0A0A18;
+            botColor = 0xFF070710;
+            glow1 = 0xFF00E5FF;
+            glow2 = 0xFFFF2A7A;
+            glow3 = 0xFF7C4DFF;
+        }
 
         p.setShader(new LinearGradient(0, 0, 0, h,
                 new int[]{topColor, midColor, botColor},
@@ -391,33 +260,33 @@ public class WallaPortraitStudio {
                 Shader.TileMode.CLAMP));
         canvas.drawRect(0, 0, w, h, p);
 
-        // Glowing Nebula / Velvet Waves
-        int glow1 = isVelvetRose ? 0xFFFF2A7A : 0xFF00E5FF;
-        int glow2 = isVelvetRose ? 0xFFF1C40F : 0xFFFF2A7A;
-        int glow3 = isVelvetRose ? 0xFF9C27B0 : 0xFF7C4DFF;
-
-        p.setShader(new RadialGradient(w * 0.5f, h * 0.28f, w * 0.72f,
-                withAlpha(glow1, 70), Color.TRANSPARENT, Shader.TileMode.CLAMP));
-        canvas.drawCircle(w * 0.5f, h * 0.28f, w * 0.72f, p);
+        p.setShader(new RadialGradient(w * 0.5f, h * 0.25f, w * 0.74f,
+                withAlpha(glow1, 78), Color.TRANSPARENT, Shader.TileMode.CLAMP));
+        canvas.drawCircle(w * 0.5f, h * 0.25f, w * 0.74f, p);
 
         p.setShader(new RadialGradient(w * 0.15f, h * 0.52f, w * 0.55f,
-                withAlpha(glow2, 55), Color.TRANSPARENT, Shader.TileMode.CLAMP));
+                withAlpha(glow2, 58), Color.TRANSPARENT, Shader.TileMode.CLAMP));
         canvas.drawCircle(w * 0.15f, h * 0.52f, w * 0.55f, p);
 
         p.setShader(new RadialGradient(w * 0.85f, h * 0.62f, w * 0.58f,
-                withAlpha(glow3, 60), Color.TRANSPARENT, Shader.TileMode.CLAMP));
+                withAlpha(glow3, 62), Color.TRANSPARENT, Shader.TileMode.CLAMP));
         canvas.drawCircle(w * 0.85f, h * 0.62f, w * 0.58f, p);
 
-        // Concentric Cyber Stage Rings in Center
         Paint ring = new Paint(Paint.ANTI_ALIAS_FLAG);
         ring.setStyle(Paint.Style.STROKE);
-        ring.setStrokeWidth(2f);
-        ring.setColor(withAlpha(glow1, 40));
-        canvas.drawCircle(w * 0.5f, h * 0.29f, w * 0.26f, ring);
-        ring.setColor(withAlpha(glow2, 30));
-        canvas.drawCircle(w * 0.5f, h * 0.29f, w * 0.38f, ring);
+        ring.setStrokeWidth(2.2f);
+        ring.setColor(withAlpha(glow1, 48));
+        canvas.drawCircle(w * 0.5f, h * 0.25f, w * 0.26f, ring);
+        ring.setColor(withAlpha(glow2, 36));
+        canvas.drawCircle(w * 0.5f, h * 0.25f, w * 0.38f, ring);
 
-        // Stardust Particles
+        if (themeIndex == 1) {
+            // Royal Gold Palace columns/arch accent lines
+            ring.setColor(withAlpha(0xFFF1C40F, 55));
+            ring.setStrokeWidth(3f);
+            canvas.drawRoundRect(new RectF(w * 0.06f, h * 0.08f, w * 0.94f, h * 0.70f), 42f, 42f, ring);
+        }
+
         p.setShader(null);
         float[][] stars = {
                 {0.12f, 0.11f, 3.5f}, {0.28f, 0.08f, 2.5f}, {0.74f, 0.10f, 4.0f},
@@ -426,7 +295,7 @@ public class WallaPortraitStudio {
                 {0.62f, 0.21f, 2.8f}, {0.33f, 0.48f, 2.4f}, {0.67f, 0.50f, 3.0f}
         };
         for (int i = 0; i < stars.length; i++) {
-            p.setColor(i % 2 == 0 ? withAlpha(0xFFF1C40F, 150) : withAlpha(0xFFFFFFFF, 130));
+            p.setColor(i % 2 == 0 ? withAlpha(0xFFF1C40F, 165) : withAlpha(0xFFFFFFFF, 135));
             canvas.drawCircle(w * stars[i][0], h * stars[i][1], stars[i][2], p);
         }
 
@@ -452,15 +321,6 @@ public class WallaPortraitStudio {
                 withAlpha(0xFFFF2A7A, 90), Color.TRANSPARENT, Shader.TileMode.CLAMP));
         canvas.drawCircle(w * 0.22f, h * 0.45f, w * 0.42f, p);
 
-        // Luxury Gold Wave Arcs
-        Paint arcPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        arcPaint.setStyle(Paint.Style.STROKE);
-        arcPaint.setStrokeWidth(3f);
-        arcPaint.setColor(withAlpha(0xFFF1C40F, 70));
-        canvas.drawArc(new RectF(-w * 0.2f, h * 0.15f, w * 1.2f, h * 1.4f), 190, 160, false, arcPaint);
-        arcPaint.setColor(withAlpha(0xFF00E5FF, 55));
-        canvas.drawArc(new RectF(-w * 0.1f, h * 0.28f, w * 1.1f, h * 1.5f), 190, 160, false, arcPaint);
-
         return bmp;
     }
 
@@ -474,14 +334,12 @@ public class WallaPortraitStudio {
 
         Paint p = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-        // 1. Outer Golden Dragon Aura Glow
         p.setShader(new RadialGradient(cx, cy, w * 0.49f,
                 new int[]{Color.TRANSPARENT, withAlpha(0xFFF1C40F, 130), withAlpha(0xFFFF2A7A, 90), Color.TRANSPARENT},
                 new float[]{0.68f, 0.82f, 0.93f, 1f},
                 Shader.TileMode.CLAMP));
         canvas.drawCircle(cx, cy, w * 0.49f, p);
 
-        // 2. Ornate Dragon Scale Ring
         p.setShader(new LinearGradient(0, 0, w, h,
                 new int[]{0xFFFFF3B0, 0xFFF1C40F, 0xFFD4AF37, 0xFFFF8F00, 0xFFFFE082},
                 null, Shader.TileMode.CLAMP));
@@ -489,14 +347,12 @@ public class WallaPortraitStudio {
         p.setStrokeWidth(w * 0.065f);
         canvas.drawCircle(cx, cy, (rOuter + rInner) * 0.5f, p);
 
-        // 3. Inner Crimson-Gold Rim
         Paint innerRim = new Paint(Paint.ANTI_ALIAS_FLAG);
         innerRim.setStyle(Paint.Style.STROKE);
         innerRim.setStrokeWidth(w * 0.016f);
         innerRim.setColor(0xFFFF2A7A);
         canvas.drawCircle(cx, cy, rInner, innerRim);
 
-        // 4. 8 Golden Dragon Spikes / Pearls around the circumference
         Paint pearl = new Paint(Paint.ANTI_ALIAS_FLAG);
         for (int i = 0; i < 12; i++) {
             double angle = Math.toRadians(i * 30);
@@ -506,7 +362,6 @@ public class WallaPortraitStudio {
             canvas.drawCircle(px, py, w * 0.025f, pearl);
         }
 
-        // 5. Top Imperial Dragon Crown Crest
         Path crown = new Path();
         crown.moveTo(cx - w * 0.16f, cy - rOuter + w * 0.04f);
         crown.lineTo(cx - w * 0.21f, cy - rOuter - w * 0.05f);
@@ -522,11 +377,9 @@ public class WallaPortraitStudio {
                 0xFFFFE082, 0xFFFF8F00, Shader.TileMode.CLAMP));
         canvas.drawPath(crown, crownPaint);
 
-        // Ruby gem in crown center
         pearl.setColor(0xFFFF1744);
         canvas.drawCircle(cx, cy - rOuter - w * 0.01f, w * 0.024f, pearl);
 
-        // 6. Bottom Imperial Gold Dragon Ribbon
         RectF ribbon = new RectF(cx - w * 0.34f, h * 0.82f, cx + w * 0.34f, h * 0.96f);
         Paint ribbonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         ribbonPaint.setShader(new LinearGradient(ribbon.left, ribbon.top, ribbon.right, ribbon.bottom,
@@ -550,22 +403,5 @@ public class WallaPortraitStudio {
     private static int withAlpha(int color, int alpha) {
         return Color.argb(Math.max(0, Math.min(255, alpha)),
                 Color.red(color), Color.green(color), Color.blue(color));
-    }
-
-    private static int darken(int color, float factor) {
-        return Color.rgb(
-                Math.min(255, Math.max(0, Math.round(Color.red(color) * factor))),
-                Math.min(255, Math.max(0, Math.round(Color.green(color) * factor))),
-                Math.min(255, Math.max(0, Math.round(Color.blue(color) * factor)))
-        );
-    }
-
-    private static int blendColor(int c1, int c2, float ratio) {
-        float inv = 1f - ratio;
-        return Color.rgb(
-                Math.round(Color.red(c1) * inv + Color.red(c2) * ratio),
-                Math.round(Color.green(c1) * inv + Color.green(c2) * ratio),
-                Math.round(Color.blue(c1) * inv + Color.blue(c2) * ratio)
-        );
     }
 }

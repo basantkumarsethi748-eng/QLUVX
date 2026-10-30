@@ -98,6 +98,20 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                 Toast.makeText(this, isChecked ? "📍 Exact Distance Hidden" : "📍 Distance Visible", Toast.LENGTH_SHORT).show()
         );
 
+        Button btnOpenPrivacyCloakFromSettings = findViewById(R.id.btnOpenPrivacyCloakFromSettings);
+        if (btnOpenPrivacyCloakFromSettings != null) {
+            btnOpenPrivacyCloakFromSettings.setOnClickListener(v ->
+                    startActivity(new android.content.Intent(this, PrivacySecurityActivity.class))
+            );
+        }
+
+        Button btnOpenTeleportFromSettings = findViewById(R.id.btnOpenTeleportFromSettings);
+        if (btnOpenTeleportFromSettings != null) {
+            btnOpenTeleportFromSettings.setOnClickListener(v ->
+                    startActivity(new android.content.Intent(this, TeleportMapActivity.class))
+            );
+        }
+
         btnSaveProfile.setOnClickListener(v -> {
             String newName = etNickname.getText().toString().trim();
             if (newName.isEmpty()) {

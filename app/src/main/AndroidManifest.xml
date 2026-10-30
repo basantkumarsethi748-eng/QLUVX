@@ -88,6 +88,21 @@
             android:windowSoftInputMode="adjustResize"
             android:exported="false" />
 
+        <!-- Global City Radar Teleport Mode Activity -->
+        <activity
+            android:name=".TeleportMapActivity"
+            android:exported="false" />
+
+        <!-- 1-on-1 Private HD Video Calling Activity -->
+        <activity
+            android:name=".PrivateVideoCallActivity"
+            android:exported="false" />
+
+        <!-- Privacy Cloak, Disguised Calculator & Emergency Panic Exit Activity -->
+        <activity
+            android:name=".PrivacySecurityActivity"
+            android:exported="false" />
+
         <!-- Firebase Cloud Messaging Background Push Notification Service -->
         <service
             android:name=".MyFirebaseMessagingService"

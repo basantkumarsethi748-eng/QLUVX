@@ -41,6 +41,7 @@ public class ProfileFragment extends Fragment {
         ImageView ivProfileAvatar = view.findViewById(R.id.ivProfileAvatar);
         ImageView ivDragonFrameOverlay = view.findViewById(R.id.ivDragonFrameOverlay);
         ImageView ivSettings = view.findViewById(R.id.ivSettings);
+        View avatarDragonContainer = view.findViewById(R.id.avatarDragonContainer);
 
         tvDisplayName = view.findViewById(R.id.tvDisplayName);
         tvUserId = view.findViewById(R.id.tvUserId);
@@ -49,23 +50,37 @@ public class ProfileFragment extends Fragment {
         tvProfileBioLine = view.findViewById(R.id.tvProfileBioLine);
         tvEquippedRideName = view.findViewById(R.id.tvEquippedRideName);
 
+        View statFollowing = view.findViewById(R.id.statFollowing);
+        View statFollowers = view.findViewById(R.id.statFollowers);
+        View statVisitors = view.findViewById(R.id.statVisitors);
+
         View cardBuyCoins = view.findViewById(R.id.cardBuyCoins);
         View cardDiamondPayout = view.findViewById(R.id.cardDiamondPayout);
         View cardEquippedRide = view.findViewById(R.id.cardEquippedRide);
         TextView btnPreviewStarship = view.findViewById(R.id.btnPreviewStarship);
         Button btnBuyCoins = view.findViewById(R.id.btnBuyCoins);
         Button btnWithdrawDiamonds = view.findViewById(R.id.btnWithdrawDiamonds);
+        Button btnOpenTeleportRadar = view.findViewById(R.id.btnOpenTeleportRadar);
+        Button btnOpenPrivacySecurity = view.findViewById(R.id.btnOpenPrivacySecurity);
+        Button btnTestPrivateVideoCall = view.findViewById(R.id.btnTestPrivateVideoCall);
         Button btnOpenProfileSettings = view.findViewById(R.id.btnOpenProfileSettings);
+        Button btnDirectLogout = view.findViewById(R.id.btnDirectLogout);
 
-        // Render Cover Wallpaper, Portrait DP, and Imperial Gold Dragon Avatar Frame
+        // Render Real HD Cover Photo, Real Portrait DP via Glide, and Imperial Gold Dragon Avatar Frame
         if (ivProfileCover != null) {
-            ivProfileCover.setImageDrawable(WallaPortraitStudio.getProfileCoverDrawable(ctx));
+            WallaPortraitStudio.loadProfileCoverPhoto(ctx, ivProfileCover);
+            ivProfileCover.setOnClickListener(v ->
+                    Toast.makeText(ctx, "🌌 Royal Cover Wallpaper Active • Tap Gear Icon for Profile Settings", Toast.LENGTH_SHORT).show()
+            );
         }
         if (ivProfileAvatar != null) {
-            ivProfileAvatar.setImageDrawable(WallaPortraitStudio.getGuyPortraitDrawable(ctx, 6));
+            WallaPortraitStudio.loadGuyPhoto(ctx, ivProfileAvatar, 6);
         }
         if (ivDragonFrameOverlay != null) {
             ivDragonFrameOverlay.setImageDrawable(WallaPortraitStudio.getImperialDragonFrameDrawable(ctx));
+        }
+        if (avatarDragonContainer != null) {
+            avatarDragonContainer.setOnClickListener(v -> showStarshipEntrancePreviewDialog());
         }
 
         refreshProfileHeader();
@@ -82,6 +97,50 @@ public class ProfileFragment extends Fragment {
             });
         }
 
+        // Interactive Stats Row (Following, Followers, Visitors)
+        if (statFollowing != null) {
+            statFollowing.setOnClickListener(v -> showInteractiveUsersListDialog(
+                    "💖 Following (142)",
+                    new String[]{"Alex, 25 • Top • 120m (Online)", "Ryan, 28 • Versatile • 450m (Online)", "Kabir, 24 • Bottom • 680m (Online)", "Zayn, 26 • Top • 1.2km (Online)"}
+            ));
+        }
+        if (statFollowers != null) {
+            statFollowers.setOnClickListener(v -> showInteractiveUsersListDialog(
+                    "👑 Followers (3.8k)",
+                    new String[]{"Liam, 23 • Followed you 2m ago", "Aarav, 25 • Followed you 14m ago", "Vikram, 28 • Followed you 1h ago", "Ethan, 29 • Followed you 3h ago"}
+            ));
+        }
+        if (statVisitors != null) {
+            statVisitors.setOnClickListener(v -> showInteractiveUsersListDialog(
+                    "👀 Recent Profile Visitors (840)",
+                    new String[]{"Alex, 25 • Viewed your profile 3 times today 🔥", "Ryan, 28 • Viewed your photos 5m ago", "Zayn, 26 • Checked your role & stats 12m ago"}
+            ));
+        }
+
+        // Global Radar City Teleport Mode Button
+        if (btnOpenTeleportRadar != null) {
+            btnOpenTeleportRadar.setOnClickListener(v ->
+                    startActivity(new Intent(getActivity(), TeleportMapActivity.class))
+            );
+        }
+
+        // Privacy Cloak, Disguise as Calculator 🧮 & Panic Exit 🚨 Button
+        if (btnOpenPrivacySecurity != null) {
+            btnOpenPrivacySecurity.setOnClickListener(v ->
+                    startActivity(new Intent(getActivity(), PrivacySecurityActivity.class))
+            );
+        }
+
+        // 1-on-1 Private HD Video Call + Gift Combo Streak Button
+        if (btnTestPrivateVideoCall != null) {
+            btnTestPrivateVideoCall.setOnClickListener(v -> {
+                Intent callIntent = new Intent(getActivity(), PrivateVideoCallActivity.class);
+                callIntent.putExtra(PrivateVideoCallActivity.EXTRA_PARTNER_NAME, "Alex Royal, 25");
+                callIntent.putExtra(PrivateVideoCallActivity.EXTRA_PARTNER_PORTRAIT_IDX, 0);
+                startActivity(callIntent);
+            });
+        }
+
         // Settings Gear & Settings Button -> Open ProfileSettingsActivity
         View.OnClickListener openSettingsClick = v -> {
             Intent intent = new Intent(getActivity(), ProfileSettingsActivity.class);
@@ -89,6 +148,24 @@ public class ProfileFragment extends Fragment {
         };
         if (ivSettings != null) ivSettings.setOnClickListener(openSettingsClick);
         if (btnOpenProfileSettings != null) btnOpenProfileSettings.setOnClickListener(openSettingsClick);
+
+        // Direct "Log Out of QLUVX" Button with Confirmation Dialog
+        if (btnDirectLogout != null) {
+            btnDirectLogout.setOnClickListener(v -> {
+                new AlertDialog.Builder(ctx)
+                        .setTitle("Log Out of QLUVX?")
+                        .setMessage("Are you sure you want to log out of your Walla Deluxe VIP account?")
+                        .setPositiveButton("Yes, Log Out", (dialog, which) -> {
+                            Toast.makeText(ctx, "Logged out of QLUVX", Toast.LENGTH_SHORT).show();
+                            sessionManager.logoutUser();
+                            if (getActivity() != null) {
+                                getActivity().finish();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+            });
+        }
 
         // Recharge Coins Sheet
         View.OnClickListener buyCoinsClick = v -> showCoinRechargeDialog();
@@ -108,6 +185,19 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    private void showInteractiveUsersListDialog(String title, String[] items) {
+        Context ctx = getContext();
+        if (ctx == null) return;
+        new AlertDialog.Builder(ctx)
+                .setTitle(title)
+                .setItems(items, (dialog, which) -> {
+                    String name = items[which].split(" • ")[0];
+                    WallaChatOverlay.openFullScreenChat(ctx, name, which, "Versatile", "450m", false, null);
+                })
+                .setNegativeButton("Close", null)
+                .show();
+    }
+
     private void refreshProfileHeader() {
         if (sessionManager == null) return;
         if (tvDisplayName != null) {
@@ -123,7 +213,8 @@ public class ProfileFragment extends Fragment {
             tvDiamonds.setText(sessionManager.getFormattedDiamonds() + " 💎");
         }
         if (tvProfileBioLine != null) {
-            String stealthTag = sessionManager.isGhostMode() ? " • 🕵️ Stealth ON" : " • Bangalore";
+            String cityLabel = sessionManager.getTeleportCityFlag() + " " + sessionManager.getTeleportCityName();
+            String stealthTag = sessionManager.isGhostMode() ? " • 🕵️ Stealth ON" : " • " + cityLabel;
             tvProfileBioLine.setText(
                     sessionManager.getUserRole() + " • "
                             + sessionManager.getUserHeightCm() + " cm • "

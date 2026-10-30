@@ -48,13 +48,27 @@
                 android:id="@+id/tvLocationSelector"
                 android:layout_width="wrap_content"
                 android:layout_height="32dp"
-                android:layout_marginStart="12dp"
+                android:layout_marginStart="10dp"
                 android:background="@drawable/bg_walla_glass_card"
                 android:gravity="center"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="10dp"
                 android:text="📍 Bangalore ▾"
                 android:textColor="#00E5FF"
-                android:textSize="12sp"
+                android:textSize="11.5sp"
+                android:textStyle="bold" />
+
+            <!-- 1-Tap Global City Radar Teleport Pill -->
+            <TextView
+                android:id="@+id/btnTeleportRadar"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_walla_gold_pill"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="🌍 Teleport"
+                android:textColor="#0A0A14"
+                android:textSize="11sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -69,25 +83,25 @@
 
             <TextView
                 android:id="@+id/btnSearchToggle"
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_marginEnd="8dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginEnd="6dp"
                 android:background="@drawable/bg_walla_glass_card"
                 android:gravity="center"
                 android:text="🔍"
                 android:textColor="#FFFFFF"
-                android:textSize="15sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/btnFilter"
                 android:layout_width="wrap_content"
-                android:layout_height="38dp"
+                android:layout_height="36dp"
                 android:background="@drawable/bg_walla_glass_card"
                 android:gravity="center"
-                android:paddingHorizontal="12dp"
+                android:paddingHorizontal="10dp"
                 android:text="⚡ Filter"
                 android:textColor="#FF2A7A"
-                android:textSize="12sp"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>

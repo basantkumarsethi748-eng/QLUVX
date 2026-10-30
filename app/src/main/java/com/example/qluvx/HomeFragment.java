@@ -5,6 +5,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
@@ -38,6 +39,8 @@ public class HomeFragment extends Fragment {
     private final List<NearbyUser> filteredUsers = new ArrayList<>();
     private final List<ObjectAnimator> pulseAnimators = new ArrayList<>();
 
+    private SessionManager sessionManager;
+    private TextView tvLocationSelector;
     private String activeRoleFilter = "All";
     private boolean onlineOnlyFilter = false;
     private String currentCity = "Bangalore";
@@ -50,8 +53,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        sessionManager = new SessionManager(requireContext());
+        currentCity = sessionManager.getTeleportCityName();
+
         rvNearbyGrid = view.findViewById(R.id.rvNearbyGrid);
-        TextView tvLocationSelector = view.findViewById(R.id.tvLocationSelector);
+        tvLocationSelector = view.findViewById(R.id.tvLocationSelector);
+        TextView btnTeleportRadar = view.findViewById(R.id.btnTeleportRadar);
         TextView btnFilter = view.findViewById(R.id.btnFilter);
         TextView btnSearchToggle = view.findViewById(R.id.btnSearchToggle);
         EditText etSearchNearby = view.findViewById(R.id.etSearchNearby);
@@ -67,12 +74,10 @@ public class HomeFragment extends Fragment {
         // 3-Column Exact Walla / Blued Discovery Grid
         rvNearbyGrid.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        loadWallaNearbyUsers();
-        filteredUsers.clear();
-        filteredUsers.addAll(allUsers);
-
         adapter = new NearbyUserAdapter(getContext(), filteredUsers);
         rvNearbyGrid.setAdapter(adapter);
+
+        refreshTeleportedCityRoster();
 
         // Populate Horizontal Live Hosts Banner with Pulsing Gradient Rings
         populateLiveHostsBanner(llLiveHostsContainer);
@@ -85,9 +90,15 @@ public class HomeFragment extends Fragment {
             });
         }
 
-        // Location Selector ("Bangalore ▾")
+        // Location Selector ("Bangalore ▾") & "🌍 Teleport" Button
         if (tvLocationSelector != null) {
             tvLocationSelector.setOnClickListener(v -> showCityPickerDialog(tvLocationSelector));
+        }
+        if (btnTeleportRadar != null) {
+            btnTeleportRadar.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), TeleportMapActivity.class);
+                startActivity(intent);
+            });
         }
 
         // Search Icon Toggle
@@ -151,6 +162,23 @@ public class HomeFragment extends Fragment {
         }
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshTeleportedCityRoster();
+    }
+
+    private void refreshTeleportedCityRoster() {
+        if (sessionManager == null) return;
+        currentCity = sessionManager.getTeleportCityName();
+        String flag = sessionManager.getTeleportCityFlag();
+        if (tvLocationSelector != null) {
+            tvLocationSelector.setText(flag + " " + currentCity + " ▾");
+        }
+        loadWallaNearbyUsersForCity(currentCity);
+        applyFilters();
     }
 
     private void populateLiveHostsBanner(LinearLayout container) {
@@ -221,7 +249,7 @@ public class HomeFragment extends Fragment {
             ImageView ivHost = new ImageView(ctx);
             ivHost.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             ivHost.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            ivHost.setImageDrawable(WallaPortraitStudio.getGuyPortraitDrawable(ctx, portraitIdx));
+            WallaPortraitStudio.loadGuyPhoto(ctx, ivHost, portraitIdx);
             avatarCard.addView(ivHost);
             ringFrame.addView(avatarCard);
 
@@ -273,22 +301,36 @@ public class HomeFragment extends Fragment {
     }
 
     private void showCityPickerDialog(TextView tvLocationSelector) {
-        String[] cities = new String[]{
-                "Bangalore",
-                "Mumbai",
-                "Delhi NCR",
-                "Hyderabad",
-                "Pune",
-                "Chennai",
-                "Goa",
-                "Kolkata"
+        String[] options = new String[]{
+                "🌍 Open Global Radar Teleport Map (6 World Cities)",
+                "🇹🇭 Bangkok (Silom • Sathorn)",
+                "🇯🇵 Tokyo (Shinjuku Ni-chome)",
+                "🇬🇧 London (Soho • Vauxhall)",
+                "🇫🇷 Paris (Le Marais)",
+                "🇮🇳 Mumbai (Bandra West)",
+                "🇺🇸 New York (Hell's Kitchen • Chelsea)",
+                "🇮🇳 Bangalore (Local GPS)"
         };
         new AlertDialog.Builder(requireContext())
-                .setTitle("📍 Select Discovery City")
-                .setItems(cities, (dialog, which) -> {
-                    currentCity = cities[which];
-                    tvLocationSelector.setText("📍 " + currentCity + " ▾");
-                    Toast.makeText(getContext(), "Showing nearby guys in " + currentCity, Toast.LENGTH_SHORT).show();
+                .setTitle("🌍 Global Roaming & City Discovery")
+                .setItems(options, (dialog, which) -> {
+                    if (which == 0) {
+                        startActivity(new Intent(getActivity(), TeleportMapActivity.class));
+                        return;
+                    }
+                    String[][] cityMeta = {
+                            {"Bangkok", "🇹🇭", "13.7563° N, 100.5018° E"},
+                            {"Tokyo", "🇯🇵", "35.6895° N, 139.6917° E"},
+                            {"London", "🇬🇧", "51.5074° N, 0.1278° W"},
+                            {"Paris", "🇫🇷", "48.8566° N, 2.3522° E"},
+                            {"Mumbai", "🇮🇳", "19.0760° N, 72.8777° E"},
+                            {"New York", "🇺🇸", "40.7128° N, 74.0060° W"},
+                            {"Bangalore", "🇮🇳", "12.9716° N, 77.5946° E"}
+                    };
+                    String[] chosen = cityMeta[which - 1];
+                    sessionManager.setTeleportCity(chosen[0], chosen[1], chosen[2]);
+                    refreshTeleportedCityRoster();
+                    Toast.makeText(getContext(), "🌍 Teleported GPS to " + chosen[1] + " " + chosen[0] + "!", Toast.LENGTH_SHORT).show();
                 })
                 .show();
     }
@@ -368,20 +410,82 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void loadWallaNearbyUsers() {
+    private void loadWallaNearbyUsersForCity(String city) {
         allUsers.clear();
-        allUsers.add(new NearbyUser("Alex", 25, "120m", "Top", true, true, 0, "182 cm • 78 kg • Indiranagar Gym & Espresso"));
-        allUsers.add(new NearbyUser("Ryan", 28, "450m", "Versatile", true, true, 1, "180 cm • 75 kg • Rooftop DJ & Late Night Drives"));
-        allUsers.add(new NearbyUser("Kabir", 24, "680m", "Bottom", true, true, 2, "175 cm • 68 kg • Fashion Stylist & Coffee Lover"));
-        allUsers.add(new NearbyUser("Zayn", 26, "1.2km", "Top", true, true, 3, "184 cm • 81 kg • Architect • Swimmer"));
-        allUsers.add(new NearbyUser("Liam", 23, "1.5km", "Versatile", true, true, 4, "178 cm • 72 kg • Music Producer & Live Host"));
-        allUsers.add(new NearbyUser("Noah", 27, "1.8km", "Bottom", false, true, 5, "176 cm • 70 kg • Contemporary Dancer"));
-        allUsers.add(new NearbyUser("Aarav", 25, "2.1km", "Top", true, true, 6, "183 cm • 79 kg • Fitness Coach & Traveler"));
-        allUsers.add(new NearbyUser("Ethan", 29, "2.4km", "Versatile", true, true, 7, "181 cm • 77 kg • Startup Founder • Wine & Jazz"));
-        allUsers.add(new NearbyUser("Rohan", 22, "2.9km", "Bottom", true, false, 8, "174 cm • 66 kg • Art Director & Photographer"));
-        allUsers.add(new NearbyUser("Vikram", 28, "3.2km", "Top", true, true, 9, "185 cm • 83 kg • Pilot • Weekend Rides"));
-        allUsers.add(new NearbyUser("Lucas", 26, "3.6km", "Versatile", false, true, 10, "179 cm • 74 kg • CrossFit & Beach Trips"));
-        allUsers.add(new NearbyUser("Dev", 24, "4.0km", "Bottom", true, true, 11, "176 cm • 69 kg • Midnight Voice Room Regular"));
+        if ("Bangkok".equalsIgnoreCase(city)) {
+            allUsers.add(new NearbyUser("Arthit", 25, "90m", "Top", true, true, 0, "181 cm • 76 kg • Silom Soi 4 Rooftop Pool"));
+            allUsers.add(new NearbyUser("Tawan", 24, "210m", "Versatile", true, true, 2, "178 cm • 71 kg • Sathorn Fitness & Muay Thai"));
+            allUsers.add(new NearbyUser("Korn", 27, "380m", "Bottom", true, true, 4, "175 cm • 66 kg • Thonglor DJ & Mixologist"));
+            allUsers.add(new NearbyUser("Nanon", 23, "620m", "Versatile", true, true, 1, "179 cm • 72 kg • Sukhumvit Fashion Model"));
+            allUsers.add(new NearbyUser("Bright", 26, "850m", "Top", true, true, 6, "183 cm • 79 kg • Bangkok Luxury Condo Host"));
+            allUsers.add(new NearbyUser("Win", 24, "1.1km", "Bottom", true, true, 8, "176 cm • 68 kg • Siam Café & Photography"));
+            allUsers.add(new NearbyUser("Ohm", 28, "1.4km", "Top", true, true, 3, "185 cm • 82 kg • Personal Trainer • Asok"));
+            allUsers.add(new NearbyUser("Tay", 29, "1.8km", "Versatile", false, true, 7, "180 cm • 75 kg • Architect & Yacht Weekends"));
+            allUsers.add(new NearbyUser("Mew", 27, "2.2km", "Top", true, true, 9, "184 cm • 80 kg • Rooftop Jazz & Wine"));
+        } else if ("Tokyo".equalsIgnoreCase(city)) {
+            allUsers.add(new NearbyUser("Ren", 25, "110m", "Top", true, true, 1, "180 cm • 74 kg • Shinjuku Ni-chome Lounge"));
+            allUsers.add(new NearbyUser("Haruto", 23, "290m", "Bottom", true, true, 3, "174 cm • 65 kg • Shibuya Streetwear Designer"));
+            allUsers.add(new NearbyUser("Kaito", 27, "440m", "Versatile", true, true, 5, "182 cm • 77 kg • Roppongi Hills Tech Founder"));
+            allUsers.add(new NearbyUser("Sora", 24, "710m", "Bottom", true, true, 8, "175 cm • 66 kg • Harajuku Art Director"));
+            allUsers.add(new NearbyUser("Yuto", 28, "980m", "Top", true, true, 0, "184 cm • 81 kg • Ginza Fitness & Boxing"));
+            allUsers.add(new NearbyUser("Riku", 26, "1.3km", "Versatile", true, true, 4, "178 cm • 72 kg • Tokyo Tower Night Drives"));
+            allUsers.add(new NearbyUser("Daiki", 29, "1.7km", "Top", false, true, 9, "183 cm • 79 kg • Airline Pilot • Haneda"));
+            allUsers.add(new NearbyUser("Takumi", 25, "2.1km", "Versatile", true, true, 6, "179 cm • 73 kg • Vinyl DJ & Espresso"));
+            allUsers.add(new NearbyUser("Sho", 22, "2.5km", "Bottom", true, true, 11, "173 cm • 64 kg • Contemporary Dancer"));
+        } else if ("London".equalsIgnoreCase(city)) {
+            allUsers.add(new NearbyUser("Oliver", 26, "80m", "Top", true, true, 6, "184 cm • 81 kg • Soho Old Compton St Bar"));
+            allUsers.add(new NearbyUser("Jack", 28, "240m", "Versatile", true, true, 7, "182 cm • 78 kg • Vauxhall Club Promoter"));
+            allUsers.add(new NearbyUser("Harry", 24, "510m", "Bottom", true, true, 8, "177 cm • 69 kg • Shoreditch Creative Director"));
+            allUsers.add(new NearbyUser("Charlie", 27, "790m", "Top", true, true, 0, "186 cm • 84 kg • Canary Wharf Finance & Rugby"));
+            allUsers.add(new NearbyUser("Alfie", 23, "1.1km", "Versatile", true, true, 1, "179 cm • 74 kg • Mayfair Cocktail Lounge"));
+            allUsers.add(new NearbyUser("Theo", 25, "1.4km", "Bottom", false, true, 2, "176 cm • 68 kg • West End Theatre Actor"));
+            allUsers.add(new NearbyUser("Archie", 29, "1.9km", "Top", true, true, 3, "183 cm • 80 kg • Kensington Gym & Sauna"));
+            allUsers.add(new NearbyUser("Leo", 26, "2.3km", "Versatile", true, true, 4, "180 cm • 75 kg • Camden Music Producer"));
+            allUsers.add(new NearbyUser("Jude", 24, "2.8km", "Bottom", true, true, 5, "175 cm • 67 kg • Notting Hill Photographer"));
+        } else if ("Paris".equalsIgnoreCase(city)) {
+            allUsers.add(new NearbyUser("Lucas", 26, "100m", "Top", true, true, 9, "183 cm • 78 kg • Le Marais Rue des Archives"));
+            allUsers.add(new NearbyUser("Gabriel", 24, "260m", "Versatile", true, true, 10, "180 cm • 74 kg • Saint-Germain Wine & Jazz"));
+            allUsers.add(new NearbyUser("Louis", 27, "490m", "Bottom", true, true, 11, "176 cm • 68 kg • Haute Couture Stylist"));
+            allUsers.add(new NearbyUser("Raphael", 28, "730m", "Top", true, true, 0, "185 cm • 81 kg • Champs-Élysées Fitness"));
+            allUsers.add(new NearbyUser("Jules", 23, "1.0km", "Versatile", true, true, 2, "178 cm • 71 kg • Montmartre Artist & Film"));
+            allUsers.add(new NearbyUser("Hugo", 29, "1.4km", "Top", true, true, 3, "184 cm • 80 kg • Rooftop Seine River Cruises"));
+            allUsers.add(new NearbyUser("Arthur", 25, "1.8km", "Bottom", false, true, 5, "175 cm • 67 kg • Pastry Chef & Espresso"));
+            allUsers.add(new NearbyUser("Maxime", 27, "2.2km", "Versatile", true, true, 6, "181 cm • 76 kg • Paris Nightlife Host"));
+            allUsers.add(new NearbyUser("Antoine", 26, "2.7km", "Top", true, true, 7, "182 cm • 79 kg • Architect • Bastille"));
+        } else if ("Mumbai".equalsIgnoreCase(city)) {
+            allUsers.add(new NearbyUser("Kabir", 24, "110m", "Bottom", true, true, 2, "176 cm • 68 kg • Bandra West Carter Road"));
+            allUsers.add(new NearbyUser("Aarav", 26, "310m", "Top", true, true, 6, "183 cm • 80 kg • Juhu Beach Club & Gym"));
+            allUsers.add(new NearbyUser("Vikram", 28, "540m", "Top", true, true, 9, "185 cm • 83 kg • Colaba Rooftop Yacht Host"));
+            allUsers.add(new NearbyUser("Zayn", 25, "820m", "Versatile", true, true, 3, "181 cm • 76 kg • Worli Sea Face Penthouse"));
+            allUsers.add(new NearbyUser("Rohan", 23, "1.1km", "Bottom", true, true, 8, "175 cm • 67 kg • Bollywood Fashion Stylist"));
+            allUsers.add(new NearbyUser("Dev", 27, "1.5km", "Versatile", true, true, 11, "179 cm • 74 kg • Lower Parel Nightclub DJ"));
+            allUsers.add(new NearbyUser("Aryan", 25, "1.9km", "Top", true, true, 0, "182 cm • 78 kg • Andheri Fitness Coach"));
+            allUsers.add(new NearbyUser("Reyansh", 29, "2.3km", "Versatile", false, true, 7, "180 cm • 75 kg • Marine Drive Late Drives"));
+            allUsers.add(new NearbyUser("Vihaan", 24, "2.8km", "Bottom", true, true, 4, "176 cm • 69 kg • Kala Ghoda Art & Coffee"));
+        } else if ("New York".equalsIgnoreCase(city)) {
+            allUsers.add(new NearbyUser("Mason", 26, "75m", "Top", true, true, 0, "184 cm • 82 kg • Hell's Kitchen 9th Ave Rooftop"));
+            allUsers.add(new NearbyUser("Liam", 25, "220m", "Versatile", true, true, 4, "180 cm • 76 kg • Chelsea Piers Equinox Gym"));
+            allUsers.add(new NearbyUser("Ethan", 28, "410m", "Versatile", true, true, 7, "182 cm • 78 kg • West Village Speakeasy Host"));
+            allUsers.add(new NearbyUser("Noah", 24, "690m", "Bottom", true, true, 5, "176 cm • 69 kg • SoHo Fashion & Broadway"));
+            allUsers.add(new NearbyUser("Logan", 29, "950m", "Top", true, true, 3, "186 cm • 85 kg • Tribeca Loft & Wall Street"));
+            allUsers.add(new NearbyUser("Aiden", 23, "1.3km", "Bottom", true, true, 2, "175 cm • 67 kg • Brooklyn Warehouse DJ"));
+            allUsers.add(new NearbyUser("Carter", 27, "1.6km", "Top", true, true, 9, "183 cm • 80 kg • Fire Island Pines Weekends"));
+            allUsers.add(new NearbyUser("Jackson", 26, "2.0km", "Versatile", false, true, 1, "179 cm • 74 kg • Midtown Sky Lounge"));
+            allUsers.add(new NearbyUser("Sebastian", 25, "2.4km", "Bottom", true, true, 8, "177 cm • 70 kg • East Village Photographer"));
+        } else {
+            allUsers.add(new NearbyUser("Alex", 25, "120m", "Top", true, true, 0, "182 cm • 78 kg • Indiranagar Gym & Espresso"));
+            allUsers.add(new NearbyUser("Ryan", 28, "450m", "Versatile", true, true, 1, "180 cm • 75 kg • Rooftop DJ & Late Night Drives"));
+            allUsers.add(new NearbyUser("Kabir", 24, "680m", "Bottom", true, true, 2, "175 cm • 68 kg • Fashion Stylist & Coffee Lover"));
+            allUsers.add(new NearbyUser("Zayn", 26, "1.2km", "Top", true, true, 3, "184 cm • 81 kg • Architect • Swimmer"));
+            allUsers.add(new NearbyUser("Liam", 23, "1.5km", "Versatile", true, true, 4, "178 cm • 72 kg • Music Producer & Live Host"));
+            allUsers.add(new NearbyUser("Noah", 27, "1.8km", "Bottom", false, true, 5, "176 cm • 70 kg • Contemporary Dancer"));
+            allUsers.add(new NearbyUser("Aarav", 25, "2.1km", "Top", true, true, 6, "183 cm • 79 kg • Fitness Coach & Traveler"));
+            allUsers.add(new NearbyUser("Ethan", 29, "2.4km", "Versatile", true, true, 7, "181 cm • 77 kg • Startup Founder • Wine & Jazz"));
+            allUsers.add(new NearbyUser("Rohan", 22, "2.9km", "Bottom", true, false, 8, "174 cm • 66 kg • Art Director & Photographer"));
+            allUsers.add(new NearbyUser("Vikram", 28, "3.2km", "Top", true, true, 9, "185 cm • 83 kg • Pilot • Weekend Rides"));
+            allUsers.add(new NearbyUser("Lucas", 26, "3.6km", "Versatile", false, true, 10, "179 cm • 74 kg • CrossFit & Beach Trips"));
+            allUsers.add(new NearbyUser("Dev", 24, "4.0km", "Bottom", true, true, 11, "176 cm • 69 kg • Midnight Voice Room Regular"));
+        }
     }
 
     private void clearPulseAnimators() {

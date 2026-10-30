@@ -26,6 +26,13 @@ public class SessionManager {
     private static final String KEY_GHOST_MODE = "incognitoGhostMode";
     private static final String KEY_SERVER_URL = "customServerUrl";
     private static final String KEY_EQUIPPED_RIDE = "equippedRide";
+    private static final String KEY_TELEPORT_CITY = "teleportCityName";
+    private static final String KEY_TELEPORT_FLAG = "teleportCityFlag";
+    private static final String KEY_TELEPORT_COORDS = "teleportCityCoords";
+    private static final String KEY_CALC_CLOAK = "disguiseCalculatorCloak";
+    private static final String KEY_BIO_PIN_LOCK = "biometricPinLock";
+    private static final String KEY_PRIVACY_PIN = "privacyAppPin";
+    private static final String KEY_SCREENSHOT_SHIELD = "screenshotShieldSecure";
 
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
@@ -118,6 +125,71 @@ public class SessionManager {
 
     public boolean isGhostMode() {
         return prefs.getBoolean(KEY_GHOST_MODE, false);
+    }
+
+    public void setGhostMode(boolean enabled) {
+        editor.putBoolean(KEY_GHOST_MODE, enabled);
+        editor.apply();
+    }
+
+    public void setHideDistance(boolean enabled) {
+        editor.putBoolean(KEY_HIDE_DISTANCE, enabled);
+        editor.apply();
+    }
+
+    public String getTeleportCityName() {
+        return prefs.getString(KEY_TELEPORT_CITY, "Bangalore");
+    }
+
+    public String getTeleportCityFlag() {
+        return prefs.getString(KEY_TELEPORT_FLAG, "🇮🇳");
+    }
+
+    public String getTeleportCityCoords() {
+        return prefs.getString(KEY_TELEPORT_COORDS, "12.9716° N, 77.5946° E");
+    }
+
+    public void setTeleportCity(String cityName, String flagEmoji, String coords) {
+        editor.putString(KEY_TELEPORT_CITY, cityName);
+        editor.putString(KEY_TELEPORT_FLAG, flagEmoji);
+        editor.putString(KEY_TELEPORT_COORDS, coords);
+        editor.apply();
+    }
+
+    public boolean isCalculatorCloakEnabled() {
+        return prefs.getBoolean(KEY_CALC_CLOAK, false);
+    }
+
+    public void setCalculatorCloakEnabled(boolean enabled) {
+        editor.putBoolean(KEY_CALC_CLOAK, enabled);
+        editor.apply();
+    }
+
+    public boolean isBiometricPinLockEnabled() {
+        return prefs.getBoolean(KEY_BIO_PIN_LOCK, false);
+    }
+
+    public void setBiometricPinLockEnabled(boolean enabled) {
+        editor.putBoolean(KEY_BIO_PIN_LOCK, enabled);
+        editor.apply();
+    }
+
+    public String getPrivacyPin() {
+        return prefs.getString(KEY_PRIVACY_PIN, "2580");
+    }
+
+    public void setPrivacyPin(String pin) {
+        editor.putString(KEY_PRIVACY_PIN, pin != null && pin.length() >= 4 ? pin : "2580");
+        editor.apply();
+    }
+
+    public boolean isScreenshotShieldEnabled() {
+        return prefs.getBoolean(KEY_SCREENSHOT_SHIELD, true);
+    }
+
+    public void setScreenshotShieldEnabled(boolean enabled) {
+        editor.putBoolean(KEY_SCREENSHOT_SHIELD, enabled);
+        editor.apply();
     }
 
     public String getAuthToken() {
